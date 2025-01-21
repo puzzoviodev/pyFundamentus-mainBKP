@@ -22,6 +22,18 @@ Brazilian stocks, empowering investors with comprehensive market analysis.
 """
 
 import fundamentus
+import openpyxl
+from openpyxl.styles import Color, PatternFill, Font, Border
+from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
+import requests
+import re
+import time
+import numpy as np
+import pandas as pd
+from unidecode import unidecode
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 TITLES = [
     'Identificação', 'Resumo Financeiro', 'Cotações', 'Informações Básicas',
@@ -148,18 +160,7 @@ if __name__ == '__main__':
 
 
 print(linha)
-import openpyxl
-from openpyxl.styles import Color, PatternFill, Font, Border
-from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
-import requests
-import re
-import time
-import numpy as np
-import pandas as pd
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.by import By
+
 import warnings
 
 
