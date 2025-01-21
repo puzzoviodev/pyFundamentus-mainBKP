@@ -50,6 +50,7 @@ if __name__ == '__main__':
     balance_sheet = response.transformed_information['balance_sheet']
     income_statement = response.transformed_information['income_statement']
 
+
     print(TITLES[0])
     print('-' * len(TITLES[0]))
     for information in stock_identification:
