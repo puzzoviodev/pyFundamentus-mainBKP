@@ -41,11 +41,12 @@ TITLES = [
     'Indicadores de Endividamento', 'Balanço Patrimonial', 'Demonstrativo de Resultados'
 ]
 
-
+meu_dicionario = {}
 
 # pylint: disable=line-too-long
 linha = 1
 if __name__ == '__main__':
+
     with open('stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
         for stock in stocks:
@@ -78,6 +79,13 @@ if __name__ == '__main__':
                     print(
                         f'{stock_identification[information].title}: {stock_identification[information].value}'
                     )
+
+
+
+                # Adicionando dados ao dicionário vazio
+
+
+                # Verificando o dicionário atualizado
 
                 print(f'\n{TITLES[1]}')
                 print('-' * len(TITLES[1]))
@@ -126,7 +134,8 @@ if __name__ == '__main__':
                     print(
                         f'{profitability_indicators[information].title}: {profitability_indicators[information].value}'
                     )
-
+                    meu_dicionario[profitability_indicators[information].title] = profitability_indicators[
+                        information].value
                 print(f'\n{TITLES[7]}')
                 print('-' * len(TITLES[7]))
                 for information in indebtedness_indicators:
@@ -577,3 +586,7 @@ if __name__ == "__main__":
     end = time.time()
     wbsaida.save("StatusInvest.xlsx") # silvio
     print(f'Brasilian stocks information got in {int(end-start)} s')
+
+    print(meu_dicionario)
+    nome = meu_dicionario["ROE"]
+    print (nome)
