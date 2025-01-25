@@ -42,9 +42,71 @@ TITLES = [
 ]
 
 meu_dicionario = {}
+wbsaida = openpyxl.Workbook()
 
+#Silvio inicio  criaPlanilhaIndiEmpresa b
+def criaPlanilhaIndiEmpresa(wbsaida):
+    wbsaida.create_sheet('IndEmpresa')
+    IndValuation = wbsaida['IndEmpresa']
+    IndValuation.append(["ATIVO","Valor atual",
+                         "Min. 52 semanas",
+                          "Max. 52 semanas",
+                          "dividend Yield",
+                          "Valorizacao (12m)",
+                          "Tipo",
+                          "TAG ALONG",
+                          "LIQUIDEZ MEDIA DIARIA",
+                          "PARTICIPACAO NO IBOV",
+                          "MERCADO DE OPCOES",
+                          "Patrimonio liquido",
+                          "Ativos",
+                          "Ativo circulante",
+                          "Divida bruta",
+                          "Disponibilidade",
+                          "Divida liquida",
+                          "Valor de mercado",
+                          "Valor de firma"])
+    return
+
+def criaPlanilaIndValuation(wbsaida):
+    wbsaida.create_sheet('IndValuation')
+    IndValuation = wbsaida['IndValuation']
+    IndValuation.append(['FONTE','ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
+                         'LPA','P/SR','P/Ativo Circ. Liq.'])
+    return
+def criaPlanilhaIndEndividamento(IndEndividamento):
+    wbsaida.create_sheet('IndEndividamento')
+    IndEndividamento = wbsaida['IndEndividamento']
+    IndEndividamento.append(['ATIVO','Dív. líquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente'])
+    return
+
+def criaPlanilhaIndiEficiência(IndiEficiência):
+    wbsaida.create_sheet('IndiEficiência')
+    IndiEficiência = wbsaida['IndiEficiência']
+    IndiEficiência.append(['FONTE','ATIVO','M. Bruta', 'M. EBITDA', 'M. EBIT', 'M. Líquida'])
+    return
+
+def criaPlanilhaIndRentabilidade(IndiRentabilidade):
+    wbsaida.create_sheet('IndiRentabilidade')
+    IndiRentabilidade = wbsaida['IndiRentabilidade']
+    IndiRentabilidade.append(['FONTE','ATIVO','ROE', 'ROA', 'ROIC','Giro ativos',''])
+    return
+def criaPlanilhaIndiCrescimento(IndiCrescimento):
+    wbsaida.create_sheet('IndiCrescimento')
+    IndiCrescimento = wbsaida['IndiCrescimento']
+    IndiCrescimento.append(['FONTE','ATIVO','CAGR Receitas 5 anos', 'CAGR Lucros 5 anos'])
+    return
+def criaPlanilaDiveros(wbsaida):
+    wbsaida.create_sheet('IndDiversos')
+    IndValuation = wbsaida['IndDiversos']
+    IndValuation.append(['FONTE','ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
+                         'LPA','P/SR','P/Ativo Circ. Liq.'])
+    return
+
+Dicrentabilidade = {}
 # pylint: disable=line-too-long
 linha = 1
+
 if __name__ == '__main__':
 
     with open('stocks.txt', 'r') as f:
@@ -134,8 +196,9 @@ if __name__ == '__main__':
                     print(
                         f'{profitability_indicators[information].title}: {profitability_indicators[information].value}'
                     )
-                    meu_dicionario[profitability_indicators[information].title] = profitability_indicators[
+                    Dicrentabilidade[profitability_indicators[information].title] = profitability_indicators[
                         information].value
+
                 print(f'\n{TITLES[7]}')
                 print('-' * len(TITLES[7]))
                 for information in indebtedness_indicators:
@@ -180,66 +243,9 @@ options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(options=options)
 
 #silvio 2
-wbsaida = openpyxl.Workbook()
+#wbsaida = openpyxl.Workbook()
 
-#Silvio inicio  criaPlanilhaIndiEmpresa b
-def criaPlanilhaIndiEmpresa(wbsaida):
-    wbsaida.create_sheet('IndEmpresa')
-    IndValuation = wbsaida['IndEmpresa']
-    IndValuation.append(["ATIVO","Valor atual",
-                         "Min. 52 semanas",
-                          "Max. 52 semanas",
-                          "dividend Yield",
-                          "Valorizacao (12m)",
-                          "Tipo",
-                          "TAG ALONG",
-                          "LIQUIDEZ MEDIA DIARIA",
-                          "PARTICIPACAO NO IBOV",
-                          "MERCADO DE OPCOES",
-                          "Patrimonio liquido",
-                          "Ativos",
-                          "Ativo circulante",
-                          "Divida bruta",
-                          "Disponibilidade",
-                          "Divida liquida",
-                          "Valor de mercado",
-                          "Valor de firma"])
-    return
 
-def criaPlanilaIndValuation(wbsaida):
-    wbsaida.create_sheet('IndValuation')
-    IndValuation = wbsaida['IndValuation']
-    IndValuation.append(['ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
-                         'LPA','P/SR','P/Ativo Circ. Liq.'])
-    return
-def criaPlanilhaIndEndividamento(IndEndividamento):
-    wbsaida.create_sheet('IndEndividamento')
-    IndEndividamento = wbsaida['IndEndividamento']
-    IndEndividamento.append(['ATIVO','Dív. líquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente'])
-    return
-
-def criaPlanilhaIndiEficiência(IndiEficiência):
-    wbsaida.create_sheet('IndiEficiência')
-    IndiEficiência = wbsaida['IndiEficiência']
-    IndiEficiência.append(['ATIVO','M. Bruta', 'M. EBITDA', 'M. EBIT', 'M. Líquida'])
-    return
-
-def criaPlanilhaIndRentabilidade(IndiRentabilidade):
-    wbsaida.create_sheet('IndiRentabilidade')
-    IndiRentabilidade = wbsaida['IndiRentabilidade']
-    IndiRentabilidade.append(['ATIVO','ROE', 'ROA', 'ROIC','Giro ativos',''])
-    return
-def criaPlanilhaIndiCrescimento(IndiCrescimento):
-    wbsaida.create_sheet('IndiCrescimento')
-    IndiCrescimento = wbsaida['IndiCrescimento']
-    IndiCrescimento.append(['ATIVO','CAGR Receitas 5 anos', 'CAGR Lucros 5 anos'])
-    return
-def criaPlanilaDiveros(wbsaida):
-    wbsaida.create_sheet('IndDiversos')
-    IndValuation = wbsaida['IndDiversos']
-    IndValuation.append(['ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
-                         'LPA','P/SR','P/Ativo Circ. Liq.'])
-    return
 def gravaIndiRentabilidade(wsIndiRentabilidade,linha,ATIVO,ROE,ROA,ROIC,Giroativos):
     # Condicional corrigida
     if is_null_zero_or_spaces(ROE):
@@ -261,11 +267,11 @@ def gravaIndiRentabilidade(wsIndiRentabilidade,linha,ATIVO,ROE,ROA,ROIC,Giroativ
         ROIC = float(ROIC.strip('%')) / 100
 
 
-        wsIndiRentabilidade.cell(row=linha, column=1, value=ATIVO)
-        wsIndiRentabilidade.cell(row=linha, column=2, value=ROE)
-        wsIndiRentabilidade.cell(row=linha, column=3, value=ROA)
-        wsIndiRentabilidade.cell(row=linha, column=4, value=ROIC)
-        wsIndiRentabilidade.cell(row=linha, column=5, value=Giroativos)
+        wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
+        wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+        wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
+        wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
+        wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
 
 def gravaIndiCrescimento(wsIndiCrescimento, linha, ATIVO, CAGRReceitas5, CAGRLucros5):
     if is_null_zero_or_spaces(CAGRReceitas5):
@@ -278,9 +284,9 @@ def gravaIndiCrescimento(wsIndiCrescimento, linha, ATIVO, CAGRReceitas5, CAGRLuc
     else:
        CAGRLucros5 = float(CAGRLucros5.strip('%')) / 100
 
-       wsIndiCrescimento.cell(row=linha, column=1, value=ATIVO)
-       wsIndiCrescimento.cell(row=linha, column=2, value=CAGRReceitas5)
-       wsIndiCrescimento.cell(row=linha, column=3, value=CAGRLucros5)
+       wsIndiCrescimento.cell(row=linha, column=2, value=ATIVO)
+       wsIndiCrescimento.cell(row=linha, column=3, value=CAGRReceitas5)
+       wsIndiCrescimento.cell(row=linha, column=4, value=CAGRLucros5)
 
 
 def gravaIndiEficiência(wsIndiEficiência, linha, ATIVO, MBruta, MEBITDA,MEBIT,MLiquida):
@@ -313,41 +319,41 @@ def gravaIndiEficiência(wsIndiEficiência, linha, ATIVO, MBruta, MEBITDA,MEBIT,
         MLiquida = float(MLiquida.strip('%')) / 100
 
 
-    wsIndiEficiência.cell(row=linha, column=1, value=ATIVO)
-    wsIndiEficiência.cell(row=linha, column=2, value=MBruta)
-    wsIndiEficiência.cell(row=linha, column=3, value=MEBITDA)
-    wsIndiEficiência.cell(row=linha, column=4, value=MEBIT)
-    wsIndiEficiência.cell(row=linha, column=5, value=MLiquida)
+    wsIndiEficiência.cell(row=linha, column=2, value=ATIVO)
+    wsIndiEficiência.cell(row=linha, column=3, value=MBruta)
+    wsIndiEficiência.cell(row=linha, column=4, value=MEBITDA)
+    wsIndiEficiência.cell(row=linha, column=5, value=MEBIT)
+    wsIndiEficiência.cell(row=linha, column=6, value=MLiquida)
 
 def gravaIndEndividamento(wsIndEndividamento, linha, ATIVO, MivliquidaPL, DivliquidaEBITDA,
                                     DivliquidaEBIT, PLAtivos,PassivosAtivos,Liqcorrente):
-    wsIndEndividamento.cell(row=linha, column=1, value=ATIVO)
-    wsIndEndividamento.cell(row=linha, column=2, value=MivliquidaPL)
-    wsIndEndividamento.cell(row=linha, column=3, value=DivliquidaEBITDA)
-    wsIndEndividamento.cell(row=linha, column=4, value=DivliquidaEBIT)
-    wsIndEndividamento.cell(row=linha, column=5, value=PLAtivos)
-    wsIndEndividamento.cell(row=linha, column=6, value=PassivosAtivos)
-    wsIndEndividamento.cell(row=linha, column=7, value=Liqcorrente)
+    wsIndEndividamento.cell(row=linha, column=2, value=ATIVO)
+    wsIndEndividamento.cell(row=linha, column=3, value=MivliquidaPL)
+    wsIndEndividamento.cell(row=linha, column=4, value=DivliquidaEBITDA)
+    wsIndEndividamento.cell(row=linha, column=5, value=DivliquidaEBIT)
+    wsIndEndividamento.cell(row=linha, column=6, value=PLAtivos)
+    wsIndEndividamento.cell(row=linha, column=7, value=PassivosAtivos)
+    wsIndEndividamento.cell(row=linha, column=8, value=Liqcorrente)
 
 def gravaIndValuation(wsIndValuation, linha, ATIVO, DY, PL,PEGRatio,
                                       PVP, EVEBITDA, EVEBIT, PEBITDA,PEBIT,VPA,
                                       PAtivo,LPA,PSR,PCapGiro,PAtivoCircLiq):
 
-        wsIndValuation.cell(row=linha, column=1, value=ATIVO)
-        wsIndValuation.cell(row=linha, column=2, value=DY)
-        wsIndValuation.cell(row=linha, column=3, value=PL)
-        wsIndValuation.cell(row=linha, column=4, value=PEGRatio)
-        wsIndValuation.cell(row=linha, column=5, value=PVP)
-        wsIndValuation.cell(row=linha, column=6, value=EVEBITDA)
-        wsIndValuation.cell(row=linha, column=7, value=EVEBIT)
-        wsIndValuation.cell(row=linha, column=8, value=PEBITDA)
-        wsIndValuation.cell(row=linha, column=9, value=PEBIT)
-        wsIndValuation.cell(row=linha, column=10, value=VPA)
-        wsIndValuation.cell(row=linha, column=11, value=PAtivo)
-        wsIndValuation.cell(row=linha, column=12, value=LPA)
-        wsIndValuation.cell(row=linha, column=13, value=PSR)
-        wsIndValuation.cell(row=linha, column=14, value=PCapGiro)
-        wsIndValuation.cell(row=linha, column=15, value=PAtivoCircLiq)
+        wsIndValuation.cell(row=linha, column=2, value=ATIVO)
+        wsIndValuation.cell(row=linha, column=3, value=DY)
+        wsIndValuation.cell(row=linha, column=4, value=PL)
+        wsIndValuation.cell(row=linha, column=5, value=PEGRatio)
+        wsIndValuation.cell(row=linha, column=6, value=PVP)
+        wsIndValuation.cell(row=linha, column=7, value=EVEBITDA)
+        wsIndValuation.cell(row=linha, column=8, value=EVEBIT)
+        wsIndValuation.cell(row=linha, column=9, value=PEBITDA)
+        wsIndValuation.cell(row=linha, column=10, value=PEBIT)
+        wsIndValuation.cell(row=linha, column=11, value=VPA)
+        wsIndValuation.cell(row=linha, column=12, value=PAtivo)
+        wsIndValuation.cell(row=linha, column=13, value=LPA)
+        wsIndValuation.cell(row=linha, column=14, value=PSR)
+        wsIndValuation.cell(row=linha, column=15, value=PCapGiro)
+        wsIndValuation.cell(row=linha, column=16, value=PAtivoCircLiq)
 
 
 #Silvio fim
