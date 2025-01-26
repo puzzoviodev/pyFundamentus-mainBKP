@@ -102,13 +102,45 @@ def criaPlanilaDiveros(wbsaida):
     IndValuation.append(['FONTE','ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
                          'LPA','P/SR','P/Ativo Circ. Liq.'])
     return
+def gravaIndiRentabilidade(wsIndiRentabilidade,linha,ATIVO,ROE,ROA,ROIC,Giroativos):
+    # Condicional corrigida
+    if is_null_zero_or_spaces(ROE):
+        ROE = 0
+    else:
+        ROE = float(ROE.strip('%')) / 100
+
+
+
+    if is_null_zero_or_spaces(ROA):
+        ROA = 0
+    else:
+
+        ROA = float(ROA.strip('%')) / 100
+
+    if is_null_zero_or_spaces(ROIC):
+        ROIC = 0
+    else:
+        ROIC = float(ROIC.strip('%')) / 100
+
+
+        wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
+        wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+        wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
+        wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
+        wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
 
 Dicrentabilidade = {}
 # pylint: disable=line-too-long
 linha = 1
 
 if __name__ == '__main__':
-
+    criaPlanilaIndValuation(wbsaida)
+    criaPlanilhaIndEndividamento(wbsaida)
+    criaPlanilhaIndiEficiência(wbsaida)
+    criaPlanilhaIndRentabilidade(wbsaida)
+    criaPlanilhaIndiCrescimento(wbsaida)
+    criaPlanilhaIndiEmpresa(wbsaida)
+    IndiRentabilidade = wbsaida['IndiRentabilidade']
     with open('stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
         for stock in stocks:
@@ -198,7 +230,8 @@ if __name__ == '__main__':
                     )
                     Dicrentabilidade[profitability_indicators[information].title] = profitability_indicators[
                         information].value
-
+                    wsIndiRentabilidade = wbsaida['IndiRentabilidade']
+                    gravaIndiRentabilidade(wsIndiRentabilidade, linha, stock, "ROE", "ROA","ROIC","Giroativos")
                 print(f'\n{TITLES[7]}')
                 print('-' * len(TITLES[7]))
                 for information in indebtedness_indicators:
@@ -246,32 +279,6 @@ driver = webdriver.Chrome(options=options)
 #wbsaida = openpyxl.Workbook()
 
 
-def gravaIndiRentabilidade(wsIndiRentabilidade,linha,ATIVO,ROE,ROA,ROIC,Giroativos):
-    # Condicional corrigida
-    if is_null_zero_or_spaces(ROE):
-        ROE = 0
-    else:
-        ROE = float(ROE.strip('%')) / 100
-
-
-
-    if is_null_zero_or_spaces(ROA):
-        ROA = 0
-    else:
-
-        ROA = float(ROA.strip('%')) / 100
-
-    if is_null_zero_or_spaces(ROIC):
-        ROIC = 0
-    else:
-        ROIC = float(ROIC.strip('%')) / 100
-
-
-        wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
-        wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
-        wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
-        wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
-        wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
 
 def gravaIndiCrescimento(wsIndiCrescimento, linha, ATIVO, CAGRReceitas5, CAGRLucros5):
     if is_null_zero_or_spaces(CAGRReceitas5):
@@ -439,12 +446,7 @@ if __name__ == "__main__":
     # start timer
     start = time.time()
     # Silvio Inicio
-    criaPlanilaIndValuation(wbsaida)
-    criaPlanilhaIndEndividamento(wbsaida)
-    criaPlanilhaIndiEficiência(wbsaida)
-    criaPlanilhaIndRentabilidade(wbsaida)
-    criaPlanilhaIndiCrescimento(wbsaida)
-    criaPlanilhaIndiEmpresa(wbsaida)
+
     # Silvio Fim
     # read file with stocks codes to get stock information
     with open('stocks.txt', 'r') as f:
@@ -459,6 +461,7 @@ if __name__ == "__main__":
                 dict_stocks[stock] = dict_stock
                 linha = linha + 1 #silvio
 
+
                 #IndiRentabilidade
                 print(dict_stocks[stock].get("ROE"))
                 print(dict_stocks[stock].get("ROA"))
@@ -470,8 +473,8 @@ if __name__ == "__main__":
                 Giroativos =dict_stocks[stock].get("Giro ativos")
 
 
-                wsIndiRentabilidade = wbsaida['IndiRentabilidade']
-                gravaIndiRentabilidade(wsIndiRentabilidade, linha,stock, ROE,ROA,ROIC,Giroativos)
+                #wsIndiRentabilidade = wbsaida['IndiRentabilidade']
+                #gravaIndiRentabilidade(wsIndiRentabilidade, linha,stock, ROE,ROA,ROIC,Giroativos)
 
                 #IndiCrescimento
 
