@@ -215,22 +215,86 @@ def gravaIndEndividamento(wsIndEndividamento, linha, ATIVO, MivliquidaPL, Divliq
 def gravaIndValuation(wsIndValuation, linha, ATIVO, DY, PL,PEGRatio,
                                       PVP, EVEBITDA, EVEBIT, PEBITDA,PEBIT,VPA,
                                       PAtivo,LPA,PSR,PCapGiro,PAtivoCircLiq):
+    if is_null_zero_or_spaces(DY):
+        DY = 0
+    else:
+        DY = float(DY.strip('%')) / 100
 
-        wsIndValuation.cell(row=linha, column=1, value=ATIVO)
-        wsIndValuation.cell(row=linha, column=2, value=DY)
-        wsIndValuation.cell(row=linha, column=3, value=PL)
-        wsIndValuation.cell(row=linha, column=4, value=PEGRatio)
-        wsIndValuation.cell(row=linha, column=5, value=PVP)
-        wsIndValuation.cell(row=linha, column=6, value=EVEBITDA)
-        wsIndValuation.cell(row=linha, column=7, value=EVEBIT)
-        wsIndValuation.cell(row=linha, column=8, value=PEBITDA)
-        wsIndValuation.cell(row=linha, column=9, value=PEBIT)
-        wsIndValuation.cell(row=linha, column=10, value=VPA)
-        wsIndValuation.cell(row=linha, column=11, value=PAtivo)
-        wsIndValuation.cell(row=linha, column=12, value=LPA)
-        wsIndValuation.cell(row=linha, column=13, value=PSR)
-        wsIndValuation.cell(row=linha, column=14, value=PCapGiro)
-        wsIndValuation.cell(row=linha, column=15, value=PAtivoCircLiq)
+    if is_null_zero_or_spaces(PL):
+        PL = 0
+    else:
+        PL = float(PL.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PEGRatio):
+        PEGRatio = 0
+    else:
+        PEGRatio = float(PEGRatio.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PVP):
+        PVP = 0
+    else:
+        PVP = float(PVP.strip('%')) / 100
+
+    if is_null_zero_or_spaces(EVEBITDA):
+        EVEBITDA = 0
+    else:
+        EVEBITDA = float(EVEBITDA.strip('%')) / 100
+
+    if is_null_zero_or_spaces(EVEBIT):
+        EVEBIT = 0
+    else:
+        EVEBIT = float(EVEBIT.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PEBITDA):
+        PEBITDA = 0
+    else:
+        PEBITDA = float(PEBITDA.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PEBIT):
+        PEBIT = 0
+    else:
+        PEBIT = float(PEBIT.strip('%')) / 100
+
+    if is_null_zero_or_spaces(VPA):
+        VPA = 0
+    else:
+        VPA = float(VPA.strip('%')) / 100
+
+    if is_null_zero_or_spaces(LPA):
+        LPA = 0
+    else:
+        LPA = float(LPA.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PSR):
+        PSR = 0
+    else:
+        PSR = float(PSR.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PCapGiro):
+        PCapGiro = 0
+    else:
+        PCapGiro = float(PCapGiro.strip('%')) / 100
+
+    if is_null_zero_or_spaces(PAtivoCircLiq):
+        PAtivoCircLiq = 0
+    else:
+        PAtivoCircLiq = float(PAtivoCircLiq.strip('%')) / 100
+
+    wsIndValuation.cell(row=linha, column=2, value=ATIVO)
+    wsIndValuation.cell(row=linha, column=3, value=DY)
+    wsIndValuation.cell(row=linha, column=4, value=PL)
+    wsIndValuation.cell(row=linha, column=5, value=PEGRatio)
+    wsIndValuation.cell(row=linha, column=6, value=PVP)
+    wsIndValuation.cell(row=linha, column=7, value=EVEBITDA)
+    wsIndValuation.cell(row=linha, column=8, value=EVEBIT)
+    wsIndValuation.cell(row=linha, column=9, value=PEBITDA)
+    wsIndValuation.cell(row=linha, column=10, value=PEBIT)
+    wsIndValuation.cell(row=linha, column=11, value=VPA)
+    wsIndValuation.cell(row=linha, column=12, value=PAtivo)
+    wsIndValuation.cell(row=linha, column=13, value=LPA)
+    wsIndValuation.cell(row=linha, column=14, value=PSR)
+    wsIndValuation.cell(row=linha, column=15, value=PCapGiro)
+    wsIndValuation.cell(row=linha, column=16, value=PAtivoCircLiq)
 
 
 #Silvio fim
