@@ -423,7 +423,19 @@ if __name__ == "__main__":
                 balance_sheet = response.transformed_information['balance_sheet']
                 income_statement = response.transformed_information['income_statement']
 
+
+
+
+
+
+
+
+
+
+
+
                 print(TITLES[0])
+                print('stock_identification')
                 print('-' * len(TITLES[0]))
                 for information in stock_identification:
                     print(
@@ -431,6 +443,7 @@ if __name__ == "__main__":
                     )
 
                 print(f'\n{TITLES[1]}')
+                print('financial_summary')
                 print('-' * len(TITLES[1]))
                 for information in financial_summary:
                     print(
@@ -438,6 +451,7 @@ if __name__ == "__main__":
                     )
 
                 print(f'\n{TITLES[2]}')
+                print('price_information')
                 print('-' * len(TITLES[2]))
                 for information in price_information:
                     print(
@@ -445,6 +459,7 @@ if __name__ == "__main__":
                     )
 
                 print(f'\n{TITLES[3]}')
+                print('detailed_information')
                 print('-' * len(TITLES[2]))
                 for information in detailed_information:
                     if information != 'variation_52_weeks':
@@ -458,6 +473,7 @@ if __name__ == "__main__":
                             )
 
                 print(f'\n{TITLES[4]}')
+                print('oscillations')
                 print('-' * len(TITLES[4]))
                 for information in oscillations:
                     print(
@@ -465,6 +481,7 @@ if __name__ == "__main__":
                     )
 
                 print(f'\n{TITLES[5]}')
+                print('valuation_indicators')
                 print('-' * len(TITLES[5]))
                 for information in valuation_indicators:
                     print(
@@ -472,6 +489,7 @@ if __name__ == "__main__":
                     )
 
                 print(f'\n{TITLES[6]}')
+                print('profitability_indicators')
                 print('-' * len(TITLES[6]))
                 for information in profitability_indicators:
                     print(
@@ -482,6 +500,7 @@ if __name__ == "__main__":
 
 
                 print(f'\n{TITLES[7]}')
+                print('indebtedness_indicators')
                 print('-' * len(TITLES[7]))
                 for information in indebtedness_indicators:
                     print(
@@ -490,6 +509,7 @@ if __name__ == "__main__":
                     Dicindividamento[indebtedness_indicators[information].title] =indebtedness_indicators[information].value
 
                 print(f'\n{TITLES[8]}')
+                print('balance_sheet')
                 print('-' * len(TITLES[8]))
                 for information in balance_sheet:
                     print(
@@ -504,6 +524,7 @@ if __name__ == "__main__":
                         f"\t{income_statement['three_months'][information].title}: {income_statement['three_months'][information].value}"
                     )
                 print('Últimos 12 meses')
+                print('income_statement')
                 for information in income_statement['twelve_months']:
                     print(
                         f"\t{income_statement['twelve_months'][information].title}: {income_statement['twelve_months'][information].value}"
@@ -687,8 +708,10 @@ if __name__ == "__main__":
    # ROIC1 = df.at[36, "petr4"]
    # Giroativos1 = df.at[38, "petr4"]
 
-    print(profitability_indicators)
-    print(Dicrentabilidade)
+    #print(profitability_indicators)
+    #print(Dicrentabilidade)
+
+
     """
     ROE11 = float(Dicrentabilidade.get("ROE"))
     ROE1 = float(Dicrentabilidade.get("ROE"))
@@ -717,36 +740,40 @@ if __name__ == "__main__":
 
  # print(ROE1)
   #  print(ROE)
+    print("Incio StatusInvest")
     print(dict_stocks)
+    print("Fim StatusInvest")
    # print(stock_identification)
     #print(financial_summary)
 
-   # print(price_information)
-   # print(detailed_information)
-   # print(oscillations)
-    #print(valuation_indicators)
 
-    #print(profitability_indicators)
+    print("Fim Fundamentus")
 
-   # df = pd.read_excel('stocks_data.xlsx', sheet_name="Sheet1")
+
+# df = pd.read_excel('stocks_data.xlsx', sheet_name="Sheet1")
    # print(df.head())
     #coluna_desejada = df["indicadores"]
     #print(coluna_desejada)
    # valor_especifico = df.at[4, "indicadores"]
    # valor_especifico2 = df.at[5, "indicadores"]
-   # valor_especifico3 = df.at[6, "indicadores"]
-   # print(valor_especifico)
-   # print(valor_especifico2)
-   # print(valor_especifico3)
+   # va     stock_identification = response.transformed_information['stock_identification']
+# financial_summary = response.transformed_information['financial_summary']
+# price_information = response.transformed_information['price_information']
+# detailed_information = response.transformed_information[
+#     'detailed_information']
+# oscillations = response.transformed_information['oscillations']lor_especifico3 = df.at[6, "indicadores"]
+# print(valor_especifico)
+# print(valor_especifico2)
+# print(valor_especifico3)
 
 
-    #print(indebtedness_indicators)
-    #print( balance_sheet)
-    #print(income_statement)
-    # Definindo um número decimal
-   # decimal_num = float(ROE1) #0.85
-    #print(decimal_num)
-    # Convertendo o número decimal para porcentagem
-    #porcentagem = f"{decimal_num * 100}%"
+# print(indebtedness_indicators)
+# print( balance_sheet)
+# print(income_statement)
+# Definindo um número decimal
+# decimal_num = float(ROE1) #0.85
+# print(decimal_num)
+# Convertendo o número decimal para porcentagem
+#porcentagem = f"{decimal_num * 100}%"
     #porcentagem1 = f"{int(porcentagem) / 10}%"
     #print(porcentagem)  # Saída: '85.0%'
