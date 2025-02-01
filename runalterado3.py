@@ -352,14 +352,14 @@ def soup_to_dict(soup):
         numbers = s.find_all('strong', re.compile('value[^"]*'))
         numbers = [n.get_text()for n in numbers]
         values += numbers
-        print(keys)
-        print(values)
+        #print(keys)
+        #print(values)
     # remove unused key and insert needed keys
     keys.remove('PART. IBOV')
     keys.insert(6, 'TAG ALONG')
     keys.insert(7, 'LIQUIDEZ MEDIA DIARIA')
-    print(keys)
-    print(values)
+    #print(keys)
+    #print(values)
     # clean keys list
     keys = [k.replace('\nhelp_outline', '').strip() for k in keys]
     keys = [k for k in keys if k != '']
@@ -393,16 +393,20 @@ if __name__ == "__main__":
         stocks = f.read().splitlines()
         linha = 1 # silvio
         linhastatus = 1
+        localiza = ''
+        quantidade_de_registros = len(stocks)
+        print(quantidade_de_registros)
         # get stock information and create excel sheet
         for stock in stocks:
             try:
                 # get data and transform into dictionary
+                localiza = 'inicio'
                 soup = get_stock_soup(stock)
                 dict_stock = soup_to_dict(soup)
                 dict_stocks[stock] = dict_stock
                 linhastatus = linhastatus + 1  # silvio
                 linha =  + linhastatus + 1#silvio
-
+                localiza = "get data and transform into dictionary"
                 #fundamentus inicio
                 main_pipeline = fundamentus.Pipeline(stock)
                 response = main_pipeline.get_all_information()
@@ -423,7 +427,7 @@ if __name__ == "__main__":
                 balance_sheet = response.transformed_information['balance_sheet']
                 income_statement = response.transformed_information['income_statement']
 
-
+                localiza = "Extract the information from the response"
 
 
 
@@ -441,7 +445,7 @@ if __name__ == "__main__":
                     print(
                         f'{stock_identification[information].title}: {stock_identification[information].value}'
                     )
-
+                localiza = "stock_identificatione"
                 print(f'\n{TITLES[1]}')
                 print('financial_summary')
                 print('-' * len(TITLES[1]))
@@ -449,7 +453,7 @@ if __name__ == "__main__":
                     print(
                         f'{financial_summary[information].title}: {financial_summary[information].value}'
                     )
-
+                localiza = "financial_summary"
                 print(f'\n{TITLES[2]}')
                 print('price_information')
                 print('-' * len(TITLES[2]))
@@ -457,7 +461,7 @@ if __name__ == "__main__":
                     print(
                         f'{price_information[information].title}: {price_information[information].value}'
                     )
-
+                localiza = "price_informatio"
                 print(f'\n{TITLES[3]}')
                 print('detailed_information')
                 print('-' * len(TITLES[2]))
@@ -471,6 +475,7 @@ if __name__ == "__main__":
                             print(
                                 f'{detailed_information[information][sub_information].title}: {detailed_information[information][sub_information].value}'
                             )
+                localiza = 'variation_52_weeks'
 
                 print(f'\n{TITLES[4]}')
                 print('oscillations')
@@ -479,7 +484,7 @@ if __name__ == "__main__":
                     print(
                         f'{oscillations[information].title}: {oscillations[information].value}'
                     )
-
+                localiza = 'oscillations'
                 print(f'\n{TITLES[5]}')
                 print('valuation_indicators')
                 print('-' * len(TITLES[5]))
@@ -487,7 +492,7 @@ if __name__ == "__main__":
                     print(
                         f'{valuation_indicators[information].title}: {valuation_indicators[information].value}'
                     )
-
+                localiza = 'valuation_indicators'
                 print(f'\n{TITLES[6]}')
                 print('profitability_indicators')
                 print('-' * len(TITLES[6]))
@@ -498,7 +503,7 @@ if __name__ == "__main__":
                     Dicrentabilidade[profitability_indicators[information].title] = profitability_indicators[
                     information].value
 
-
+                localiza = 'profitability_indicators'
                 print(f'\n{TITLES[7]}')
                 print('indebtedness_indicators')
                 print('-' * len(TITLES[7]))
@@ -507,7 +512,7 @@ if __name__ == "__main__":
                         f'{indebtedness_indicators[information].title}: {indebtedness_indicators[information].value}'
                     )
                     Dicindividamento[indebtedness_indicators[information].title] =indebtedness_indicators[information].value
-
+                localiza = 'indebtedness_indicators'
                 print(f'\n{TITLES[8]}')
                 print('balance_sheet')
                 print('-' * len(TITLES[8]))
@@ -515,7 +520,7 @@ if __name__ == "__main__":
                     print(
                         f'{balance_sheet[information].title}: {balance_sheet[information].value}'
                     )
-
+                localiza = 'balance_sheet'
                 print(f'\n{TITLES[9]}')
                 print('-' * len(TITLES[9]))
                 print('Últimos 03 meses')
@@ -523,16 +528,18 @@ if __name__ == "__main__":
                     print(
                         f"\t{income_statement['three_months'][information].title}: {income_statement['three_months'][information].value}"
                     )
+                localiza = 'Últimos 03 meses'
                 print('Últimos 12 meses')
                 print('income_statement')
                 for information in income_statement['twelve_months']:
                     print(
                         f"\t{income_statement['twelve_months'][information].title}: {income_statement['twelve_months'][information].value}"
                     )
-
+                    localiza = 'income_statement'
                     # IndiRentabilidade
                 #fundamentus inicio
 
+                print('-------------------StatusInvest--------------------------------------')
                 wsIndiRentabilidade = wbsaida['IndiRentabilidade']
                 ROE1 = f"{float(Dicrentabilidade.get("ROE")) * 100}%"
                 ROIC1 = f"{float(Dicrentabilidade.get("ROIC")) * 100}%"
@@ -541,27 +548,33 @@ if __name__ == "__main__":
                 Fonte = 'Fundamentus'
                 gravaIndiRentabilidade(wsIndiRentabilidade, linhastatus,Fonte, stock, ROE1, ROA1, ROIC1, Giroativos1)
                 # fundamentus Fim
+                localiza = 'gravaIndiRentabilidade'
 
 
-                print(dict_stocks[stock].get("ROE"))
-                print(dict_stocks[stock].get("ROA"))
-                print(dict_stocks[stock].get("ROIC"))
-                print(dict_stocks[stock].get("Giro ativos"))
                 ROE =dict_stocks[stock].get("ROE")
                 ROA =dict_stocks[stock].get("ROA")
                 ROIC =dict_stocks[stock].get("ROIC")
                 Giroativos =dict_stocks[stock].get("Giro ativos")
                 Fonte = 'StatusInvest'
 
+                print('Rentabilidade StatusInvest')
+                print('ROE: ',  dict_stocks[stock].get("ROE"))
+                print('ROA: ' , dict_stocks[stock].get("ROA"))
+                print('ROIC: ' ,  dict_stocks[stock].get("ROIC"))
+                print('Giro ativos: ',  dict_stocks[stock].get("Giro ativos"))
+
                # wsIndiRentabilidade = wbsaida['IndiRentabilidade']
                 gravaIndiRentabilidade(wsIndiRentabilidade, linha,Fonte,stock, ROE,ROA,ROIC,Giroativos)
 
                 #IndiCrescimento
 
-                print(dict_stocks[stock].get("CAGR Receitas 5 anos"))
-                print(dict_stocks[stock].get("CAGR Lucros 5 anos"))
+
                 CAGRReceitas5 = dict_stocks[stock].get("CAGR Receitas 5 anos")
                 CAGRLucros5  = dict_stocks[stock].get("CAGR Lucros 5 anos")
+
+                print('Crescimento StatusInvest')
+                print('CAGR Receitas 5 anos: ', dict_stocks[stock].get("CAGR Receitas 5 anos"))
+                print('CAGR Lucros 5 anos: ', dict_stocks[stock].get("CAGR Lucros 5 anos"))
                 wsIndiCrescimento = wbsaida['IndiCrescimento']
                 gravaIndiCrescimento(wsIndiCrescimento, linha, stock, CAGRReceitas5, CAGRLucros5)
 
@@ -578,16 +591,17 @@ if __name__ == "__main__":
                 Fonte = 'Fundamentus'
                 gravaIndiEficiência(wsIndiEficiência, linhastatus, stock, MBruta, MEBITDA, MEBIT, MLiquida)
 
-                print(dict_stocks[stock].get("M. Bruta"))
-                print(dict_stocks[stock].get("M. EBITDA"))
-                print(dict_stocks[stock].get("M. EBIT"))
-                print(dict_stocks[stock].get("M. Liquida"))
 
                 MBruta =  dict_stocks[stock].get("M. Bruta")
                 MEBITDA = dict_stocks[stock].get("M. EBITDA")
                 MEBIT =   dict_stocks[stock].get("M. EBIT")
                 MLiquida =dict_stocks[stock].get("M. Liquida")
 
+                print('Eficiência StatusInvest')
+                print('M. Bruta: ',dict_stocks[stock].get("M. Bruta"))
+                print('M. EBITDA: ',dict_stocks[stock].get("M. EBITDA"))
+                print('M. EBIT: ',dict_stocks[stock].get("M. EBIT"))
+                print('M. Liquida: ',dict_stocks[stock].get("M. Liquida"))
 
                 gravaIndiEficiência(wsIndiEficiência, linha, stock, MBruta, MEBITDA,MEBIT,MLiquida)
 
@@ -611,12 +625,7 @@ if __name__ == "__main__":
                                       DivliquidaEBIT, PLAtivos, PassivosAtivos, Liqcorrente)
                 #Fundamentus fim
 
-                print(dict_stocks[stock].get("Div. liquida/PL"))
-                print(dict_stocks[stock].get("Div. liquida/EBITDA"))
-                print(dict_stocks[stock].get("Div. liquida/EBIT"))
-                print(dict_stocks[stock].get("PL/Ativos"))
-                print(dict_stocks[stock].get("Passivos/Ativos"))
-                print(dict_stocks[stock].get("Liq. corrente"))
+
 
                 DivliquidaPL = dict_stocks[stock].get("Div. liquida/PL")
                 DivliquidaEBITDA = dict_stocks[stock].get("Div. liquida/EBITDA")
@@ -625,25 +634,19 @@ if __name__ == "__main__":
                 PassivosAtivos = dict_stocks[stock].get("Passivos/Ativos")
                 Liqcorrente = dict_stocks[stock].get("Liq. corrente")
 
+                print('Endividamento StatusInvest')
+                print('Div. liquida/PL: ',dict_stocks[stock].get("Div. liquida/PL"))
+                print('Div. liquida/EBITDA: ', dict_stocks[stock].get("Div. liquida/EBITDA"))
+                print('Div. liquida/EBIT: ',dict_stocks[stock].get("Div. liquida/EBIT"))
+                print('PL/Ativos: ', dict_stocks[stock].get("PL/Ativos"))
+                print('Passivos/Ativos: ', dict_stocks[stock].get("Passivos/Ativos"))
+                print('Liq. corrente: ', dict_stocks[stock].get("Liq. corrente"))
 
                 gravaIndEndividamento(wsIndEndividamento, linha, stock, DivliquidaPL, DivliquidaEBITDA,
                                     DivliquidaEBIT, PLAtivos,PassivosAtivos,Liqcorrente)
 
                # IndValuation
-                print(dict_stocks[stock].get("D.Y"))
-                print(dict_stocks[stock].get("P/L"))
-                print(dict_stocks[stock].get("PEG Ratio"))
-                print(dict_stocks[stock].get("P/VP"))
-                print(dict_stocks[stock].get("EV/EBITDA"))
-                print(dict_stocks[stock].get("EV/EBIT"))
-                print(dict_stocks[stock].get("P/EBITDA"))
-                print(dict_stocks[stock].get("P/EBIT"))
-                print(dict_stocks[stock].get("VPA"))
-                print(dict_stocks[stock].get("P/Ativo"))
-                print(dict_stocks[stock].get("LPA"))
-                print(dict_stocks[stock].get("P/SR"))
-                print(dict_stocks[stock].get("P/Cap. Giro"))
-                print(dict_stocks[stock].get("P/Ativo Circ. Liq."))
+
 
                 DY             = dict_stocks[stock].get("D.Y")
                 PL             = dict_stocks[stock].get("P/L")
@@ -660,33 +663,52 @@ if __name__ == "__main__":
                 PCapGiro       = dict_stocks[stock].get("P/Cap. Giro")
                 PAtivoCircLiq  = dict_stocks[stock].get("P/Ativo Circ. Liq.")
 
+                print('Valuation StatusInvest')
+                print('D.Y: ',dict_stocks[stock].get("D.Y"))
+                print('P/L: ',dict_stocks[stock].get("P/L"))
+                print('PEG Ratio: ',dict_stocks[stock].get("PEG Ratio"))
+                print('P/VP: ',dict_stocks[stock].get("P/VP"))
+                print('EV/EBITDA: ',dict_stocks[stock].get("EV/EBITDA"))
+                print('EV/EBIT: ',dict_stocks[stock].get("EV/EBIT"))
+                print('"P/EBITDA: ',dict_stocks[stock].get("P/EBITDA"))
+                print('P/EBIT: ',dict_stocks[stock].get("P/EBIT"))
+                print('VPA: ',dict_stocks[stock].get("VPA"))
+                print('P/Ativo: ',dict_stocks[stock].get("P/Ativo"))
+                print('LPA: ',dict_stocks[stock].get("LPA"))
+                print('P/SR: ',dict_stocks[stock].get("P/SR"))
+                print('P/Cap. Giro: ',dict_stocks[stock].get("P/Cap. Giro"))
+                print('P/Ativo Circ. Liq: ',dict_stocks[stock].get("P/Ativo Circ. Liq."))
+
                 wsIndValuation = wbsaida['IndValuation']
                 gravaIndValuation(wsIndValuation, linha, stock, DY, PL,PEGRatio,
                                       PVP, EVEBITDA, EVEBIT, PEBITDA,PEBIT,VPA,
                                       PAtivo,LPA,PSR,PCapGiro,PAtivoCircLiq)
                 # Empresa
 
-                print(dict_stocks[stock].get("Valor atual"))
-                print(dict_stocks[stock].get("Min. 52 semanas"))
-                print(dict_stocks[stock].get("Max. 52 semanas"))
-                print(dict_stocks[stock].get("dividend Yield"))
-                print(dict_stocks[stock].get("Valorizacao (12m)"))
-                print(dict_stocks[stock].get("Tipo"))
-                print(dict_stocks[stock].get("TAG ALONG"))
-                print(dict_stocks[stock].get("LIQUIDEZ MEDIA DIARIA"))
-                print(dict_stocks[stock].get("PARTICIPACAO NO IBOV"))
-                print(dict_stocks[stock].get("MERCADO DE OPCOES"))
-                print(dict_stocks[stock].get("Patrimonio liquido"))
-                print(dict_stocks[stock].get("Ativos"))
-                print(dict_stocks[stock].get("Ativo circulante"))
-                print(dict_stocks[stock].get("Divida bruta"))
-                print(dict_stocks[stock].get("Disponibilidade"))
-                print(dict_stocks[stock].get("Divida liquida"))
-                print(dict_stocks[stock].get("Valor de mercado"))
-                print(dict_stocks[stock].get("Valor de firma"))
+                print('Empresa StatusInvest')
+                print('Valor atual: ',dict_stocks[stock].get("Valor atual"))
+               # print('Min. 52 semanas '.dict_stocks[stock].get("Min. 52 semanas"))
+               # print('Max. 52 semanas: ',dict_stocks[stock].get("Max. 52 semanas"))
+                print('dividend Yield: ',dict_stocks[stock].get("dividend Yield"))
+                print('Valorizacao (12m): ',dict_stocks[stock].get("Valorizacao (12m)"))
+                print('Tipo: ',dict_stocks[stock].get("Tipo"))
+                print('TAG ALONG: ',dict_stocks[stock].get("TAG ALONG"))
+                print('LIQUIDEZ MEDIA DIARIA: ',dict_stocks[stock].get("LIQUIDEZ MEDIA DIARIA"))
+                print('PARTICIPACAO NO IBOV: ',dict_stocks[stock].get("PARTICIPACAO NO IBOV"))
+                print('MERCADO DE OPCOES: ',dict_stocks[stock].get("MERCADO DE OPCOES"))
+                print('Patrimonio liquido: ',dict_stocks[stock].get("Patrimonio liquido"))
+                print('Ativos: ',dict_stocks[stock].get("Ativos"))
+                print('Ativo circulante: ',dict_stocks[stock].get("Ativo circulante"))
+                print('Divida bruta: ',dict_stocks[stock].get("Divida bruta"))
+                print('isponibilidade: ',dict_stocks[stock].get("Disponibilidade"))
+                print('Divida liquida: ',dict_stocks[stock].get("Divida liquida"))
+                print('Valor de mercado: ',dict_stocks[stock].get("Valor de mercado"))
 
-            except:
+            except Exception as e:
                 # if we not get the information... just skip it
+
+                print('Chamada ', localiza )
+                print(f"Ocorreu uma exceção: {e}")
                 print(f'Could not get {stock} information')
 
     # create dataframe using dictionary of stocks informations
