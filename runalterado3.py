@@ -409,8 +409,9 @@ if __name__ == "__main__":
                 localiza = "get data and transform into dictionary"
                 #fundamentus inicio
                 main_pipeline = fundamentus.Pipeline(stock)
+                localiza = "main_pipeline"
                 response = main_pipeline.get_all_information()
-
+                localiza = "response"
                 # Extract the information from the response.
                 stock_identification = response.transformed_information['stock_identification']
                 financial_summary = response.transformed_information['financial_summary']
