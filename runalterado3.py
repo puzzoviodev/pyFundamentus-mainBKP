@@ -401,7 +401,7 @@ if __name__ == "__main__":
             try:
                 # get data and transform into dictionary
                 localiza = 'inicio'
-                soup = get_stock_soup(stock)
+                soup = get_stock_soup(stock.upper())
                 dict_stock = soup_to_dict(soup)
                 dict_stocks[stock] = dict_stock
                 linhastatus = linhastatus + 1  # silvio
