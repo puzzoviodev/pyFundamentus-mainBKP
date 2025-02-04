@@ -45,6 +45,18 @@ TITLES = [
 ]
 
 wbsaida = openpyxl.Workbook()
+Dicrentabilidade = {}
+stock_identification  = {}
+financial_summary = {}
+price_information = {}
+detailed_information = {}
+oscillations = {}
+profitability_indicators = {}
+indebtedness_indicators = {}
+balance_sheet = {}
+income_statement = {}
+
+
 
 def criaPlanilhaIndiEficiência(IndiEficiência):
     try:
@@ -58,13 +70,223 @@ def criaPlanilhaIndiEficiência(IndiEficiência):
     return
 
 
+def montadicionario(stock_identification):
 
-def teste(dict_stocks,stock):
 
-    print(dict_stocks[stock].get("M. Bruta"))
-    print(dict_stocks[stock].get("M. EBITDA"))
-    print(dict_stocks[stock].get("M. EBIT"))
-    print(dict_stocks[stock].get("M. Liquida"))
+    try:
+
+        print(TITLES[0])
+        print('stock_identification')
+        print('-' * len(TITLES[0]))
+        for information in stock_identification:
+            print(
+                f'{stock_identification[information].title}: {stock_identification[information].value}'
+            )
+        localiza = "stock_identificatione"
+        print(f'\n{TITLES[1]}')
+        print('financial_summary')
+        print('-' * len(TITLES[1]))
+        for information in financial_summary:
+            print(
+                f'{financial_summary[information].title}: {financial_summary[information].value}'
+            )
+        localiza = "financial_summary"
+        print(f'\n{TITLES[2]}')
+        print('price_information')
+        print('-' * len(TITLES[2]))
+        for information in price_information:
+            print(
+                f'{price_information[information].title}: {price_information[information].value}'
+            )
+        localiza = "price_informatio"
+        print(f'\n{TITLES[3]}')
+        print('detailed_information')
+        print('-' * len(TITLES[2]))
+        for information in detailed_information:
+            if information != 'variation_52_weeks':
+                print(
+                    f'{detailed_information[information].title}: {detailed_information[information].value}'
+                )
+            else:
+                for sub_information in detailed_information[information]:
+                    print(
+                        f'{detailed_information[information][sub_information].title}: {detailed_information[information][sub_information].value}'
+                    )
+        localiza = 'variation_52_weeks'
+
+        print(f'\n{TITLES[4]}')
+        print('oscillations')
+        print('-' * len(TITLES[4]))
+        for information in oscillations:
+            print(
+                f'{oscillations[information].title}: {oscillations[information].value}'
+            )
+        localiza = 'oscillations'
+        print(f'\n{TITLES[5]}')
+        print('valuation_indicators')
+        print('-' * len(TITLES[5]))
+        for information in valuation_indicators:
+            print(
+                f'{valuation_indicators[information].title}: {valuation_indicators[information].value}'
+            )
+        localiza = 'valuation_indicators'
+        print(f'\n{TITLES[6]}')
+        print('profitability_indicators')
+        print('-' * len(TITLES[6]))
+        for information in profitability_indicators:
+            print(
+                f'{profitability_indicators[information].title}: {profitability_indicators[information].value}'
+            )
+            Dicrentabilidade[profitability_indicators[information].title] = profitability_indicators[
+                information].value
+
+        localiza = 'profitability_indicators'
+        print(f'\n{TITLES[7]}')
+        print('indebtedness_indicators')
+        print('-' * len(TITLES[7]))
+        for information in indebtedness_indicators:
+            print(
+                f'{indebtedness_indicators[information].title}: {indebtedness_indicators[information].value}'
+            )
+            Dicindividamento[indebtedness_indicators[information].title] = indebtedness_indicators[information].value
+        localiza = 'indebtedness_indicators'
+        print(f'\n{TITLES[8]}')
+        print('balance_sheet')
+        print('-' * len(TITLES[8]))
+        for information in balance_sheet:
+            print(
+                f'{balance_sheet[information].title}: {balance_sheet[information].value}'
+            )
+        localiza = 'balance_sheet'
+        print(f'\n{TITLES[9]}')
+        print('-' * len(TITLES[9]))
+        print('Últimos 03 meses')
+        for information in income_statement['three_months']:
+            print(
+                f"\t{income_statement['three_months'][information].title}: {income_statement['three_months'][information].value}"
+            )
+        localiza = 'Últimos 03 meses'
+        print('Últimos 12 meses')
+        print('income_statement')
+        for information in income_statement['twelve_months']:
+            print(
+                f"\t{income_statement['twelve_months'][information].title}: {income_statement['twelve_months'][information].value}"
+            )
+            localiza = 'income_statement'
+            # IndiRentabilidade
+        # fundamentus inicio
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("montadicionario")
+    return
+
+def teste():
+    fontes = ['StatusInvest', 'Fundamentus']
+
+
+    try:
+         for fonte in fontes:
+             print(fonte)
+    except Exception as e:
+            print(f"Erro inesperado: {e}")
+    finally:
+            print("teste")
+    return
+
+
+def gravaIndiEficiênciaostaus(wsIndiEficiência,Fonte, linha,dict_stocks,stock ):
+    #fontes ['StatusInvest', 'Fundamentus']
+    try:
+
+        MBruta = dict_stocks[stock].get("M. Bruta")
+        MEBITDA = dict_stocks[stock].get("M. EBITDA")
+        MEBIT = dict_stocks[stock].get("M. EBIT")
+        MLiquida = dict_stocks[stock].get("M. Liquida")
+        ATIVO =stock
+
+        #MBruta = f"{float(Dicrentabilidade.get("Margem bruta")) * 100}%"
+        #MEBITDA = ''
+        #MEBIT = f"{float(Dicrentabilidade.get("Margem EBIT")) * 100}%"
+        #MLiquida = f"{float(Dicrentabilidade.get("Margem líquida")) * 100}%"
+
+       # Condicional corrigida
+        if is_null_zero_or_spaces(MBruta):
+            MBruta   = 0
+        else:
+           MBruta = float(MBruta.strip('%')) /100
+        if is_null_zero_or_spaces(MEBITDA):
+           MEBITDA =0
+        else:
+            MEBITDA = float(MEBITDA.strip('%')) / 100
+
+
+        if is_null_zero_or_spaces(MEBIT):
+           MEBIT = 0
+        else:
+
+          MEBIT = float(MEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(MLiquida):
+           MLiquida =0
+        else:
+            MLiquida = float(MLiquida.strip('%')) / 100
+
+        wsIndiEficiência.cell(row=linha, column=1, value=Fonte)
+        wsIndiEficiência.cell(row=linha, column=2, value=ATIVO)
+        wsIndiEficiência.cell(row=linha, column=3, value=MBruta)
+        wsIndiEficiência.cell(row=linha, column=4, value=MEBITDA)
+        wsIndiEficiência.cell(row=linha, column=5, value=MEBIT)
+        wsIndiEficiência.cell(row=linha, column=6, value=MLiquida)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndiEficiência")
+
+def gravaIndiEficiênciaoFund(wsIndiEficiência,Fonte, linha,stock ):
+    #fontes ['StatusInvest', 'Fundamentus']
+    try:
+
+        ATIVO = stock
+
+        MBruta = f"{float(Dicrentabilidade.get("Margem bruta")) * 100}%"
+        MEBITDA = ''
+        MEBIT = f"{float(Dicrentabilidade.get("Margem EBIT")) * 100}%"
+        MLiquida = f"{float(Dicrentabilidade.get("Margem líquida")) * 100}%"
+
+       # Condicional corrigida
+        if is_null_zero_or_spaces(MBruta):
+            MBruta   = 0
+        else:
+           MBruta = float(MBruta.strip('%')) /100
+        if is_null_zero_or_spaces(MEBITDA):
+           MEBITDA =0
+        else:
+            MEBITDA = float(MEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(MEBIT):
+           MEBIT = 0
+        else:
+
+          MEBIT = float(MEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(MLiquida):
+           MLiquida =0
+        else:
+            MLiquida = float(MLiquida.strip('%')) / 100
+
+        wsIndiEficiência.cell(row=linha, column=1, value=Fonte)
+        wsIndiEficiência.cell(row=linha, column=2, value=ATIVO)
+        wsIndiEficiência.cell(row=linha, column=3, value=MBruta)
+        wsIndiEficiência.cell(row=linha, column=4, value=MEBITDA)
+        wsIndiEficiência.cell(row=linha, column=5, value=MEBIT)
+        wsIndiEficiência.cell(row=linha, column=6, value=MLiquida)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndiEficiênciaoFund")
+
+
 
 #Incio funcionalidades statusinvest
 
@@ -151,12 +373,20 @@ def soup_to_dict(soup):
 # pylint: disable=line-too-long
 if __name__ == '__main__':
     dict_stocks = {} # dicionario statusinvest
+    Dicrentabilidade = {}  # fundamentus
+    linhafundamentus = 1  # silvio
+    linhastatus = 0
+
 
     criaPlanilhaIndiEficiência(wbsaida) # statusinvest + fundamentus
+    wsIndiEficiência = wbsaida['IndiEficiência']
     start = time.time()
     with open('stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
         for stock in stocks:
+            linhastatus = linhafundamentus
+            linhastatus = linhastatus + 1   # silvio
+            linhafundamentus =  linhastatus + 1 # silvio
 
             main_pipeline = fundamentus.Pipeline(stock.upper())
             response = main_pipeline.get_all_information()
@@ -183,31 +413,31 @@ if __name__ == '__main__':
                 'indebtedness_indicators']
             balance_sheet = response.transformed_information['balance_sheet']
             income_statement = response.transformed_information['income_statement']
-
-
-            print(TITLES[0])
-            print('-' * len(TITLES[0]))
+            """
+           ###
+           # print(TITLES[0])
+           # print('-' * len(TITLES[0]))
             for information in stock_identification:
                 print(
                     f'{stock_identification[information].title}: {stock_identification[information].value}'
                 )
 
-            print(f'\n{TITLES[1]}')
-            print('-' * len(TITLES[1]))
+            #print(f'\n{TITLES[1]}')
+            #print('-' * len(TITLES[1]))
             for information in financial_summary:
                 print(
                     f'{financial_summary[information].title}: {financial_summary[information].value}'
                 )
 
-            print(f'\n{TITLES[2]}')
-            print('-' * len(TITLES[2]))
+            #print(f'\n{TITLES[2]}')
+            #print('-' * len(TITLES[2]))
             for information in price_information:
                 print(
                     f'{price_information[information].title}: {price_information[information].value}'
                 )
-
-            print(f'\n{TITLES[3]}')
-            print('-' * len(TITLES[2]))
+           
+            #print(f'\n{TITLES[3]}')
+            #print('-' * len(TITLES[2]))
             for information in detailed_information:
                 if information != 'variation_52_weeks':
                     print(
@@ -219,43 +449,43 @@ if __name__ == '__main__':
                             f'{detailed_information[information][sub_information].title}: {detailed_information[information][sub_information].value}'
                         )
 
-            print(f'\n{TITLES[4]}')
-            print('-' * len(TITLES[4]))
+            #print(f'\n{TITLES[4]}')
+            #print('-' * len(TITLES[4]))
             for information in oscillations:
                 print(
                     f'{oscillations[information].title}: {oscillations[information].value}'
                 )
 
-            print(f'\n{TITLES[5]}')
-            print('-' * len(TITLES[5]))
+            #print(f'\n{TITLES[5]}')
+            #print('-' * len(TITLES[5]))
             for information in valuation_indicators:
                 print(
                     f'{valuation_indicators[information].title}: {valuation_indicators[information].value}'
                 )
 
-            print(f'\n{TITLES[6]}')
-            print('-' * len(TITLES[6]))
+            #print(f'\n{TITLES[6]}')
+            #print('-' * len(TITLES[6]))
             for information in profitability_indicators:
                 print(
                     f'{profitability_indicators[information].title}: {profitability_indicators[information].value}'
                 )
 
-            print(f'\n{TITLES[7]}')
-            print('-' * len(TITLES[7]))
+            #print(f'\n{TITLES[7]}')
+            #print('-' * len(TITLES[7]))
             for information in indebtedness_indicators:
                 print(
                     f'{indebtedness_indicators[information].title}: {indebtedness_indicators[information].value}'
                 )
 
-            print(f'\n{TITLES[8]}')
-            print('-' * len(TITLES[8]))
+            #print(f'\n{TITLES[8]}')
+            #print('-' * len(TITLES[8]))
             for information in balance_sheet:
                 print(
                     f'{balance_sheet[information].title}: {balance_sheet[information].value}'
                 )
 
-            print(f'\n{TITLES[9]}')
-            print('-' * len(TITLES[9]))
+            #print(f'\n{TITLES[9]}')
+            #print('-' * len(TITLES[9]))
             print('Últimos 03 meses')
             for information in income_statement['three_months']:
                 print(
@@ -266,9 +496,17 @@ if __name__ == '__main__':
                 print(
                     f"\t{income_statement['twelve_months'][information].title}: {income_statement['twelve_months'][information].value}"
                 )
+"""
 
+            montadicionario(stock_identification)
+           # print(Dicrentabilidade)
 
-    teste(dict_stocks,stock)
+            gravaIndiEficiênciaostaus(wsIndiEficiência,'StatusInvest',linhastatus,stock)
+            print(linhastatus)
+            print(linhafundamentus)
+            gravaIndiEficiênciaoFund(wsIndiEficiência, 'Fundamentus', linhafundamentus, Dicrentabilidade, stock)
+            #wbsaida.save("StatusInvest.xlsx")  # silvio
+
     # exit the driver
     driver.quit()
 
