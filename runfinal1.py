@@ -81,6 +81,36 @@ def criaPlanilhaIndEndividamento(IndEndividamento):
     IndEndividamento = wbsaida['IndEndividamento']
     IndEndividamento.append(['Fonte','ATIVO','Dív. líquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente'])
     return
+def criaPlanilaIndValuation(wbsaida):
+    wbsaida.create_sheet('IndValuation')
+    IndValuation = wbsaida['IndValuation']
+    IndValuation.append(['Fonte','ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
+                         'LPA','P/SR','P/Ativo Circ. Liq.'])
+def criaPlanilhaIndiEmpresa(wbsaida):
+    wbsaida.create_sheet('IndEmpresa')
+    IndEmpresa = wbsaida['IndEmpresa']
+    IndEmpresa.append(['Fonte',
+                        "ATIVO",
+                        "Valor atual",
+                         "Min. 52 semanas",
+                          "Max. 52 semanas",
+                          "dividend Yield",
+                          "Valorizacao (12m)",
+                          "Tipo",
+                          "TAG ALONG",
+                          "LIQUIDEZ MEDIA DIARIA",
+                          "PARTICIPACAO NO IBOV",
+                          "MERCADO DE OPCOES",
+                          "Patrimonio liquido",
+                          "Ativos",
+                          "Ativo circulante",
+                          "Divida bruta",
+                          "Disponibilidade",
+                          "Divida liquida",
+                          "Valor de mercado",
+                          "Valor de firma",
+                          'Free Float'])
+    return
 
 def montadicionario(stock_identification,financial_summary,price_information,detailed_information,oscillations,
                     valuation_indicators,profitability_indicators,indebtedness_indicators,balance_sheet,income_statement):
@@ -338,7 +368,7 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade,Fonte, linha,Dicprofitability
 
 
 
-def gravaIndEndividamentostaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock):
+def gravaIndEndividamentoStaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock):
     ATIVO = stock
     DivliquidaPL = dict_stocks[stock].get("Div. liquida/PL")
     DivliquidaEBITDA = dict_stocks[stock].get("Div. liquida/EBITDA")
@@ -407,7 +437,546 @@ def gravaIndEndividamentostaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock
     except Exception as e:
         print(f"Erro inesperado: {e}")
     finally:
-        print("gravaIndEndividamentostaus")
+        print("gravaIndEndividamentoStaus")
+
+
+def gravaIndEndividamentosFund(wsIndEndividamento,Fonte, linha,Dicindebtedness_indicators,stock):
+    ATIVO = stock
+
+    DivliquidaPL = f"{float(Dicindebtedness_indicators.get("Dívida líquida/Patrim")) * 100}%"
+    DivliquidaEBITDA = f"{float(Dicindebtedness_indicators.get("Dívida líquida/EBITDA")) * 100}%"
+    DivliquidaEBIT = ""
+    PLAtivos = f"{float(Dicindebtedness_indicators.get("PL/Ativos")) * 100}%"
+    PassivosAtivos = ""
+    Liqcorrente = f"{float(Dicindebtedness_indicators.get("Liquidez corrente")) * 100}%"
+
+    try:
+        if DivliquidaPL == "-":
+            DivliquidaPL = ""
+
+        if DivliquidaEBITDA == "-":
+            DivliquidaEBITDA = ""
+
+        if DivliquidaEBIT == "-":
+            DivliquidaEBIT = ""
+
+        if PLAtivos == "-":
+            PLAtivos = ""
+
+        if PassivosAtivos == "-":
+            PassivosAtivos = ""
+
+        if Liqcorrente == "-":
+            Liqcorrente = ""
+
+        if is_null_zero_or_spaces(DivliquidaPL):
+           DivliquidaPL =0
+        else:
+           DivliquidaPL = float(DivliquidaPL.strip('%')) / 100
+
+        if is_null_zero_or_spaces(DivliquidaEBITDA):
+           DivliquidaEBITDA =0
+        else:
+           DivliquidaEBITDA = float(DivliquidaEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(DivliquidaEBIT):
+            DivliquidaEBIT = 0
+        else:
+            DivliquidaEBIT = float(DivliquidaEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PLAtivos):
+            PLAtivos = 0
+        else:
+            PLAtivos = float(PLAtivos.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PassivosAtivos):
+            PassivosAtivos = 0
+        else:
+            PassivosAtivos = float(PassivosAtivos.strip('%')) / 100
+
+        if is_null_zero_or_spaces(Liqcorrente):
+            Liqcorrente = 0
+        else:
+            Liqcorrente = float(Liqcorrente.strip('%')) / 100
+
+        wsIndEndividamento.cell(row=linha, column=1, value=Fonte)
+        wsIndEndividamento.cell(row=linha, column=2, value=ATIVO)
+        wsIndEndividamento.cell(row=linha, column=3, value=DivliquidaPL)
+        wsIndEndividamento.cell(row=linha, column=4, value=DivliquidaEBITDA)
+        wsIndEndividamento.cell(row=linha, column=5, value=DivliquidaEBIT)
+        wsIndEndividamento.cell(row=linha, column=6, value=PLAtivos)
+        wsIndEndividamento.cell(row=linha, column=7, value=PassivosAtivos)
+        wsIndEndividamento.cell(row=linha, column=8, value=Liqcorrente)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndEndividamentosFund")
+
+def gravaIndValuationStaus(wsIndValuation, Fonte,linha,dict_stocks,stock):
+    ATIVO = stock
+
+    DY = dict_stocks[stock].get("D.Y")
+    PL = dict_stocks[stock].get("P/L")
+    PEGRatio = dict_stocks[stock].get("PEG Ratio")
+    PVP = dict_stocks[stock].get("P/VP")
+    EVEBITDA = dict_stocks[stock].get("EV/EBITDA")
+    EVEBIT = dict_stocks[stock].get("EV/EBIT")
+    PEBITDA = dict_stocks[stock].get("P/EBITDA")
+    PEBIT = dict_stocks[stock].get("P/EBIT")
+    VPA = dict_stocks[stock].get("VPA")
+    PAtivo = dict_stocks[stock].get("P/Ativo")
+    LPA = dict_stocks[stock].get("LPA")
+    PSR = dict_stocks[stock].get("P/SR")
+    PCapGiro = dict_stocks[stock].get("P/Cap. Giro")
+    PAtivoCircLiq = dict_stocks[stock].get("P/Ativo Circ. Liq.")
+    try:
+
+        if DY == "-":
+            DY = ""
+
+        if PL == "-":
+            PL = ""
+
+        if PEGRatio == "-":
+            PEGRatio = ""
+
+        if PVP == "-":
+            PVP = ""
+
+        if EVEBITDA == "-":
+            EVEBITDA = ""
+
+        if EVEBIT == "-":
+            EVEBIT = ""
+
+        if PEBITDA == "-":
+            PEBITDA = ""
+
+        if PEBIT == "-":
+            PEBIT = ""
+
+        if VPA == "-":
+            VPA = ""
+
+        if PAtivo == "-":
+            PAtivo = ""
+
+        if LPA == "-":
+            LPA = ""
+
+        if PSR == "-":
+            PSR = ""
+
+        if PCapGiro == "-":
+            PCapGiro = ""
+
+        if PAtivoCircLiq == "-":
+            PAtivoCircLiq = ""
+
+        if is_null_zero_or_spaces(DY):
+            DY = 0
+        else:
+            DY = float(DY.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PL):
+            PL = 0
+        else:
+            PL = float(PL.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEGRatio):
+            PEGRatio = 0
+        else:
+            PEGRatio = float(PEGRatio.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PVP):
+            PVP = 0
+        else:
+            PVP = float(PVP.strip('%')) / 100
+
+        if is_null_zero_or_spaces(EVEBITDA):
+            EVEBITDA = 0
+        else:
+            EVEBITDA = float(EVEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(EVEBIT):
+            EVEBIT = 0
+        else:
+            EVEBIT = float(EVEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEBITDA):
+            PEBITDA = 0
+        else:
+            PEBITDA = float(PEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEBIT):
+            PEBIT = 0
+        else:
+            PEBIT = float(PEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(VPA):
+            VPA = 0
+        else:
+            VPA = float(VPA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(LPA):
+            LPA = 0
+        else:
+            LPA = float(LPA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PSR):
+            PSR = 0
+        else:
+            PSR = float(PSR.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PCapGiro):
+            PCapGiro = 0
+        else:
+            PCapGiro = float(PCapGiro.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PAtivoCircLiq):
+            PAtivoCircLiq = 0
+        else:
+            PAtivoCircLiq = float(PAtivoCircLiq.strip('%')) / 100
+
+
+        wsIndValuation.cell(row=linha, column=1, value=Fonte)
+        wsIndValuation.cell(row=linha, column=2, value=ATIVO)
+        wsIndValuation.cell(row=linha, column=3, value=DY)
+        wsIndValuation.cell(row=linha, column=4, value=PL)
+        wsIndValuation.cell(row=linha, column=5, value=PEGRatio)
+        wsIndValuation.cell(row=linha, column=6, value=PVP)
+        wsIndValuation.cell(row=linha, column=7, value=EVEBITDA)
+        wsIndValuation.cell(row=linha, column=8, value=EVEBIT)
+        wsIndValuation.cell(row=linha, column=9, value=PEBITDA)
+        wsIndValuation.cell(row=linha, column=10, value=PEBIT)
+        wsIndValuation.cell(row=linha, column=11, value=VPA)
+        wsIndValuation.cell(row=linha, column=12, value=PAtivo)
+        wsIndValuation.cell(row=linha, column=13, value=LPA)
+        wsIndValuation.cell(row=linha, column=14, value=PSR)
+        wsIndValuation.cell(row=linha, column=15, value=PCapGiro)
+        wsIndValuation.cell(row=linha, column=16, value=PAtivoCircLiq)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndValuationStaus")
+
+
+def gravaIndValuationFund(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Dicdetailed_information,stock):
+    ATIVO = stock
+
+    DY = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
+    PL = f"{float(Dicvaluation_indicators.get("P/L")) * 100}%"
+    PEGRatio = ""
+    PVP = f"{float(Dicvaluation_indicators.get("P/VP")) * 100}%"
+    EVEBITDA = f"{float(Dicvaluation_indicators.get("EV/EBITDA")) * 100}%"
+    EVEBIT = f"{float(Dicvaluation_indicators.get("EV/EBIT")) * 100}%"
+    PEBITDA = ""
+    PEBIT = f"{float(Dicvaluation_indicators.get("P/EBIT")) * 100}%"
+    VPA = f"{float(Dicdetailed_information.get("VPA")) * 100}%"
+    PAtivo = f"{float(Dicvaluation_indicators.get("Preço/Ativos")) * 100}%"
+    LPA = f"{float(Dicdetailed_information.get("LPA")) * 100}%"
+    PSR = f"{float(Dicvaluation_indicators.get("PSR")) * 100}%"
+    PCapGiro = f"{float(Dicvaluation_indicators.get("Preço/Capital de giro")) * 100}%"
+    PAtivoCircLiq = f"{float(Dicvaluation_indicators.get("Preço/Ativ circ liq")) * 100}%"
+    try:
+
+        if DY == "-":
+            DY = ""
+
+        if PL == "-":
+            PL = ""
+
+        if PEGRatio == "-":
+            PEGRatio = ""
+
+        if PVP == "-":
+            PVP = ""
+
+        if EVEBITDA == "-":
+            EVEBITDA = ""
+
+        if EVEBIT == "-":
+            EVEBIT = ""
+
+        if PEBITDA == "-":
+            PEBITDA = ""
+
+        if PEBIT == "-":
+            PEBIT = ""
+
+        if VPA == "-":
+            VPA = ""
+
+        if PAtivo == "-":
+            PAtivo = ""
+
+        if LPA == "-":
+            LPA = ""
+
+        if PSR == "-":
+            PSR = ""
+
+        if PCapGiro == "-":
+            PCapGiro = ""
+
+        if PAtivoCircLiq == "-":
+            PAtivoCircLiq = ""
+
+        if is_null_zero_or_spaces(DY):
+            DY = 0
+        else:
+            DY = float(DY.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PL):
+            PL = 0
+        else:
+            PL = float(PL.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEGRatio):
+            PEGRatio = 0
+        else:
+            PEGRatio = float(PEGRatio.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PVP):
+            PVP = 0
+        else:
+            PVP = float(PVP.strip('%')) / 100
+
+        if is_null_zero_or_spaces(EVEBITDA):
+            EVEBITDA = 0
+        else:
+            EVEBITDA = float(EVEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(EVEBIT):
+            EVEBIT = 0
+        else:
+            EVEBIT = float(EVEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEBITDA):
+            PEBITDA = 0
+        else:
+            PEBITDA = float(PEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEBIT):
+            PEBIT = 0
+        else:
+            PEBIT = float(PEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(VPA):
+            VPA = 0
+        else:
+            VPA = float(VPA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(LPA):
+            LPA = 0
+        else:
+            LPA = float(LPA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PSR):
+            PSR = 0
+        else:
+            PSR = float(PSR.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PCapGiro):
+            PCapGiro = 0
+        else:
+            PCapGiro = float(PCapGiro.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PAtivoCircLiq):
+            PAtivoCircLiq = 0
+        else:
+            PAtivoCircLiq = float(PAtivoCircLiq.strip('%')) / 100
+
+
+        wsIndValuation.cell(row=linha, column=1, value=Fonte)
+        wsIndValuation.cell(row=linha, column=2, value=ATIVO)
+        wsIndValuation.cell(row=linha, column=3, value=DY)
+        wsIndValuation.cell(row=linha, column=4, value=PL)
+        wsIndValuation.cell(row=linha, column=5, value=PEGRatio)
+        wsIndValuation.cell(row=linha, column=6, value=PVP)
+        wsIndValuation.cell(row=linha, column=7, value=EVEBITDA)
+        wsIndValuation.cell(row=linha, column=8, value=EVEBIT)
+        wsIndValuation.cell(row=linha, column=9, value=PEBITDA)
+        wsIndValuation.cell(row=linha, column=10, value=PEBIT)
+        wsIndValuation.cell(row=linha, column=11, value=VPA)
+        wsIndValuation.cell(row=linha, column=12, value=PAtivo)
+        wsIndValuation.cell(row=linha, column=13, value=LPA)
+        wsIndValuation.cell(row=linha, column=14, value=PSR)
+        wsIndValuation.cell(row=linha, column=15, value=PCapGiro)
+        wsIndValuation.cell(row=linha, column=16, value=PAtivoCircLiq)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndValuationFund")
+
+def gravaIndVEmpreStaus(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Dicdetailed_information,stock):
+    ATIVO = stock
+
+    DY = dict_stocks[stock].get("D.Y")
+    PL = dict_stocks[stock].get("P/L")
+    PEGRatio = dict_stocks[stock].get("PEG Ratio")
+    PVP = dict_stocks[stock].get("P/VP")
+    EVEBITDA = dict_stocks[stock].get("EV/EBITDA")
+    EVEBIT = dict_stocks[stock].get("EV/EBIT")
+    PEBITDA = dict_stocks[stock].get("P/EBITDA")
+    PEBIT = dict_stocks[stock].get("P/EBIT")
+    VPA = dict_stocks[stock].get("VPA")
+    PAtivo = dict_stocks[stock].get("P/Ativo")
+    LPA = dict_stocks[stock].get("LPA")
+    PSR = dict_stocks[stock].get("P/SR")
+    PCapGiro = dict_stocks[stock].get("P/Cap. Giro")
+    PAtivoCircLiq = dict_stocks[stock].get("P/Ativo Circ. Liq.")
+
+    "Valor atual",
+    "Min. 52 semanas",
+    "Max. 52 semanas",
+    "dividend Yield",
+    "Valorizacao (12m)",
+    "Tipo",
+    "TAG ALONG",
+    "LIQUIDEZ MEDIA DIARIA",
+    "PARTICIPACAO NO IBOV",
+    "MERCADO DE OPCOES",
+    "Patrimonio liquido",
+    "Ativos",
+    "Ativo circulante",
+    "Divida bruta",
+    "Disponibilidade",
+    "Divida liquida",
+    "Valor de mercado",
+    "Valor de firma",
+    'Free Float']
+    try:
+
+        if DY == "-":
+            DY = ""
+
+        if PL == "-":
+            PL = ""
+
+        if PEGRatio == "-":
+            PEGRatio = ""
+
+        if PVP == "-":
+            PVP = ""
+
+        if EVEBITDA == "-":
+            EVEBITDA = ""
+
+        if EVEBIT == "-":
+            EVEBIT = ""
+
+        if PEBITDA == "-":
+            PEBITDA = ""
+
+        if PEBIT == "-":
+            PEBIT = ""
+
+        if VPA == "-":
+            VPA = ""
+
+        if PAtivo == "-":
+            PAtivo = ""
+
+        if LPA == "-":
+            LPA = ""
+
+        if PSR == "-":
+            PSR = ""
+
+        if PCapGiro == "-":
+            PCapGiro = ""
+
+        if PAtivoCircLiq == "-":
+            PAtivoCircLiq = ""
+
+        if is_null_zero_or_spaces(DY):
+            DY = 0
+        else:
+            DY = float(DY.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PL):
+            PL = 0
+        else:
+            PL = float(PL.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEGRatio):
+            PEGRatio = 0
+        else:
+            PEGRatio = float(PEGRatio.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PVP):
+            PVP = 0
+        else:
+            PVP = float(PVP.strip('%')) / 100
+
+        if is_null_zero_or_spaces(EVEBITDA):
+            EVEBITDA = 0
+        else:
+            EVEBITDA = float(EVEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(EVEBIT):
+            EVEBIT = 0
+        else:
+            EVEBIT = float(EVEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEBITDA):
+            PEBITDA = 0
+        else:
+            PEBITDA = float(PEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PEBIT):
+            PEBIT = 0
+        else:
+            PEBIT = float(PEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(VPA):
+            VPA = 0
+        else:
+            VPA = float(VPA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(LPA):
+            LPA = 0
+        else:
+            LPA = float(LPA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PSR):
+            PSR = 0
+        else:
+            PSR = float(PSR.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PCapGiro):
+            PCapGiro = 0
+        else:
+            PCapGiro = float(PCapGiro.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PAtivoCircLiq):
+            PAtivoCircLiq = 0
+        else:
+            PAtivoCircLiq = float(PAtivoCircLiq.strip('%')) / 100
+
+        wsIndValuation.cell(row=linha, column=1, value=Fonte)
+        wsIndValuation.cell(row=linha, column=2, value=ATIVO)
+        wsIndValuation.cell(row=linha, column=3, value=DY)
+        wsIndValuation.cell(row=linha, column=4, value=PL)
+        wsIndValuation.cell(row=linha, column=5, value=PEGRatio)
+        wsIndValuation.cell(row=linha, column=6, value=PVP)
+        wsIndValuation.cell(row=linha, column=7, value=EVEBITDA)
+        wsIndValuation.cell(row=linha, column=8, value=EVEBIT)
+        wsIndValuation.cell(row=linha, column=9, value=PEBITDA)
+        wsIndValuation.cell(row=linha, column=10, value=PEBIT)
+        wsIndValuation.cell(row=linha, column=11, value=VPA)
+        wsIndValuation.cell(row=linha, column=12, value=PAtivo)
+        wsIndValuation.cell(row=linha, column=13, value=LPA)
+        wsIndValuation.cell(row=linha, column=14, value=PSR)
+        wsIndValuation.cell(row=linha, column=15, value=PCapGiro)
+        wsIndValuation.cell(row=linha, column=16, value=PAtivoCircLiq)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndVEmpreStaus")
+
+
 #Incio funcionalidades statusinvest
 
 # define selenium webdriver options
@@ -501,10 +1070,14 @@ if __name__ == '__main__':
     criaPlanilhaIndiEficiência(wbsaida) # statusinvest + fundamentus
     criaPlanilhaIndRentabilidade(wbsaida)
     criaPlanilhaIndEndividamento(wbsaida)
+    criaPlanilaIndValuation(wbsaida)
+    criaPlanilhaIndiEmpresa(wbsaida)
 
     wsIndiEficiência = wbsaida['IndiEficiência']
     wsIndiRentabilidade = wbsaida['IndiRentabilidade']
     wsIndEndividamento = wbsaida['IndEndividamento']
+    wsIndValuation = wbsaida['IndValuation']
+    IndEmpresa = wbsaida['IndEmpresa']
     start = time.time()
     with open('stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
@@ -549,12 +1122,15 @@ if __name__ == '__main__':
             gravaIndiRentabilidadeStaus(wsIndiRentabilidade, 'StatusInvest', linhastatus, dict_stocks, stock)
             gravaIndiRentabilidadeFund(wsIndiRentabilidade, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
 
-            gravaIndEndividamentostaus(wsIndEndividamento, 'StatusInvest', linhastatus, dict_stocks, stock)
+            gravaIndEndividamentoStaus(wsIndEndividamento, 'StatusInvest', linhastatus, dict_stocks, stock)
+            gravaIndEndividamentosFund(wsIndEndividamento, 'Fundamentus', linhafundamentus, Dicindebtedness_indicators, stock)
             #wbsaida.save("StatusInvest.xlsx")  # silvio
-
+            gravaIndValuationStaus(wsIndValuation,'StatusInvest', linhastatus, dict_stocks, stock)
+            gravaIndValuationFund(wsIndValuation, 'Fundamentus', linhafundamentus, Dicvaluation_indicators, Dicdetailed_information, stock)
+            print(dict_stocks)
     # exit the driver
     driver.quit()
 
     # end timer
     end = time.time()
-    wbsaida.save("StatusInvest.xlsx") # silvio
+    wbsaida.save("StatusInvest2.xlsx") # silvio
