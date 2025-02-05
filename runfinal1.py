@@ -70,6 +70,12 @@ def criaPlanilhaIndiEficiência(IndiEficiência):
         print("criaPlanilhaIndiEficiência")
     return
 
+def criaPlanilhaIndRentabilidade(IndiRentabilidade):
+    wbsaida.create_sheet('IndiRentabilidade')
+    IndiRentabilidade = wbsaida['IndiRentabilidade']
+    IndiRentabilidade.append(['Fonte','ATIVO','ROE', 'ROA', 'ROIC','Giro ativos',''])
+    return
+
 
 def montadicionario(stock_identification,financial_summary,price_information,detailed_information,oscillations,
                     valuation_indicators,profitability_indicators,indebtedness_indicators,balance_sheet,income_statement):
@@ -125,7 +131,7 @@ def teste():
     return
 
 
-def gravaIndiEficiênciaostaus(wsIndiEficiência,Fonte, linha,dict_stocks,stock ):
+def gravaIndiEficiênciaoStaus(wsIndiEficiência,Fonte, linha,dict_stocks,stock ):
     #fontes ['StatusInvest', 'Fundamentus']
     try:
 
@@ -171,7 +177,7 @@ def gravaIndiEficiênciaostaus(wsIndiEficiência,Fonte, linha,dict_stocks,stock 
     except Exception as e:
         print(f"Erro inesperado: {e}")
     finally:
-        print("gravaIndiEficiênciaostaus")
+        print("gravaIndiEficiênciaoStaus")
 
 def gravaIndiEficiênciaoFund(wsIndiEficiência,Fonte, linha,Dicprofitability_indicators,stock ):
     #fontes ['StatusInvest', 'Fundamentus']
@@ -216,8 +222,146 @@ def gravaIndiEficiênciaoFund(wsIndiEficiência,Fonte, linha,Dicprofitability_in
     finally:
         print("gravaIndiEficiênciaoFund")
 
+def gravaIndiRentabilidadeStaus(wsIndiRentabilidade,Fonte,linha,dict_stocks,stock):
+    # Condicional corrigida
+    ATIVO = stock
+    ROE = dict_stocks[stock].get("ROE")
+    ROA = dict_stocks[stock].get("ROA")
+    ROIC = dict_stocks[stock].get("ROIC")
+    Giroativos = dict_stocks[stock].get("Giro ativos")
+    try:
+        Fonte = Fonte
+        if is_null_zero_or_spaces(ROIC):
+            ROIC = 0
+        else:
+            ROIC = float(ROIC.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ROE):
+            ROE = 0
+        else:
+            ROE = float(ROE.strip('%')) / 100
+
+        if   is_null_zero_or_spaces(ROA) :
+            ROA = 0
+        else:
+            ROA = float(ROA.strip('%')) / 100
+
+        wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
+        wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
+        wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+        wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
+        wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
+        wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndiRentabilidadeStaus")
+
+        # Condicional corrigida
+        ATIVO = stock
+        ROE = dict_stocks[stock].get("ROE")
+        ROA = dict_stocks[stock].get("ROA")
+        ROIC = dict_stocks[stock].get("ROIC")
+        Giroativos = dict_stocks[stock].get("Giro ativos")
+        try:
+            Fonte = Fonte
+            if is_null_zero_or_spaces(ROIC):
+                ROIC = 0
+            else:
+                ROIC = float(ROIC.strip('%')) / 100
+
+            if is_null_zero_or_spaces(ROE):
+                ROE = 0
+            else:
+                ROE = float(ROE.strip('%')) / 100
+
+            if is_null_zero_or_spaces(ROA):
+                ROA = 0
+            else:
+                ROA = float(ROA.strip('%')) / 100
+
+            wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
+            wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
+            wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+            wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
+            wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
+            wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+        finally:
+            print("gravaIndiRentabilidadeStaus")
 
 
+def gravaIndiRentabilidadeFund(wsIndiRentabilidade,Fonte, linha,Dicprofitability_indicators,stock):
+    # Condicional corrigida
+
+    ATIVO = stock
+
+    ROE = f"{float(Dicprofitability_indicators.get("ROE")) * 100}%"
+    ROA = ''
+    ROIC = f"{float(Dicprofitability_indicators.get("ROIC")) * 100}%"
+    Giroativos = f"{float(Dicprofitability_indicators.get("Giro ativos")) * 100}%"
+    try:
+        Fonte = Fonte
+        if is_null_zero_or_spaces(ROIC):
+            ROIC = 0
+        else:
+            ROIC = float(ROIC.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ROE):
+            ROE = 0
+        else:
+            ROE = float(ROE.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ROA):
+            ROA = 0
+        else:
+            ROA = float(ROA.strip('%')) / 100
+
+        wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
+        wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
+        wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+        wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
+        wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
+        wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndiRentabilidadeFund")
+
+        # Condicional corrigida
+        ATIVO = stock
+        ROE = dict_stocks[stock].get("ROE")
+        ROA = dict_stocks[stock].get("ROA")
+        ROIC = dict_stocks[stock].get("ROIC")
+        Giroativos = dict_stocks[stock].get("Giro ativos")
+        try:
+            Fonte = Fonte
+            if is_null_zero_or_spaces(ROIC):
+                ROIC = 0
+            else:
+                ROIC = float(ROIC.strip('%')) / 100
+
+            if is_null_zero_or_spaces(ROE):
+                ROE = 0
+            else:
+                ROE = float(ROE.strip('%')) / 100
+
+            if is_null_zero_or_spaces(ROA):
+                ROA = 0
+            else:
+                ROA = float(ROA.strip('%')) / 100
+
+            wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
+            wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
+            wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+            wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
+            wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
+            wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
+        except Exception as e:
+            print(f"Erro inesperado: {e}")
+        finally:
+            print("gravaIndiRentabilidade")
 #Incio funcionalidades statusinvest
 
 # define selenium webdriver options
@@ -309,7 +453,9 @@ if __name__ == '__main__':
 
 
     criaPlanilhaIndiEficiência(wbsaida) # statusinvest + fundamentus
+    criaPlanilhaIndRentabilidade(wbsaida)
     wsIndiEficiência = wbsaida['IndiEficiência']
+    wsIndiRentabilidade = wbsaida['IndiRentabilidade']
     start = time.time()
     with open('stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
@@ -348,10 +494,12 @@ if __name__ == '__main__':
                     valuation_indicators,profitability_indicators,indebtedness_indicators,balance_sheet,income_statement)
            # print(Dicrentabilidade)
 
-            gravaIndiEficiênciaostaus(wsIndiEficiência,'StatusInvest',linhastatus,dict_stocks,stock)
+            gravaIndiEficiênciaoStaus(wsIndiEficiência,'StatusInvest',linhastatus,dict_stocks,stock)
            # print(linhastatus)
            # print(linhafundamentus)
             gravaIndiEficiênciaoFund(wsIndiEficiência, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
+            gravaIndiRentabilidadeStaus(wsIndiRentabilidade, 'StatusInvest', linhastatus, dict_stocks, stock)
+            gravaIndiRentabilidadeFund(wsIndiRentabilidade, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
             #wbsaida.save("StatusInvest.xlsx")  # silvio
 
     # exit the driver
