@@ -76,6 +76,11 @@ def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     IndiRentabilidade.append(['Fonte','ATIVO','ROE', 'ROA', 'ROIC','Giro ativos',''])
     return
 
+def criaPlanilhaIndEndividamento(IndEndividamento):
+    wbsaida.create_sheet('IndEndividamento')
+    IndEndividamento = wbsaida['IndEndividamento']
+    IndEndividamento.append(['Fonte','ATIVO','Dív. líquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente'])
+    return
 
 def montadicionario(stock_identification,financial_summary,price_information,detailed_information,oscillations,
                     valuation_indicators,profitability_indicators,indebtedness_indicators,balance_sheet,income_statement):
@@ -329,39 +334,80 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade,Fonte, linha,Dicprofitability
     finally:
         print("gravaIndiRentabilidadeFund")
 
-        # Condicional corrigida
-        ATIVO = stock
-        ROE = dict_stocks[stock].get("ROE")
-        ROA = dict_stocks[stock].get("ROA")
-        ROIC = dict_stocks[stock].get("ROIC")
-        Giroativos = dict_stocks[stock].get("Giro ativos")
-        try:
-            Fonte = Fonte
-            if is_null_zero_or_spaces(ROIC):
-                ROIC = 0
-            else:
-                ROIC = float(ROIC.strip('%')) / 100
 
-            if is_null_zero_or_spaces(ROE):
-                ROE = 0
-            else:
-                ROE = float(ROE.strip('%')) / 100
 
-            if is_null_zero_or_spaces(ROA):
-                ROA = 0
-            else:
-                ROA = float(ROA.strip('%')) / 100
 
-            wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
-            wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
-            wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
-            wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
-            wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
-            wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
-        except Exception as e:
-            print(f"Erro inesperado: {e}")
-        finally:
-            print("gravaIndiRentabilidade")
+
+def gravaIndEndividamentostaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock):
+    ATIVO = stock
+    DivliquidaPL = dict_stocks[stock].get("Div. liquida/PL")
+    DivliquidaEBITDA = dict_stocks[stock].get("Div. liquida/EBITDA")
+    DivliquidaEBIT = dict_stocks[stock].get("Div. liquida/EBIT")
+    PLAtivos = dict_stocks[stock].get("PL/Ativos")
+    PassivosAtivos = dict_stocks[stock].get("Passivos/Ativos")
+    Liqcorrente = dict_stocks[stock].get("Liq. corrente")
+
+    try:
+        if DivliquidaPL == "-":
+            DivliquidaPL = ""
+
+        if DivliquidaEBITDA == "-":
+            DivliquidaEBITDA = ""
+
+        if DivliquidaEBIT == "-":
+            DivliquidaEBIT = ""
+
+        if PLAtivos == "-":
+            PLAtivos = ""
+
+        if PassivosAtivos == "-":
+            PassivosAtivos = ""
+
+        if Liqcorrente == "-":
+            Liqcorrente = ""
+
+        if is_null_zero_or_spaces(DivliquidaPL):
+           DivliquidaPL =0
+        else:
+           DivliquidaPL = float(DivliquidaPL.strip('%')) / 100
+
+        if is_null_zero_or_spaces(DivliquidaEBITDA):
+           DivliquidaEBITDA =0
+        else:
+           DivliquidaEBITDA = float(DivliquidaEBITDA.strip('%')) / 100
+
+        if is_null_zero_or_spaces(DivliquidaEBIT):
+            DivliquidaEBIT = 0
+        else:
+            DivliquidaEBIT = float(DivliquidaEBIT.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PLAtivos):
+            PLAtivos = 0
+        else:
+            PLAtivos = float(PLAtivos.strip('%')) / 100
+
+        if is_null_zero_or_spaces(PassivosAtivos):
+            PassivosAtivos = 0
+        else:
+            PassivosAtivos = float(PassivosAtivos.strip('%')) / 100
+
+        if is_null_zero_or_spaces(Liqcorrente):
+            Liqcorrente = 0
+        else:
+            Liqcorrente = float(Liqcorrente.strip('%')) / 100
+
+        wsIndEndividamento.cell(row=linha, column=1, value=Fonte)
+        wsIndEndividamento.cell(row=linha, column=2, value=ATIVO)
+        wsIndEndividamento.cell(row=linha, column=3, value=DivliquidaPL)
+        wsIndEndividamento.cell(row=linha, column=4, value=DivliquidaEBITDA)
+        wsIndEndividamento.cell(row=linha, column=5, value=DivliquidaEBIT)
+        wsIndEndividamento.cell(row=linha, column=6, value=PLAtivos)
+        wsIndEndividamento.cell(row=linha, column=7, value=PassivosAtivos)
+        wsIndEndividamento.cell(row=linha, column=8, value=Liqcorrente)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndEndividamentostaus")
 #Incio funcionalidades statusinvest
 
 # define selenium webdriver options
@@ -454,8 +500,11 @@ if __name__ == '__main__':
 
     criaPlanilhaIndiEficiência(wbsaida) # statusinvest + fundamentus
     criaPlanilhaIndRentabilidade(wbsaida)
+    criaPlanilhaIndEndividamento(wbsaida)
+
     wsIndiEficiência = wbsaida['IndiEficiência']
     wsIndiRentabilidade = wbsaida['IndiRentabilidade']
+    wsIndEndividamento = wbsaida['IndEndividamento']
     start = time.time()
     with open('stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
@@ -495,11 +544,12 @@ if __name__ == '__main__':
            # print(Dicrentabilidade)
 
             gravaIndiEficiênciaoStaus(wsIndiEficiência,'StatusInvest',linhastatus,dict_stocks,stock)
-           # print(linhastatus)
-           # print(linhafundamentus)
             gravaIndiEficiênciaoFund(wsIndiEficiência, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
+
             gravaIndiRentabilidadeStaus(wsIndiRentabilidade, 'StatusInvest', linhastatus, dict_stocks, stock)
             gravaIndiRentabilidadeFund(wsIndiRentabilidade, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
+
+            gravaIndEndividamentostaus(wsIndEndividamento, 'StatusInvest', linhastatus, dict_stocks, stock)
             #wbsaida.save("StatusInvest.xlsx")  # silvio
 
     # exit the driver
