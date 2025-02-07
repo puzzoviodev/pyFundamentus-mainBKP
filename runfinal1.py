@@ -809,51 +809,201 @@ def gravaIndValuationFund(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Di
     finally:
         print("gravaIndValuationFund")
 
-def gravaIndVEmpreStaus(wsIndEmpresa,linha,dict_stocks,stock):
+def gravaIndVEmpreStaus(wsIndEmpresa,Fonte,linha,dict_stocks,stock):
     ATIVO = stock
+    try:
+        valoratual  =  dict_stocks[stock].get("Valor atual")
+        min52semanas = dict_stocks[stock].get("Min 52 semanas")
+        max52semanas = dict_stocks[stock].get("Max 52 semanas")
+        dividendyield =  dict_stocks[stock].get("dividend Yield")
+        valorizacao12m = dict_stocks[stock].get("Valorizacao (12m)")
+        tipo =  dict_stocks[stock].get("Tipo")
+        tagalong = dict_stocks[stock].get("TAG ALONG")
+        liquidezmediadiaria = dict_stocks[stock].get("LIQUIDEZ MEDIA DIARIA")
+        participacaonoibov = dict_stocks[stock].get("PARTICIPACAO NO IBOV")
+        mercadodeopcoes = dict_stocks[stock].get("MERCADO DE OPCOES")
+        patrimonioliquido = dict_stocks[stock].get("Patrimonio liquido")
+        ativos =  dict_stocks[stock].get("Ativos")
+        ativocirculante = dict_stocks[stock].get("Ativo circulante")
+        dividabruta = dict_stocks[stock].get("Divida bruta")
+        disponibilidade =  dict_stocks[stock].get("Disponibilidade")
+        dividaliquida = dict_stocks[stock].get("Divida liquida")
+        valordemercado = dict_stocks[stock].get("Valor de mercado")
+        valordefirma =    dict_stocks[stock].get("Valor de firma")
+        freefloat =  dict_stocks[stock].get("Free Float")
 
-    valoratual  =  dict_stocks[stock].get("Valor atual")
-    min52semanas = dict_stocks[stock].get("Min 52 semanas")
-    max52semanas = dict_stocks[stock].get("Max 52 semanas")
-    dividendyield =  dict_stocks[stock].get("dividend Yield")
-    valorizacao12m = dict_stocks[stock].get("Valorizacao (12m)")
-    tipo =  dict_stocks[stock].get("Tipo")
-    tagalong = dict_stocks[stock].get("TAG ALONG")
-    liquidezmediadiaria = dict_stocks[stock].get("LIQUIDEZ MEDIA DIARIA")
-    participacaonoibov = dict_stocks[stock].get("PARTICIPACAO NO IBOV")
-    mercadodeopcoes = dict_stocks[stock].get("MERCADO DE OPCOES")
-    patrimonioliquido = dict_stocks[stock].get("Patrimonio liquido")
-    ativos =  dict_stocks[stock].get("Ativos")
-    ativocirculante = dict_stocks[stock].get("Ativo circulante")
-    dividabruta = dict_stocks[stock].get("Divida bruta")
-    disponibilidade =  dict_stocks[stock].get("Disponibilidade")
-    dividaliquida = dict_stocks[stock].get("Divida liquida")
-    valordemercado = dict_stocks[stock].get("Valor de mercado")
-    valordefirma =    dict_stocks[stock].get("Valor de firma")
-    freefloat =  dict_stocks[stock].get("Free Float")
+        if valoratual == "-":
+            valoratual = ""
 
+        if min52semanas == "-":
+            min52semanas = ""
 
-    wsIndEmpresa.cell(row=linha, column=2, value=valoratual)
-    wsIndEmpresa.cell(row=linha, column=3, value=min52semanas)
-    wsIndEmpresa.cell(row=linha, column=4, value=max52semanas)
-    wsIndEmpresa.cell(row=linha, column=5, value=dividendyield)
-    wsIndEmpresa.cell(row=linha, column=6, value=valorizacao12m)
-    wsIndEmpresa.cell(row=linha, column=7, value=tipo)
-    wsIndEmpresa.cell(row=linha, column=8, value=tagalong)
-    wsIndEmpresa.cell(row=linha, column=9, value=liquidezmediadiaria)
-    wsIndEmpresa.cell(row=linha, column=10, value=participacaonoibov)
-    wsIndEmpresa.cell(row=linha, column=11, value=mercadodeopcoes)
-    wsIndEmpresa.cell(row=linha, column=12, value=patrimonioliquido)
-    wsIndEmpresa.cell(row=linha, column=13, value=ativos)
-    wsIndEmpresa.cell(row=linha, column=14, value=ativocirculante)
-    wsIndEmpresa.cell(row=linha, column=15, value=dividabruta)
-    wsIndEmpresa.cell(row=linha, column=16, value=disponibilidade)
-    wsIndEmpresa.cell(row=linha, column=17, value=dividaliquida)
-    wsIndEmpresa.cell(row=linha, column=18, value=valordemercado)
-    wsIndEmpresa.cell(row=linha, column=19, value=valordefirma)
-    wsIndEmpresa.cell(row=linha, column=20, value=freefloat)
+        if max52semanas == "-":
+            max52semanas = ""
 
-def gravaIndVEmpreFund(wsIndEmpresa, linha, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+        if dividendyield == "-":
+            dividendyield = ""
+
+        if valorizacao12m == "-":
+            valorizacao12m = ""
+
+        if liquidezmediadiaria == "-":
+            liquidezmediadiaria = ""
+
+        if participacaonoibov == "-":
+            participacaonoibov = ""
+
+        if mercadodeopcoes == "-":
+            mercadodeopcoes = ""
+
+        if patrimonioliquido == "-":
+            patrimonioliquido = ""
+
+        if ativos == "-":
+            ativos = ""
+
+        if ativocirculante == "-":
+            ativocirculante = ""
+
+        if dividabruta == "-":
+            dividabruta = ""
+
+        if disponibilidade == "-":
+            disponibilidade = ""
+
+        if dividaliquida == "-":
+            dividaliquida = ""
+
+        if valordemercado == "-":
+            valordemercado = ""
+
+        if valordefirma == "-":
+            valordefirma = ""
+
+        if freefloat == "-":
+            freefloat = ""
+
+        if is_null_zero_or_spaces(valoratual):
+            valoratual = 0
+        else:
+            valoratual = float(valoratual.strip('%')) / 100
+
+        if is_null_zero_or_spaces(min52semanas):
+            min52semanas = 0
+        else:
+            min52semanas = float(min52semanas.strip('%')) / 100
+
+        if is_null_zero_or_spaces(max52semanas):
+            max52semanas = 0
+        else:
+            max52semanas = float(max52semanas.strip('%')) / 100
+
+        if is_null_zero_or_spaces(dividendyield):
+            dividendyield = 0
+        else:
+            dividendyield = float(dividendyield.strip('%')) / 100
+
+        if is_null_zero_or_spaces(valorizacao12m):
+            valorizacao12m = 0
+        else:
+            valorizacao12m = float(valorizacao12m.strip('%')) / 100
+
+      #  if is_null_zero_or_spaces(tipo):
+       #     tipo = 0
+       # else:
+       #     tipo = float(tipo.strip('%')) / 100
+
+        if is_null_zero_or_spaces(tagalong):
+            tagalong = 0
+        else:
+            tagalong = float(tagalong.strip('%')) / 100
+
+        if is_null_zero_or_spaces(liquidezmediadiaria):
+            liquidezmediadiaria = 0
+        else:
+            liquidezmediadiaria = float(liquidezmediadiaria.strip('%')) / 100
+
+        if is_null_zero_or_spaces(participacaonoibov):
+            participacaonoibov = 0
+        else:
+            participacaonoibov = float(participacaonoibov.strip('%')) / 100
+
+        if is_null_zero_or_spaces(mercadodeopcoes):
+            mercadodeopcoes = 0
+        else:
+            mercadodeopcoes = float(mercadodeopcoes.strip('%')) / 100
+
+        if is_null_zero_or_spaces(patrimonioliquido):
+            patrimonioliquido = 0
+        else:
+            patrimonioliquido = float(patrimonioliquido.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ativos):
+            ativos = 0
+        else:
+            ativos = float(ativos.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ativocirculante):
+            ativocirculante = 0
+        else:
+            ativocirculante = float(ativocirculante.strip('%')) / 100
+
+        if is_null_zero_or_spaces(dividabruta):
+            dividabruta = 0
+        else:
+            dividabruta = float(dividabruta.strip('%')) / 100
+
+        if is_null_zero_or_spaces(disponibilidade):
+            disponibilidade = 0
+        else:
+            disponibilidade = float(disponibilidade.strip('%')) / 100
+
+        if is_null_zero_or_spaces(dividaliquida):
+            dividaliquida = 0
+        else:
+            dividaliquida = float(dividaliquida.strip('%')) / 100
+
+        if is_null_zero_or_spaces(valordemercado):
+            valordemercado = 0
+        else:
+            valordemercado = float(valordemercado.strip('%')) / 100
+
+        if is_null_zero_or_spaces(valordefirma):
+            valordefirma = 0
+        else:
+            valordefirma = float(valordefirma.strip('%')) / 100
+
+        if is_null_zero_or_spaces(freefloat):
+            freefloat = 0
+        else:
+            freefloat = float(freefloat.strip('%')) / 100
+
+        wsIndEmpresa.cell(row=linha, column=1, value=Fonte)
+        wsIndEmpresa.cell(row=linha, column=2, value=valoratual)
+        wsIndEmpresa.cell(row=linha, column=3, value=min52semanas)
+        wsIndEmpresa.cell(row=linha, column=4, value=max52semanas)
+        wsIndEmpresa.cell(row=linha, column=5, value=dividendyield)
+        wsIndEmpresa.cell(row=linha, column=6, value=valorizacao12m)
+        wsIndEmpresa.cell(row=linha, column=7, value=tipo)
+        wsIndEmpresa.cell(row=linha, column=8, value=tagalong)
+        wsIndEmpresa.cell(row=linha, column=9, value=liquidezmediadiaria)
+        wsIndEmpresa.cell(row=linha, column=10, value=participacaonoibov)
+        wsIndEmpresa.cell(row=linha, column=11, value=mercadodeopcoes)
+        wsIndEmpresa.cell(row=linha, column=12, value=patrimonioliquido)
+        wsIndEmpresa.cell(row=linha, column=13, value=ativos)
+        wsIndEmpresa.cell(row=linha, column=14, value=ativocirculante)
+        wsIndEmpresa.cell(row=linha, column=15, value=dividabruta)
+        wsIndEmpresa.cell(row=linha, column=16, value=disponibilidade)
+        wsIndEmpresa.cell(row=linha, column=17, value=dividaliquida)
+        wsIndEmpresa.cell(row=linha, column=18, value=valordemercado)
+        wsIndEmpresa.cell(row=linha, column=19, value=valordefirma)
+        wsIndEmpresa.cell(row=linha, column=20, value=freefloat)
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+    finally:
+        print("gravaIndVEmpreStaus")
+
+def gravaIndVEmpreFund(wsIndEmpresa,Fonte, linha, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
                                   Dicfinancial_summary, stock):
     ATIVO = stock
 
@@ -897,7 +1047,7 @@ def gravaIndVEmpreFund(wsIndEmpresa, linha, Dicprice_information, Dicdetailed_in
     print(valordefirma)
     print(freefloat)
 
-
+    wsIndEmpresa.cell(row=linha, column=1, value=Fonte)
     wsIndEmpresa.cell(row=linha, column=2, value=valoratual)
     wsIndEmpresa.cell(row=linha, column=3, value=min52semanas)
     wsIndEmpresa.cell(row=linha, column=4, value=max52semanas)
@@ -1069,11 +1219,17 @@ if __name__ == '__main__':
             gravaIndValuationStaus(wsIndValuation,'StatusInvest', linhastatus, dict_stocks, stock)
             gravaIndValuationFund(wsIndValuation, 'Fundamentus', linhafundamentus, Dicvaluation_indicators, Dicdetailed_information, stock)
             print(dict_stocks)
-            gravaIndVEmpreStaus(wsIndEmpresa, linhastatus, dict_stocks,stock)
+            print(Dicprice_information)
+            print(Dicdetailed_information)
+            print(Dicbalance_sheet)
+            print(Dicfinancial_summary)
+            gravaIndVEmpreStaus(wsIndEmpresa, 'StatusInvest',linhastatus, dict_stocks,stock)
 
 
-            gravaIndVEmpreFund(wsIndEmpresa, linhafundamentus, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+            gravaIndVEmpreFund(wsIndEmpresa, 'Fundamentus',linhafundamentus, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
                                   Dicfinancial_summary, stock)
+
+
     # exit the driver
     driver.quit()
 
