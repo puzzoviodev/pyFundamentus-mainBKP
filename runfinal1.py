@@ -852,28 +852,50 @@ def gravaIndVEmpreStaus(wsIndEmpresa,linha,dict_stocks,stock):
     wsIndEmpresa.cell(row=linha, column=18, value=valordemercado)
     wsIndEmpresa.cell(row=linha, column=19, value=valordefirma)
     wsIndEmpresa.cell(row=linha, column=20, value=freefloat)
-def gravaIndVEmpreFund(wsIndEmpresa,linha,dict_stocks,stock):
+
+def gravaIndVEmpreFund(wsIndEmpresa, linha, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+                                  Dicfinancial_summary, stock):
     ATIVO = stock
 
-    valoratual  =  f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
+    valoratual = Dicprice_information.get("Cotação")
     min52semanas = ""
     max52semanas = ""
-    dividendyield =  ""
+    dividendyield = ""
     valorizacao12m = ""
-    tipo = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
+    tipo = Dicdetailed_information.get("Tipo")
     tagalong = ""
-    liquidezmediadiaria = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    participacaonoibov = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    mercadodeopcoes = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    patrimonioliquido = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    ativos =  f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    ativocirculante = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    dividabruta = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    disponibilidade =  f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    dividaliquida = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    valordemercado = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
-    valordefirma =    ""
-    freefloat =  ""
+    liquidezmediadiaria = Dicdetailed_information.get("Volume negociado por dia")
+    participacaonoibov = Dicvaluation_indicators.get("Patrimônio líquido")
+    mercadodeopcoes = ""
+    patrimonioliquido = Dicbalance_sheet.get("Patrimônio líquido")
+    ativos = Dicbalance_sheet.get("Ativo")
+    ativocirculante = Dicbalance_sheet.get("Ativo circulante")
+    dividabruta = Dicbalance_sheet.get("Dívida bruta")
+    disponibilidade = Dicbalance_sheet.get("Disponibilidades")
+    dividaliquida = Dicbalance_sheet.get("Dívida líquida")
+    valordemercado = Dicfinancial_summary.get("Valor de mercado")
+    valordefirma = ""
+    freefloat = ""
+
+    print(valoratual)
+    print(min52semanas)
+    print(max52semanas)
+    print(dividendyield)
+    print(valorizacao12m)
+    print(tipo)
+    print(tagalong)
+    print(liquidezmediadiaria)
+    print(participacaonoibov)
+    print(mercadodeopcoes)
+    print(patrimonioliquido)
+    print(ativos)
+    print(ativocirculante)
+    print(dividabruta)
+    print(disponibilidade)
+    print(dividaliquida)
+    print(valordemercado)
+    print(valordefirma)
+    print(freefloat)
 
 
     wsIndEmpresa.cell(row=linha, column=2, value=valoratual)
@@ -1047,7 +1069,11 @@ if __name__ == '__main__':
             gravaIndValuationStaus(wsIndValuation,'StatusInvest', linhastatus, dict_stocks, stock)
             gravaIndValuationFund(wsIndValuation, 'Fundamentus', linhafundamentus, Dicvaluation_indicators, Dicdetailed_information, stock)
             print(dict_stocks)
-            gravaIndVEmpreStaus(wsIndEmpresa, linhastatus, dict_stocks, stock)
+            gravaIndVEmpreStaus(wsIndEmpresa, linhastatus, dict_stocks,stock)
+
+
+            gravaIndVEmpreFund(wsIndEmpresa, linhafundamentus, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+                                  Dicfinancial_summary, stock)
     # exit the driver
     driver.quit()
 
