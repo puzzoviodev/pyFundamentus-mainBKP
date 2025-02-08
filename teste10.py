@@ -44,7 +44,6 @@ TITLES = [
     'Indicadores de Endividamento', 'Balanço Patrimonial', 'Demonstrativo de Resultados'
 ]
 
-
 metricas = {
     'P/L': {
         'otimo': {'min': 0, 'max': 10},
@@ -106,7 +105,7 @@ metricas = {
 
 wbsaida = openpyxl.Workbook()
 Dicrentabilidade = {}
-Dicstock_identification  = {}
+Dicstock_identification = {}
 Dicfinancial_summary = {}
 Dicprice_information = {}
 Dicdetailed_information = {}
@@ -129,65 +128,75 @@ def categorizar_valor(metrica, valor):
             return categoria
     return 'Valor fora do alcance definido'
 
+
 def criaPlanilhaIndiEficiência(IndiEficiência):
     try:
-       wbsaida.create_sheet('IndiEficiência')
-       IndiEficiência = wbsaida['IndiEficiência']
-       IndiEficiência.append(['Fonte','ATIVO','M. Bruta', 'M. EBITDA', 'M. EBIT', 'M. Líquida'])
+        wbsaida.create_sheet('IndiEficiência')
+        IndiEficiência = wbsaida['IndiEficiência']
+        IndiEficiência.append(['Fonte', 'ATIVO', 'M. Bruta', 'M. EBITDA', 'M. EBIT', 'M. Líquida'])
     except Exception as e:
         print(f"Erro inesperado: {e}")
     finally:
         print("criaPlanilhaIndiEficiência")
     return
 
+
 def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
-    IndiRentabilidade.append(['Fonte','ATIVO','ROE', 'ROA', 'ROIC','Giro ativos',''])
+    IndiRentabilidade.append(['Agrupador','Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular','bom','otimo'])
     return
+
 
 def criaPlanilhaIndEndividamento(IndEndividamento):
     wbsaida.create_sheet('IndEndividamento')
     IndEndividamento = wbsaida['IndEndividamento']
-    IndEndividamento.append(['Fonte','ATIVO','Dív. líquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente'])
+    IndEndividamento.append(
+        ['Fonte', 'ATIVO', 'Dív. líquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT', 'PL/Ativos',
+         'Passivos/Ativos', 'Liq. corrente'])
     return
+
+
 def criaPlanilaIndValuation(wbsaida):
     wbsaida.create_sheet('IndValuation')
     IndValuation = wbsaida['IndValuation']
-    IndValuation.append(['Fonte','ATIVO','D.Y', 'P/L', ' PEG Ratio','P/VP','EV/EBITDA','EV/EBIT','P/EBITDA','P/EBIT','VPA','P/Ativo',
-                         'LPA','P/SR','P/Ativo Circ. Liq.'])
+    IndValuation.append(
+        ['Fonte', 'ATIVO', 'D.Y', 'P/L', ' PEG Ratio', 'P/VP', 'EV/EBITDA', 'EV/EBIT', 'P/EBITDA', 'P/EBIT', 'VPA',
+         'P/Ativo',
+         'LPA', 'P/SR', 'P/Ativo Circ. Liq.'])
+
+
 def criaPlanilhaIndiEmpresa(wbsaida):
     wbsaida.create_sheet('IndEmpresa')
     IndEmpresa = wbsaida['IndEmpresa']
     IndEmpresa.append(['Fonte',
-                        "ATIVO",
-                        "Valor atual",
-                         "Min. 52 semanas",
-                          "Max. 52 semanas",
-                          "dividend Yield",
-                          "Valorizacao (12m)",
-                          "Tipo",
-                          "TAG ALONG",
-                          "LIQUIDEZ MEDIA DIARIA",
-                          "PARTICIPACAO NO IBOV",
-                          "MERCADO DE OPCOES",
-                          "Patrimonio liquido",
-                          "Ativos",
-                          "Ativo circulante",
-                          "Divida bruta",
-                          "Disponibilidade",
-                          "Divida liquida",
-                          "Valor de mercado",
-                          "Valor de firma",
-                          'Free Float'])
+                       "ATIVO",
+                       "Valor atual",
+                       "Min. 52 semanas",
+                       "Max. 52 semanas",
+                       "dividend Yield",
+                       "Valorizacao (12m)",
+                       "Tipo",
+                       "TAG ALONG",
+                       "LIQUIDEZ MEDIA DIARIA",
+                       "PARTICIPACAO NO IBOV",
+                       "MERCADO DE OPCOES",
+                       "Patrimonio liquido",
+                       "Ativos",
+                       "Ativo circulante",
+                       "Divida bruta",
+                       "Disponibilidade",
+                       "Divida liquida",
+                       "Valor de mercado",
+                       "Valor de firma",
+                       'Free Float'])
     return
 
-def montadicionario(stock_identification,financial_summary,price_information,detailed_information,oscillations,
-                    valuation_indicators,profitability_indicators,indebtedness_indicators,balance_sheet,income_statement):
 
-
+def montadicionario(stock_identification, financial_summary, price_information, detailed_information, oscillations,
+                    valuation_indicators, profitability_indicators, indebtedness_indicators, balance_sheet,
+                    income_statement):
     try:
-
 
         for information in stock_identification:
             Dicstock_identification[stock_identification[information].title] = stock_identification[information].value
@@ -197,24 +206,28 @@ def montadicionario(stock_identification,financial_summary,price_information,det
             Dicprice_information[price_information[information].title] = price_information[information].value
         for information in detailed_information:
             if information != 'variation_52_weeks':
-               Dicdetailed_information[detailed_information[information].title] = detailed_information[information].value
+                Dicdetailed_information[detailed_information[information].title] = detailed_information[
+                    information].value
             else:
                 for sub_information in detailed_information[information]:
-                   Dicdetailed_information[detailed_information[information][sub_information].title] = detailed_information[information][sub_information].value
+                    Dicdetailed_information[detailed_information[information][sub_information].title] = \
+                    detailed_information[information][sub_information].value
         for information in oscillations:
             Dicoscillations[oscillations[information].title] = oscillations[information].value
         for information in valuation_indicators:
             Dicvaluation_indicators[valuation_indicators[information].title] = valuation_indicators[information].value
         for information in profitability_indicators:
-            Dicprofitability_indicators[profitability_indicators[information].title] = profitability_indicators[information].value
+            Dicprofitability_indicators[profitability_indicators[information].title] = profitability_indicators[
+                information].value
         for information in indebtedness_indicators:
-            Dicindebtedness_indicators[indebtedness_indicators[information].title] = indebtedness_indicators[information].value
+            Dicindebtedness_indicators[indebtedness_indicators[information].title] = indebtedness_indicators[
+                information].value
         for information in balance_sheet:
             Dicbalance_sheet[balance_sheet[information].title] = balance_sheet[information].value
-        #for information in income_statement['three_months']:
-         #   Dicincome_statement[income_statement[information].title] = income_statement[information].value
-        #for information in income_statement['twelve_months']:
-         #   Dicincome_statement[income_statement[information].title] = income_statement[information].value
+        # for information in income_statement['three_months']:
+        #   Dicincome_statement[income_statement[information].title] = income_statement[information].value
+        # for information in income_statement['twelve_months']:
+        #   Dicincome_statement[income_statement[information].title] = income_statement[information].value
 
     except Exception as e:
         print(f"Erro inesperado: {e}")
@@ -222,54 +235,53 @@ def montadicionario(stock_identification,financial_summary,price_information,det
         print("montadicionario")
     return
 
+
 def teste():
     fontes = ['StatusInvest', 'Fundamentus']
 
-
     try:
-         for fonte in fontes:
-             print(fonte)
+        for fonte in fontes:
+            print(fonte)
     except Exception as e:
-            print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado: {e}")
     finally:
-            print("teste")
+        print("teste")
     return
 
 
-def gravaIndiEficiênciaoStaus(wsIndiEficiência,Fonte, linha,dict_stocks,stock ):
-    #fontes ['StatusInvest', 'Fundamentus']
+def gravaIndiEficiênciaoStaus(wsIndiEficiência, Fonte, linha, dict_stocks, stock):
+    # fontes ['StatusInvest', 'Fundamentus']
     try:
 
         MBruta = dict_stocks[stock].get("M. Bruta")
         MEBITDA = dict_stocks[stock].get("M. EBITDA")
         MEBIT = dict_stocks[stock].get("M. EBIT")
         MLiquida = dict_stocks[stock].get("M. Liquida")
-        ATIVO =stock
+        ATIVO = stock
 
-        #MBruta = f"{float(Dicrentabilidade.get("Margem bruta")) * 100}%"
-        #MEBITDA = ''
-        #MEBIT = f"{float(Dicrentabilidade.get("Margem EBIT")) * 100}%"
-        #MLiquida = f"{float(Dicrentabilidade.get("Margem líquida")) * 100}%"
+        # MBruta = f"{float(Dicrentabilidade.get("Margem bruta")) * 100}%"
+        # MEBITDA = ''
+        # MEBIT = f"{float(Dicrentabilidade.get("Margem EBIT")) * 100}%"
+        # MLiquida = f"{float(Dicrentabilidade.get("Margem líquida")) * 100}%"
 
-       # Condicional corrigida
+        # Condicional corrigida
         if is_null_zero_or_spaces(MBruta):
-            MBruta   = 0
+            MBruta = 0
         else:
-           MBruta = float(MBruta.strip('%')) /100
+            MBruta = float(MBruta.strip('%')) / 100
         if is_null_zero_or_spaces(MEBITDA):
-           MEBITDA =0
+            MEBITDA = 0
         else:
             MEBITDA = float(MEBITDA.strip('%')) / 100
 
-
         if is_null_zero_or_spaces(MEBIT):
-           MEBIT = 0
+            MEBIT = 0
         else:
 
-          MEBIT = float(MEBIT.strip('%')) / 100
+            MEBIT = float(MEBIT.strip('%')) / 100
 
         if is_null_zero_or_spaces(MLiquida):
-           MLiquida =0
+            MLiquida = 0
         else:
             MLiquida = float(MLiquida.strip('%')) / 100
 
@@ -284,8 +296,9 @@ def gravaIndiEficiênciaoStaus(wsIndiEficiência,Fonte, linha,dict_stocks,stock 
     finally:
         print("gravaIndiEficiênciaoStaus")
 
-def gravaIndiEficiênciaoFund(wsIndiEficiência,Fonte, linha,Dicprofitability_indicators,stock ):
-    #fontes ['StatusInvest', 'Fundamentus']
+
+def gravaIndiEficiênciaoFund(wsIndiEficiência, Fonte, linha, Dicprofitability_indicators, stock):
+    # fontes ['StatusInvest', 'Fundamentus']
     try:
 
         ATIVO = stock
@@ -295,24 +308,24 @@ def gravaIndiEficiênciaoFund(wsIndiEficiência,Fonte, linha,Dicprofitability_in
         MEBIT = f"{float(Dicprofitability_indicators.get("Margem EBIT")) * 100}%"
         MLiquida = f"{float(Dicprofitability_indicators.get("Margem líquida")) * 100}%"
 
-       # Condicional corrigida
+        # Condicional corrigida
         if is_null_zero_or_spaces(MBruta):
-            MBruta   = 0
+            MBruta = 0
         else:
-           MBruta = float(MBruta.strip('%')) /100
+            MBruta = float(MBruta.strip('%')) / 100
         if is_null_zero_or_spaces(MEBITDA):
-           MEBITDA =0
+            MEBITDA = 0
         else:
             MEBITDA = float(MEBITDA.strip('%')) / 100
 
         if is_null_zero_or_spaces(MEBIT):
-           MEBIT = 0
+            MEBIT = 0
         else:
 
-          MEBIT = float(MEBIT.strip('%')) / 100
+            MEBIT = float(MEBIT.strip('%')) / 100
 
         if is_null_zero_or_spaces(MLiquida):
-           MLiquida =0
+            MLiquida = 0
         else:
             MLiquida = float(MLiquida.strip('%')) / 100
 
@@ -327,7 +340,8 @@ def gravaIndiEficiênciaoFund(wsIndiEficiência,Fonte, linha,Dicprofitability_in
     finally:
         print("gravaIndiEficiênciaoFund")
 
-def gravaIndiRentabilidadeStaus(wsIndiRentabilidade,Fonte,linha,dict_stocks,stock):
+
+def gravaIndiRentabilidadeStaus(wsIndiRentabilidade, Fonte, linha, dict_stocks, stock):
     # Condicional corrigida
     ATIVO = stock
     ROE = dict_stocks[stock].get("ROE")
@@ -346,7 +360,7 @@ def gravaIndiRentabilidadeStaus(wsIndiRentabilidade,Fonte,linha,dict_stocks,stoc
         else:
             ROE = float(ROE.strip('%')) / 100
 
-        if   is_null_zero_or_spaces(ROA) :
+        if is_null_zero_or_spaces(ROA):
             ROA = 0
         else:
             ROA = float(ROA.strip('%')) / 100
@@ -397,7 +411,7 @@ def gravaIndiRentabilidadeStaus(wsIndiRentabilidade,Fonte,linha,dict_stocks,stoc
             print("gravaIndiRentabilidadeStaus")
 
 
-def gravaIndiRentabilidadeFund(wsIndiRentabilidade,Fonte, linha,Dicprofitability_indicators,stock):
+def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Fonte, linha, Dicprofitability_indicators, stock):
     # Condicional corrigida
 
     ATIVO = stock
@@ -435,10 +449,7 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade,Fonte, linha,Dicprofitability
         print("gravaIndiRentabilidadeFund")
 
 
-
-
-
-def gravaIndEndividamentoStaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock):
+def gravaIndEndividamentoStaus(wsIndEndividamento, Fonte, linha, dict_stocks, stock):
     ATIVO = stock
     DivliquidaPL = dict_stocks[stock].get("Div. liquida/PL")
     DivliquidaEBITDA = dict_stocks[stock].get("Div. liquida/EBITDA")
@@ -467,14 +478,14 @@ def gravaIndEndividamentoStaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock
             Liqcorrente = ""
 
         if is_null_zero_or_spaces(DivliquidaPL):
-           DivliquidaPL =0
+            DivliquidaPL = 0
         else:
-           DivliquidaPL = float(DivliquidaPL.strip('%')) / 100
+            DivliquidaPL = float(DivliquidaPL.strip('%')) / 100
 
         if is_null_zero_or_spaces(DivliquidaEBITDA):
-           DivliquidaEBITDA =0
+            DivliquidaEBITDA = 0
         else:
-           DivliquidaEBITDA = float(DivliquidaEBITDA.strip('%')) / 100
+            DivliquidaEBITDA = float(DivliquidaEBITDA.strip('%')) / 100
 
         if is_null_zero_or_spaces(DivliquidaEBIT):
             DivliquidaEBIT = 0
@@ -510,7 +521,7 @@ def gravaIndEndividamentoStaus(wsIndEndividamento, Fonte,linha,dict_stocks,stock
         print("gravaIndEndividamentoStaus")
 
 
-def gravaIndEndividamentosFund(wsIndEndividamento,Fonte, linha,Dicindebtedness_indicators,stock):
+def gravaIndEndividamentosFund(wsIndEndividamento, Fonte, linha, Dicindebtedness_indicators, stock):
     ATIVO = stock
 
     DivliquidaPL = f"{float(Dicindebtedness_indicators.get("Dívida líquida/Patrim")) * 100}%"
@@ -540,14 +551,14 @@ def gravaIndEndividamentosFund(wsIndEndividamento,Fonte, linha,Dicindebtedness_i
             Liqcorrente = ""
 
         if is_null_zero_or_spaces(DivliquidaPL):
-           DivliquidaPL =0
+            DivliquidaPL = 0
         else:
-           DivliquidaPL = float(DivliquidaPL.strip('%')) / 100
+            DivliquidaPL = float(DivliquidaPL.strip('%')) / 100
 
         if is_null_zero_or_spaces(DivliquidaEBITDA):
-           DivliquidaEBITDA =0
+            DivliquidaEBITDA = 0
         else:
-           DivliquidaEBITDA = float(DivliquidaEBITDA.strip('%')) / 100
+            DivliquidaEBITDA = float(DivliquidaEBITDA.strip('%')) / 100
 
         if is_null_zero_or_spaces(DivliquidaEBIT):
             DivliquidaEBIT = 0
@@ -582,7 +593,8 @@ def gravaIndEndividamentosFund(wsIndEndividamento,Fonte, linha,Dicindebtedness_i
     finally:
         print("gravaIndEndividamentosFund")
 
-def gravaIndValuationStaus(wsIndValuation, Fonte,linha,dict_stocks,stock):
+
+def gravaIndValuationStaus(wsIndValuation, Fonte, linha, dict_stocks, stock):
     ATIVO = stock
 
     DY = dict_stocks[stock].get("D.Y")
@@ -708,7 +720,6 @@ def gravaIndValuationStaus(wsIndValuation, Fonte,linha,dict_stocks,stock):
         else:
             PAtivoCircLiq = float(PAtivoCircLiq.strip('%')) / 100
 
-
         wsIndValuation.cell(row=linha, column=1, value=Fonte)
         wsIndValuation.cell(row=linha, column=2, value=ATIVO)
         wsIndValuation.cell(row=linha, column=3, value=DY)
@@ -731,7 +742,7 @@ def gravaIndValuationStaus(wsIndValuation, Fonte,linha,dict_stocks,stock):
         print("gravaIndValuationStaus")
 
 
-def gravaIndValuationFund(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Dicdetailed_information,stock):
+def gravaIndValuationFund(wsIndValuation, Fonte, linha, Dicvaluation_indicators, Dicdetailed_information, stock):
     ATIVO = stock
 
     DY = f"{float(Dicvaluation_indicators.get("Dividend Yield")) * 100}%"
@@ -860,7 +871,7 @@ def gravaIndValuationFund(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Di
         valor_pl = PL
         categoria_pl = categorizar_valor('P/L', valor_pl)
         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-        
+
         wsIndValuation.cell(row=linha, column=1, value=Fonte)
         wsIndValuation.cell(row=linha, column=2, value=ATIVO)
         wsIndValuation.cell(row=linha, column=3, value=DY)
@@ -882,28 +893,29 @@ def gravaIndValuationFund(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Di
     finally:
         print("gravaIndValuationFund")
 
-def gravaIndVEmpreStaus(wsIndEmpresa,Fonte,linha,dict_stocks,stock):
+
+def gravaIndVEmpreStaus(wsIndEmpresa, Fonte, linha, dict_stocks, stock):
     ATIVO = stock
     try:
-        valoratual  =  dict_stocks[stock].get("Valor atual")
+        valoratual = dict_stocks[stock].get("Valor atual")
         min52semanas = dict_stocks[stock].get("Min 52 semanas")
         max52semanas = dict_stocks[stock].get("Max 52 semanas")
-        dividendyield =  dict_stocks[stock].get("dividend Yield")
+        dividendyield = dict_stocks[stock].get("dividend Yield")
         valorizacao12m = dict_stocks[stock].get("Valorizacao (12m)")
-        tipo =  dict_stocks[stock].get("Tipo")
+        tipo = dict_stocks[stock].get("Tipo")
         tagalong = dict_stocks[stock].get("TAG ALONG")
         liquidezmediadiaria = dict_stocks[stock].get("LIQUIDEZ MEDIA DIARIA")
         participacaonoibov = dict_stocks[stock].get("PARTICIPACAO NO IBOV")
         mercadodeopcoes = dict_stocks[stock].get("MERCADO DE OPCOES")
         patrimonioliquido = dict_stocks[stock].get("Patrimonio liquido")
-        ativos =  dict_stocks[stock].get("Ativos")
+        ativos = dict_stocks[stock].get("Ativos")
         ativocirculante = dict_stocks[stock].get("Ativo circulante")
         dividabruta = dict_stocks[stock].get("Divida bruta")
-        disponibilidade =  dict_stocks[stock].get("Disponibilidade")
+        disponibilidade = dict_stocks[stock].get("Disponibilidade")
         dividaliquida = dict_stocks[stock].get("Divida liquida")
         valordemercado = dict_stocks[stock].get("Valor de mercado")
-        valordefirma =    dict_stocks[stock].get("Valor de firma")
-        freefloat =  dict_stocks[stock].get("Free Float")
+        valordefirma = dict_stocks[stock].get("Valor de firma")
+        freefloat = dict_stocks[stock].get("Free Float")
 
         if valoratual == "-":
             valoratual = ""
@@ -981,10 +993,10 @@ def gravaIndVEmpreStaus(wsIndEmpresa,Fonte,linha,dict_stocks,stock):
         else:
             valorizacao12m = float(valorizacao12m.strip('%')) / 100
 
-      #  if is_null_zero_or_spaces(tipo):
-       #     tipo = 0
-       # else:
-       #     tipo = float(tipo.strip('%')) / 100
+        #  if is_null_zero_or_spaces(tipo):
+        #     tipo = 0
+        # else:
+        #     tipo = float(tipo.strip('%')) / 100
 
         if is_null_zero_or_spaces(tagalong):
             tagalong = 0
@@ -1054,9 +1066,9 @@ def gravaIndVEmpreStaus(wsIndEmpresa,Fonte,linha,dict_stocks,stock):
         fill1 = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
         fill2 = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")
         fill3 = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
-        wsIndEmpresa.cell(row=linha, column=1, value=Fonte).fill =fill1
-        wsIndEmpresa.cell(row=linha, column=2, value=valoratual).fill =fill2
-        wsIndEmpresa.cell(row=linha, column=3, value=min52semanas).fill =fill3
+        wsIndEmpresa.cell(row=linha, column=1, value=Fonte).fill = fill1
+        wsIndEmpresa.cell(row=linha, column=2, value=valoratual).fill = fill2
+        wsIndEmpresa.cell(row=linha, column=3, value=min52semanas).fill = fill3
         wsIndEmpresa.cell(row=linha, column=3, value=min52semanas)
         wsIndEmpresa.cell(row=linha, column=4, value=max52semanas)
         wsIndEmpresa.cell(row=linha, column=5, value=dividendyield)
@@ -1080,8 +1092,9 @@ def gravaIndVEmpreStaus(wsIndEmpresa,Fonte,linha,dict_stocks,stock):
     finally:
         print("gravaIndVEmpreStaus")
 
-def gravaIndVEmpreFund(wsIndEmpresa,Fonte, linha, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
-                                  Dicfinancial_summary, stock):
+
+def gravaIndVEmpreFund(wsIndEmpresa, Fonte, linha, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+                       Dicfinancial_summary, stock):
     ATIVO = stock
 
     valoratual = Dicprice_information.get("Cotação")
@@ -1145,7 +1158,8 @@ def gravaIndVEmpreFund(wsIndEmpresa,Fonte, linha, Dicprice_information, Dicdetai
     wsIndEmpresa.cell(row=linha, column=19, value=valordefirma)
     wsIndEmpresa.cell(row=linha, column=20, value=freefloat)
 
-#Incio funcionalidades statusinvest
+
+# Incio funcionalidades statusinvest
 
 # define selenium webdriver options
 options = webdriver.ChromeOptions()
@@ -1153,12 +1167,13 @@ options = webdriver.ChromeOptions()
 # create selenium webdriver instancee
 driver = webdriver.Chrome(options=options)
 
+
 def get_stock_soup(stock):
     ''' Get raw html from a stock '''
 
     # access the stock url
     driver.get(f'https://statusinvest.com.br/acoes/{stock}')
-    #driver.get(f'https://statusinvest.com.br/acoes/eua/{stock}')
+    # driver.get(f'https://statusinvest.com.br/acoes/eua/{stock}')
 
     # get html from stock
     html = driver.find_element(By.ID, 'main-2').get_attribute('innerHTML')
@@ -1168,20 +1183,22 @@ def get_stock_soup(stock):
 
     return soup
 
+
 def is_null_zero_or_spaces(variable):
-       # Verifica se a variável é None
-       if variable is None:
-           return True
-       # Verifica se a variável é zero (0)
-       elif variable == 0:
-           return True
-       # Verifica se a variável é uma string e contém apenas espaços
-       elif isinstance(variable, str) and variable.strip() == '':
-           return True
-       elif variable == '-%':
-           return True
-       else:
-           return False
+    # Verifica se a variável é None
+    if variable is None:
+        return True
+    # Verifica se a variável é zero (0)
+    elif variable == 0:
+        return True
+    # Verifica se a variável é uma string e contém apenas espaços
+    elif isinstance(variable, str) and variable.strip() == '':
+        return True
+    elif variable == '-%':
+        return True
+    else:
+        return False
+
 
 def soup_to_dict(soup):
     '''Get all data from stock soup and return as a dictionary '''
@@ -1204,7 +1221,7 @@ def soup_to_dict(soup):
 
         # get only numbers from a div and append to values
         numbers = s.find_all('strong', re.compile('value[^"]*'))
-        numbers = [n.get_text()for n in numbers]
+        numbers = [n.get_text() for n in numbers]
         values += numbers
 
     # remove unused key and insert needed keys
@@ -1225,17 +1242,17 @@ def soup_to_dict(soup):
 
     return d
 
-#Fim funcionalidades statusinvest
+
+# Fim funcionalidades statusinvest
 
 # pylint: disable=line-too-long
 if __name__ == '__main__':
-    dict_stocks = {} # dicionario statusinvest
+    dict_stocks = {}  # dicionario statusinvest
     Dicrentabilidade = {}  # fundamentus
     linhafundamentus = 1  # silvio
     linhastatus = 0
 
-
-    criaPlanilhaIndiEficiência(wbsaida) # statusinvest + fundamentus
+    criaPlanilhaIndiEficiência(wbsaida)  # statusinvest + fundamentus
     criaPlanilhaIndRentabilidade(wbsaida)
     criaPlanilhaIndEndividamento(wbsaida)
     criaPlanilaIndValuation(wbsaida)
@@ -1251,8 +1268,8 @@ if __name__ == '__main__':
         stocks = f.read().splitlines()
         for stock in stocks:
             linhastatus = linhafundamentus
-            linhastatus = linhastatus + 1   # silvio
-            linhafundamentus =  linhastatus + 1 # silvio
+            linhastatus = linhastatus + 1  # silvio
+            linhafundamentus = linhastatus + 1  # silvio
 
             main_pipeline = fundamentus.Pipeline(stock.upper())
             response = main_pipeline.get_all_information()
@@ -1280,36 +1297,41 @@ if __name__ == '__main__':
             balance_sheet = response.transformed_information['balance_sheet']
             income_statement = response.transformed_information['income_statement']
 
-            montadicionario(stock_identification,financial_summary,price_information,detailed_information,oscillations,
-                    valuation_indicators,profitability_indicators,indebtedness_indicators,balance_sheet,income_statement)
-           # print(Dicrentabilidade)
+            montadicionario(stock_identification, financial_summary, price_information, detailed_information,
+                            oscillations,
+                            valuation_indicators, profitability_indicators, indebtedness_indicators, balance_sheet,
+                            income_statement)
+            # print(Dicrentabilidade)
 
-            gravaIndiEficiênciaoStaus(wsIndiEficiência,'StatusInvest',linhastatus,dict_stocks,stock)
-            gravaIndiEficiênciaoFund(wsIndiEficiência, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
+            gravaIndiEficiênciaoStaus(wsIndiEficiência, 'StatusInvest', linhastatus, dict_stocks, stock)
+            gravaIndiEficiênciaoFund(wsIndiEficiência, 'Fundamentus', linhafundamentus, Dicprofitability_indicators,
+                                     stock)
 
             gravaIndiRentabilidadeStaus(wsIndiRentabilidade, 'StatusInvest', linhastatus, dict_stocks, stock)
-            gravaIndiRentabilidadeFund(wsIndiRentabilidade, 'Fundamentus', linhafundamentus, Dicprofitability_indicators, stock)
+            gravaIndiRentabilidadeFund(wsIndiRentabilidade, 'Fundamentus', linhafundamentus,
+                                       Dicprofitability_indicators, stock)
 
             gravaIndEndividamentoStaus(wsIndEndividamento, 'StatusInvest', linhastatus, dict_stocks, stock)
-            gravaIndEndividamentosFund(wsIndEndividamento, 'Fundamentus', linhafundamentus, Dicindebtedness_indicators, stock)
-            #wbsaida.save("StatusInvest.xlsx")  # silvio
-            gravaIndValuationStaus(wsIndValuation,'StatusInvest', linhastatus, dict_stocks, stock)
-            gravaIndValuationFund(wsIndValuation, 'Fundamentus', linhafundamentus, Dicvaluation_indicators, Dicdetailed_information, stock)
+            gravaIndEndividamentosFund(wsIndEndividamento, 'Fundamentus', linhafundamentus, Dicindebtedness_indicators,
+                                       stock)
+            # wbsaida.save("StatusInvest.xlsx")  # silvio
+            gravaIndValuationStaus(wsIndValuation, 'StatusInvest', linhastatus, dict_stocks, stock)
+            gravaIndValuationFund(wsIndValuation, 'Fundamentus', linhafundamentus, Dicvaluation_indicators,
+                                  Dicdetailed_information, stock)
             print(dict_stocks)
             print(Dicprice_information)
             print(Dicdetailed_information)
             print(Dicbalance_sheet)
             print(Dicfinancial_summary)
-            gravaIndVEmpreStaus(wsIndEmpresa, 'StatusInvest',linhastatus, dict_stocks,stock)
+            gravaIndVEmpreStaus(wsIndEmpresa, 'StatusInvest', linhastatus, dict_stocks, stock)
 
-
-            gravaIndVEmpreFund(wsIndEmpresa, 'Fundamentus',linhafundamentus, Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
-                                  Dicfinancial_summary, stock)
-
-
+            gravaIndVEmpreFund(wsIndEmpresa, 'Fundamentus', linhafundamentus, Dicprice_information,
+                               Dicdetailed_information, Dicbalance_sheet,
+                               Dicfinancial_summary, stock)
+            print(metricas)
     # exit the driver
     driver.quit()
 
     # end timer
     end = time.time()
-    wbsaida.save("StatusInvest2.xlsx") # silvio
+    wbsaida.save("StatusInvest2.xlsx")  # silvio
