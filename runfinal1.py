@@ -977,9 +977,13 @@ def gravaIndVEmpreStaus(wsIndEmpresa,Fonte,linha,dict_stocks,stock):
             freefloat = 0
         else:
             freefloat = float(freefloat.strip('%')) / 100
-
-        wsIndEmpresa.cell(row=linha, column=1, value=Fonte)
-        wsIndEmpresa.cell(row=linha, column=2, value=valoratual)
+        # Definir a cor de preenchimento
+        fill1 = PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid")
+        fill2 = PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid")
+        fill3 = PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid")
+        wsIndEmpresa.cell(row=linha, column=1, value=Fonte).fill =fill1
+        wsIndEmpresa.cell(row=linha, column=2, value=valoratual).fill =fill2
+        wsIndEmpresa.cell(row=linha, column=3, value=min52semanas).fill =fill3
         wsIndEmpresa.cell(row=linha, column=3, value=min52semanas)
         wsIndEmpresa.cell(row=linha, column=4, value=max52semanas)
         wsIndEmpresa.cell(row=linha, column=5, value=dividendyield)
