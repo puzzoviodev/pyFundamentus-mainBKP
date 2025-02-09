@@ -77,6 +77,183 @@ metricas = {
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Rentabilidade'
+    },
+    'Dív. líquida/PL': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento'
+    },
+
+
+    'Dív. líquida/EBITDA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento'
+    },
+
+    'Dív. líquida/EBIT': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento'
+    },
+
+
+    'PL/Ativos': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento'
+    },
+
+    'Passivos/Ativos': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento'
+    },
+    'Liq. corrente': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento'
+    },
+    'D.Y': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+    'P/L': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+
+    'PEG Ratio': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+    'P/VP': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+    'EV/EBITDA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+
+    'EV/EBIT': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+
+    'P/EBITDA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+
+
+    'P/EBIT': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+    'VPA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+
+    'P/Ativo': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+
+    'LPA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+    'P/SR': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
+    },
+
+    'P/Ativo Circ. Liq.': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Valuation'
     }
 }
 
@@ -230,6 +407,8 @@ def teste():
 def tratamento (indicador):
 
     indicador2 = indicador
+    if indicador2 == "-":
+        indicador2 = ""
     if is_null_zero_or_spaces(indicador2):
         indicador2 = 0
     else:
