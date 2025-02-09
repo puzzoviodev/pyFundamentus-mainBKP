@@ -254,7 +254,116 @@ metricas = {
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation'
+    },
+    'Valor atual': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+
+    'TAG ALONG': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'LIQUIDEZ MEDIA DIARIA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Patrimonio liquido': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Ativos': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Ativo circulante': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Divida bruta': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Disponibilidade': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Divida liquida': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Valor de mercado': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Valor de firma': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
+    },
+
+    'Free Float': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Empresa'
     }
+
 }
 
 
@@ -278,7 +387,7 @@ def categorizar_valor(metrica, valor):
         return 'Métrica não reconhecida'
 
     for categoria, limites in metricas[metrica].items():
-        if categoria == 'descricao':
+        if categoria in ['descricao', 'agrupador']:
             continue
         if limites['min'] <= valor < limites['max']:
             return categoria
@@ -332,7 +441,6 @@ def criaPlanilhaIndiEmpresa(wbsaida):
                        "Max. 52 semanas",
                        "dividend Yield",
                        "Valorizacao (12m)",
-                       "Tipo",
                        "TAG ALONG",
                        "LIQUIDEZ MEDIA DIARIA",
                        "PARTICIPACAO NO IBOV",
@@ -407,6 +515,7 @@ def teste():
 def tratamento (indicador):
 
     indicador2 = indicador
+
     if indicador2 == "-":
         indicador2 = ""
     if is_null_zero_or_spaces(indicador2):
