@@ -387,7 +387,9 @@ def gravaIndiRentabilidadeStaus(wsIndiRentabilidade,Fonte,linha,dict_stocks,stoc
 
             wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
             wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
-            wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+           # wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
+            wsIndiRentabilidade.cell(row=linha, column=3, value=f"{float(ROE) * 100}%")
+
             wsIndiRentabilidade.cell(row=linha, column=4, value=ROA)
             wsIndiRentabilidade.cell(row=linha, column=5, value=ROIC)
             wsIndiRentabilidade.cell(row=linha, column=6, value=Giroativos)
@@ -860,7 +862,7 @@ def gravaIndValuationFund(wsIndValuation, Fonte,linha,Dicvaluation_indicators,Di
         valor_pl = PL
         categoria_pl = categorizar_valor('P/L', valor_pl)
         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-        
+
         wsIndValuation.cell(row=linha, column=1, value=Fonte)
         wsIndValuation.cell(row=linha, column=2, value=ATIVO)
         wsIndValuation.cell(row=linha, column=3, value=DY)

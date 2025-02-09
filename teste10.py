@@ -37,6 +37,7 @@ from selenium.webdriver.common.by import By
 from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
 import requests
+from openpyxl.styles import numbers
 
 TITLES = [
     'Identificação', 'Resumo Financeiro', 'Cotações', 'Informações Básicas',
@@ -78,7 +79,8 @@ metricas = {
         'regular': {'min': 10, 'max': 15},
         'bom': {'min': 15, 'max': 20},
         'otimo': {'min': 20, 'max': float('inf')},
-        'descricao': 'Retorno sobre patrimônio. Maior que 15% é considerado bom.'
+        'descricao': 'Retorno sobre patrimônio. Maior que 15% é considerado bom.',
+        'Indicador': 'Rentabilidade'
     },
     'Dividend_Yield': {
         'baixo': {'min': 0, 'max': 3},
@@ -100,6 +102,13 @@ metricas = {
         'bom': {'min': 10, 'max': 15},
         'otimo': {'min': 15, 'max': float('inf')},
         'descricao': 'Rendimento do fluxo de caixa livre. Acima de 10% é considerado bom.'
+    },
+    'silvio': {
+        'otimo': {'min': 0, 'max': 10},
+        'bom': {'min': 10, 'max': 15},
+        'regular': {'min': 15, 'max': 20},
+        'alto': {'min': 20, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.'
     }
 }
 
@@ -145,7 +154,7 @@ def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(['Agrupador','Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular','bom','otimo'])
-    return
+
 
 
 def criaPlanilhaIndEndividamento(IndEndividamento):
@@ -287,10 +296,10 @@ def gravaIndiEficiênciaoStaus(wsIndiEficiência, Fonte, linha, dict_stocks, sto
 
         wsIndiEficiência.cell(row=linha, column=1, value=Fonte)
         wsIndiEficiência.cell(row=linha, column=2, value=ATIVO)
-        wsIndiEficiência.cell(row=linha, column=3, value=MBruta)
-        wsIndiEficiência.cell(row=linha, column=4, value=MEBITDA)
-        wsIndiEficiência.cell(row=linha, column=5, value=MEBIT)
-        wsIndiEficiência.cell(row=linha, column=6, value=MLiquida)
+        wsIndiEficiência.cell(row=linha, column=3, value=MBruta).number_format = numbers.FORMAT_PERCENTAGE_00
+        wsIndiEficiência.cell(row=linha, column=4, value=MEBITDA).number_format = numbers.FORMAT_PERCENTAGE_00
+        wsIndiEficiência.cell(row=linha, column=5, value=MEBIT).number_format = numbers.FORMAT_PERCENTAGE_00
+        wsIndiEficiência.cell(row=linha, column=6, value=MLiquida).number_format = numbers.FORMAT_PERCENTAGE_00
     except Exception as e:
         print(f"Erro inesperado: {e}")
     finally:
@@ -410,8 +419,57 @@ def gravaIndiRentabilidadeStaus(wsIndiRentabilidade, Fonte, linha, dict_stocks, 
         finally:
             print("gravaIndiRentabilidadeStaus")
 
+def gravaIndiRentabilidadeFund2(wsIndiRentabilidade, Fonte, linha, Dicprofitability_indicators, stock):
+    # Condicional corrigida
 
-def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Fonte, linha, Dicprofitability_indicators, stock):
+    ATIVO = stock
+
+    ROE = f"{float(Dicprofitability_indicators.get('ROE')) * 100}%"
+    ROA = ''
+    ROIC = f"{float(Dicprofitability_indicators.get('ROIC')) * 100}%"
+    Giroativos = f"{float(Dicprofitability_indicators.get('Giro ativos')) * 100}%"
+
+    try:
+        Fonte = Fonte
+        if is_null_zero_or_spaces(ROIC):
+            ROIC = 0
+        else:
+            ROIC = float(ROIC.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ROE):
+            ROE = 0
+        else:
+            ROE = float(ROE.strip('%')) / 100
+
+        if is_null_zero_or_spaces(ROA):
+            ROA = 0
+        else:
+            ROA = float(ROA.strip('%')) / 100
+
+        linha2 = 1
+        for metrica, detalhes in metricas.items():
+            print(f'Métrica: {metrica}')
+            linha2 += 1
+            valor_pl = ROE
+            categoria_pl = categorizar_valor('ROE', valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
+            print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
+            descricao_roe = metricas['ROE']['descricao']
+            # Certifique-se de que a chave 'Indicador' realmente existe no dicionário
+            Indicador2 = metricas['ROE'].get('Indicador', 'Indicador não definido')
+
+            wsIndiRentabilidade.cell(row=linha2, column=1, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
+            wsIndiRentabilidade.cell(row=linha2, column=2, value=ATIVO)
+            wsIndiRentabilidade.cell(row=linha2, column=3, value=metrica)
+            wsIndiRentabilidade.cell(row=linha2, column=4, value=categoria_pl)
+            wsIndiRentabilidade.cell(row=linha2, column=5, value=descricao_roe)
+            wsIndiRentabilidade.cell(row=linha2, column=6, value=Indicador2)
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+
+    finally:
+        print("gravaIndiRentabilidadeFund")
+def gravaIndiRentabilidadeFund(wsIndiRentabilidade,Fonte, linha,Dicprofitability_indicators,stock):
     # Condicional corrigida
 
     ATIVO = stock
@@ -436,7 +494,24 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Fonte, linha, Dicprofitabili
             ROA = 0
         else:
             ROA = float(ROA.strip('%')) / 100
+        linha2 = 1
+        for metrica, detalhes in metricas.items():
+            print(f'Métrica: {metrica}')
+            linha2 += 1
+            valor_pl = ROE
+            categoria_pl = categorizar_valor('ROE',
+                                             valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
+            print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
+            descricao_roe = metricas['ROE']['descricao']
+            # Certifique-se de que a chave 'Indicador' realmente existe no dicionário
+            Indicador2 = metricas['ROE'].get('Indicador', 'Indicador não definido')
 
+            wsIndiRentabilidade.cell(row=linha2, column=1, value=f"{valor_pl * 100}%")
+            wsIndiRentabilidade.cell(row=linha2, column=2, value=ATIVO)
+            wsIndiRentabilidade.cell(row=linha2, column=3, value=metrica)
+            wsIndiRentabilidade.cell(row=linha2, column=4, value=categoria_pl)
+            wsIndiRentabilidade.cell(row=linha2, column=5, value=descricao_roe)
+            wsIndiRentabilidade.cell(row=linha2, column=6, value=Indicador2)
         wsIndiRentabilidade.cell(row=linha, column=1, value=Fonte)
         wsIndiRentabilidade.cell(row=linha, column=2, value=ATIVO)
         wsIndiRentabilidade.cell(row=linha, column=3, value=ROE)
