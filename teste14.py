@@ -443,14 +443,140 @@ MetricasFund = {
         'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
         'agrupador': 'Eficiência'
     },
-    'Margem líquida': {
+
+'Dívida líquida/Patrim': {
+    'baixo': {'min': 0, 'max': 3},
+    'regular': {'min': 3, 'max': 6},
+    'bom': {'min': 6, 'max': 10},
+    'otimo': {'min': 10, 'max': float('inf')},
+    'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+    'agrupador': 'Endividamento'
+    },
+'Dívida líquida/EBITDA': {
+    'baixo': {'min': 0, 'max': 3},
+    'regular': {'min': 3, 'max': 6},
+    'bom': {'min': 6, 'max': 10},
+    'otimo': {'min': 10, 'max': float('inf')},
+    'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+    'agrupador': 'Endividamento'
+    },
+'PL/Ativos': {
+    'baixo': {'min': 0, 'max': 3},
+    'regular': {'min': 3, 'max': 6},
+    'bom': {'min': 6, 'max': 10},
+    'otimo': {'min': 10, 'max': float('inf')},
+    'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+    'agrupador': 'Endividamento'
+    },
+'Liquidez corrente': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
         'agrupador': 'Endividamento'
+    },
+'Dividend Yield': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'P/L': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'P/VP': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'EV/EBITDA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'EV/EBIT': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+
+'P/EBIT': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+
+'VPA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'Preço/Ativos': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'LPA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+'PSR': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+
+'Preço/Capital de giro': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
+    },
+
+'Preço/Ativ circ liq': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Valuation'
     }
+
 }
 
 wbsaida = openpyxl.Workbook()
@@ -599,7 +725,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
 
 
 
-def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock):
+def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,Dicindebtedness_indicators,
+                               Dicvaluation_indicators,Dicdetailed_information, stock):
     # Condicional corrigida
 
 
@@ -611,15 +738,24 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
         for metrica, detalhes in MetricasFund.items():
             print(f'Métrica: {metrica}')
             linha2 += 1
+            if detalhes['agrupador'] == 'Eficiência':
+                indicadortratado = tratamento(f"{float(Dicprofitability_indicators.get(metrica)) * 100}%")
+            elif detalhes['agrupador'] == 'Endividamento':
+                indicadortratado = tratamento(f"{float(Dicindebtedness_indicators.get(metrica)) * 100}%")
+            elif detalhes['agrupador'] == 'Valuation' and metrica == 'VPA':
+                indicadortratado = tratamento(f"{float(Dicdetailed_information.get(metrica)) * 100}%")
+            elif detalhes['agrupador'] == 'Valuation' and metrica == 'LPA':
+                indicadortratado = tratamento(f"{float(Dicdetailed_information.get(metrica)) * 100}%")
+            elif detalhes['agrupador'] == 'Valuation':
+                indicadortratado = tratamento(f"{float(Dicvaluation_indicators.get(metrica)) * 100}%")
 
-            indicadortratado = tratamento(f"{float(Dicprofitability_indicators.get(metrica)) * 100}%")
             valor_pl = indicadortratado
             categoria_pl = categorizar_valor(metrica,
                                              valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
             print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-            descricao_roe = MetricasFund['ROE']['descricao']
+
             # Certifique-se de que a chave 'Indicador' realmente existe no dicionário
-            Indicador2 = MetricasFund[metrica].get('Indicador', 'Indicador não definido')
+
 
 
             wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
@@ -784,7 +920,8 @@ if __name__ == '__main__':
             # print(Dicrentabilidade)
 
             gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
-            gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
+            gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,Dicindebtedness_indicators,
+                                       Dicvaluation_indicators,Dicdetailed_information, stock)
 
             print(dict_stocks)
             print(Dicprice_information)
