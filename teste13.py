@@ -809,12 +809,22 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
             # Certifique-se de que a chave 'Indicador' realmente existe no dicionário
             Indicador2 = MetricasFund[metrica].get('Indicador', 'Indicador não definido')
 
-            wsIndiRentabilidade.cell(row=linha2, column=1, value=f"{valor_pl * 100}%")
-            wsIndiRentabilidade.cell(row=linha2, column=2, value=ATIVO)
-            wsIndiRentabilidade.cell(row=linha2, column=3, value=metrica)
-            wsIndiRentabilidade.cell(row=linha2, column=4, value=categoria_pl)
-            wsIndiRentabilidade.cell(row=linha2, column=5, value=descricao_roe)
-            wsIndiRentabilidade.cell(row=linha2, column=6, value=Indicador2)
+
+            wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
+            wsIndiRentabilidade.cell(row=linha2, column=2, value='Fundamentus')
+            wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
+            wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
+            wsIndiRentabilidade.cell(row=linha2, column=5, value=f"{valor_pl * 100}%").number_format = numbers.FORMAT_PERCENTAGE_00
+            wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
+            wsIndiRentabilidade.cell(row=linha2, column=7,
+                                     value=f"Mínimo = {detalhes['baixo']['min']}, Máximo = {detalhes['baixo']['max']}")
+            wsIndiRentabilidade.cell(row=linha2, column=8,
+                                     value=f"Mínimo = {detalhes['regular']['min']}, Máximo = {detalhes['regular']['max']}")
+            wsIndiRentabilidade.cell(row=linha2, column=9,
+                                     value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
+            wsIndiRentabilidade.cell(row=linha2, column=10,
+                                     value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
+
 
     except Exception as e:
         print(f"Erro inesperado: {e}")
@@ -1677,7 +1687,7 @@ if __name__ == '__main__':
             # print(Dicrentabilidade)
 
             gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
-            #gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
+            gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
 
             print(dict_stocks)
             print(Dicprice_information)
