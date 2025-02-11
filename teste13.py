@@ -46,7 +46,7 @@ TITLES = [
 ]
 
 linha2 = 1
-MetricasStaus = {
+MetricasStatus = {
     'M. Liquida': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
@@ -390,6 +390,18 @@ MetricasStaus = {
     }
 }
 
+
+MetricasFund = {
+    'ROE': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Eficiência'
+    }
+}
+
 wbsaida = openpyxl.Workbook()
 Dicrentabilidade = {}
 Dicstock_identification = {}
@@ -405,10 +417,10 @@ Dicvaluation_indicators = {}
 
 
 def categorizar_valor(metrica, valor):
-    if metrica not in MetricasStaus:
+    if metrica not in MetricasStatus:
         return 'Métrica não reconhecida'
 
-    for categoria, limites in MetricasStaus[metrica].items():
+    for categoria, limites in MetricasStatus[metrica].items():
         if categoria in ['descricao', 'agrupador']:
             continue
         if limites['min'] <= valor < limites['max']:
@@ -557,7 +569,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
 
     global linha2
     #linha2 = 1
-    for metrica, detalhes in MetricasStaus.items():
+    for metrica, detalhes in MetricasStatus.items():
         print(f'Métrica: {metrica}')
         linha2 += 1
         indicadortratado = tratamento(dict_stocks[stock].get(metrica))
@@ -586,51 +598,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                                  value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
         wsIndiRentabilidade.cell(row=linha2, column=10,
                                  value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
-        """
-        wsIndiRentabilidade.cell(row=linha2, column=2, value=ATIVO)
-        wsIndiRentabilidade.cell(row=linha2, column=3, value=metrica)
-        wsIndiRentabilidade.cell(row=linha2, column=4, value=categoria_pl)
-        wsIndiRentabilidade.cell(row=linha2, column=5, value=descricao_roe)
-        wsIndiRentabilidade.cell(row=linha2, column=6, value=Indicador2)
-"""
 
-    # MBruta = f"{float(Dicrentabilidade.get("Margem bruta")) * 100}%"
-    # MEBITDA = ''
-    # MEBIT = f"{float(Dicrentabilidade.get("Margem EBIT")) * 100}%"
-    # MLiquida = f"{float(Dicrentabilidade.get("Margem líquida")) * 100}%"
-
-
-"""
-        # Condicional corrigida
-        if is_null_zero_or_spaces(MBruta):
-            MBruta = 0
-        else:
-            MBruta = float(MBruta.strip('%')) / 100
-        if is_null_zero_or_spaces(MEBITDA):
-            MEBITDA = 0
-        else:
-            MEBITDA = float(MEBITDA.strip('%')) / 100
-
-        if is_null_zero_or_spaces(MEBIT):
-            MEBIT = 0
-        else:
-
-            MEBIT = float(MEBIT.strip('%')) / 100
-
-        if is_null_zero_or_spaces(MLiquida):
-            MLiquida = 0
-        else:
-            MLiquida = float(MLiquida.strip('%')) / 100
-
-        wsIndiEficiência.cell(row=linha, column=1, value=Fonte)
-        wsIndiEficiência.cell(row=linha, column=2, value=ATIVO)
-        wsIndiEficiência.cell(row=linha, column=3, value=MBruta).number_format = numbers.FORMAT_PERCENTAGE_00
-        wsIndiEficiência.cell(row=linha, column=4, value=MEBITDA).number_format = numbers.FORMAT_PERCENTAGE_00
-        wsIndiEficiência.cell(row=linha, column=5, value=MEBIT).number_format = numbers.FORMAT_PERCENTAGE_00
-
-        wsIndiEficiência.cell(row=linha, column=6, value=MLiquida).number_format = numbers.FORMAT_PERCENTAGE_00
-
-    """
 
 
 def gravaIndiEficiênciaoFund(wsIndiEficiência, Fonte, linha, Dicprofitability_indicators, stock):
@@ -643,6 +611,7 @@ def gravaIndiEficiênciaoFund(wsIndiEficiência, Fonte, linha, Dicprofitability_
         MEBITDA = ''
         MEBIT = f"{float(Dicprofitability_indicators.get("Margem EBIT")) * 100}%"
         MLiquida = f"{float(Dicprofitability_indicators.get("Margem líquida")) * 100}%"
+
 
         # Condicional corrigida
         if is_null_zero_or_spaces(MBruta):
@@ -747,7 +716,7 @@ def gravaIndiRentabilidadeStaus(wsIndiRentabilidade, Fonte, linha, dict_stocks, 
             print("gravaIndiRentabilidadeStaus")
 
 
-def gravaIndiRentabilidadeFund2(wsIndiRentabilidade, Fonte, linha, Dicprofitability_indicators, stock):
+def gravaIndiRentabilidadeFund2(wsIndiRentabilidade, Dicprofitability_indicators, stock):
     # Condicional corrigida
 
     ATIVO = stock
@@ -758,7 +727,7 @@ def gravaIndiRentabilidadeFund2(wsIndiRentabilidade, Fonte, linha, Dicprofitabil
     Giroativos = f"{float(Dicprofitability_indicators.get('Giro ativos')) * 100}%"
 
     try:
-        Fonte = Fonte
+
         if is_null_zero_or_spaces(ROIC):
             ROIC = 0
         else:
@@ -775,16 +744,16 @@ def gravaIndiRentabilidadeFund2(wsIndiRentabilidade, Fonte, linha, Dicprofitabil
             ROA = float(ROA.strip('%')) / 100
 
         linha2 = 1
-        for metrica, detalhes in MetricasStaus.items():
+        for metrica, detalhes in MetricasStatus.items():
             print(f'Métrica: {metrica}')
             linha2 += 1
             valor_pl = ROE
             categoria_pl = categorizar_valor('ROE',
                                              valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
             print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-            descricao_roe = MetricasStaus['ROE']['descricao']
+            descricao_roe = MetricasStatus['ROE']['descricao']
             # Certifique-se de que a chave 'Indicador' realmente existe no dicionário
-            Indicador2 = MetricasStaus['ROE'].get('Indicador', 'Indicador não definido')
+            Indicador2 = MetricasStatus['ROE'].get('Indicador', 'Indicador não definido')
 
             wsIndiRentabilidade.cell(row=linha2, column=1, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
             wsIndiRentabilidade.cell(row=linha2, column=2, value=ATIVO)
@@ -804,7 +773,7 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
     # Condicional corrigida
 
     ATIVO = stock
-    global linha2 
+    global linha2
     ROE = f"{float(Dicprofitability_indicators.get("ROE")) * 100}%"
     ROA = ''
     ROIC = f"{float(Dicprofitability_indicators.get("ROIC")) * 100}%"
@@ -827,16 +796,18 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
             ROA = float(ROA.strip('%')) / 100
 
 
-        for metrica, detalhes in MetricasStaus.items():
+        for metrica, detalhes in MetricasFund.items():
             print(f'Métrica: {metrica}')
             linha2 += 1
-            valor_pl = ROE
-            categoria_pl = categorizar_valor('ROE',
+
+            indicadortratado = tratamento(f"{float(Dicprofitability_indicators.get(metrica)) * 100}%")
+            valor_pl = indicadortratado
+            categoria_pl = categorizar_valor(metrica,
                                              valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
             print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-            descricao_roe = MetricasStaus['ROE']['descricao']
+            descricao_roe = MetricasFund['ROE']['descricao']
             # Certifique-se de que a chave 'Indicador' realmente existe no dicionário
-            Indicador2 = MetricasStaus['ROE'].get('Indicador', 'Indicador não definido')
+            Indicador2 = MetricasFund[metrica].get('Indicador', 'Indicador não definido')
 
             wsIndiRentabilidade.cell(row=linha2, column=1, value=f"{valor_pl * 100}%")
             wsIndiRentabilidade.cell(row=linha2, column=2, value=ATIVO)
@@ -1706,7 +1677,7 @@ if __name__ == '__main__':
             # print(Dicrentabilidade)
 
             gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
-            gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
+            #gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
 
             print(dict_stocks)
             print(Dicprice_information)
@@ -1714,7 +1685,7 @@ if __name__ == '__main__':
             print(Dicbalance_sheet)
             print(Dicfinancial_summary)
 
-            print(MetricasStaus)
+            print(MetricasStatus)
     # exit the driver
     driver.quit()
 

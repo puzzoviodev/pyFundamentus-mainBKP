@@ -52,7 +52,7 @@ metricas = {
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
-        'agrupador': 'Rentabilidade'
+        'agrupador': 'Eficiência'
     },
     'M. EBIT': {
         'baixo': {'min': 0, 'max': 3},
@@ -60,7 +60,7 @@ metricas = {
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Capacidade de pagar dívidas. Menor que 2.5 é considerado saudável.',
-        'agrupador': 'Rentabilidade'
+        'agrupador': 'Eficiência'
     },
     'M. EBITDA': {
         'baixo': {'min': 0, 'max': 3},
@@ -68,7 +68,7 @@ metricas = {
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Rendimento do fluxo de caixa livre. Acima de 10% é considerado bom.',
-        'agrupador': 'Rentabilidade'
+        'agrupador': 'Eficiência'
     },
     'M. Bruta': {
         'baixo': {'min': 0, 'max': 3},
@@ -76,7 +76,7 @@ metricas = {
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
-        'agrupador': 'Rentabilidade'
+        'agrupador': 'Eficiência'
     },
     'Dív. líquida/PL': {
         'baixo': {'min': 0, 'max': 3},
@@ -362,8 +362,41 @@ metricas = {
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa'
-    }
+    },
 
+    'ROE': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Rentabilidade'
+    },
+    'ROA': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Rentabilidade'
+    },
+    'ROIC': {
+            'baixo': {'min': 0, 'max': 3},
+            'regular': {'min': 3, 'max': 6},
+            'bom': {'min': 6, 'max': 10},
+            'otimo': {'min': 10, 'max': float('inf')},
+            'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+            'agrupador': 'Rentabilidade'
+        },
+
+    'Giro ativos': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Rentabilidade'
+    }
 }
 
 
