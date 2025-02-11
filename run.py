@@ -32,6 +32,7 @@ TITLES = [
 # pylint: disable=line-too-long
 if __name__ == '__main__':
     main_pipeline = fundamentus.Pipeline('PETR4')
+
     response = main_pipeline.get_all_information()
 
     # Extract the information from the response.

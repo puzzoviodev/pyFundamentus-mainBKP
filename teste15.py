@@ -1,25 +1,3 @@
-#!/usr/bin/env python
-# encoding: utf-8
-
-# ------------------------------------------------------------------------------
-#  Name: run.py
-#  Version: 0.0.1
-#
-#  Summary: Python Fundamentus
-#           Python Fundamentus is a Python API that allows you to quickly
-#           access the main fundamental indicators of the main stocks
-#           in the Brazilian market.
-#
-#  Author: Alexsander Lopes Camargos
-#  Author-email: alcamargos@vivaldi.net
-#
-#  License: MIT
-# ------------------------------------------------------------------------------
-
-"""
-Python Fundamentus API: Instant access to key financial indicators of
-Brazilian stocks, empowering investors with comprehensive market analysis.
-"""
 
 import fundamentus
 
@@ -670,7 +648,7 @@ Dicincome_statement = {}
 Dicvaluation_indicators = {}
 
 
-def categorizar_valor(metrica, valor):
+def categorizar_valorStauts(metrica, valor):
     try:
         if metrica not in MetricasStatus:
             return 'Métrica não reconhecida'
@@ -683,11 +661,26 @@ def categorizar_valor(metrica, valor):
         return 'Valor fora do alcance definido'
     except Exception as e:
         print(f"Erro inesperado: {e}")
-        print("categorizar_valor - Erro")
+        print("categorizar_valorStatus - Erro")
     finally:
-        print("categorizar_valor - OK")
+        print("categorizar_valorstauts - OK")
 
+def categorizar_valorFund(metrica, valor):
+    try:
+        if metrica not in MetricasStatus:
+            return 'Métrica não reconhecida'
 
+        for categoria, limites in MetricasStatus[metrica].items():
+            if categoria in ['descricao', 'agrupador']:
+                continue
+            if limites['min'] <= valor < limites['max']:
+                return categoria
+        return 'Valor fora do alcance definido'
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        print("categorizar_valorStatus - Erro")
+    finally:
+        print("categorizar_valorstauts - OK")
 
 
 def criaPlanilhaIndRentabilidade(IndiRentabilidade):
@@ -779,7 +772,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             linha2 += 1
             indicadortratado = tratamento(dict_stocks[stock].get(metrica))
             valor_pl = indicadortratado
-            categoria_pl = categorizar_valor(metrica,
+            categoria_pl = categorizar_valorStauts(metrica,
                                              valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
    #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
    #         print(f"  Agrupador: {detalhes['agrupador']}")
@@ -843,7 +836,7 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
                 indicadortratado = tratamento(f"{float(Dicbalance_sheet.get(metrica)) * 100}%")
 
             valor_pl = indicadortratado
-            categoria_pl = categorizar_valor(metrica,
+            categoria_pl = categorizar_valorFund(metrica,
                                              valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
         #    print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
 
@@ -875,33 +868,6 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
     finally:
         print('gravaIndiRentabilidadeFund - OK')
 
-
-# Incio funcionalidades statusinvest
-
-# define selenium webdriver options
-options = webdriver.ChromeOptions()
-
-# create selenium webdriver instancee
-driver = webdriver.Chrome(options=options)
-
-
-def get_stock_soup(stock):
-    ''' Get raw html from a stock '''
-
-    # access the stock url
-    driver.get(f'https://statusinvest.com.br/acoes/{stock}')
-    #driver.get(f'https://statusinvest.com.br/acoes/bbse3')
-    # driver.get(f'https://statusinvest.com.br/acoes/eua/{stock}')
-
-    # get html from stock
-    html = driver.find_element(By.ID, 'main-2').get_attribute('innerHTML')
-
-    # remove accents from html and transform html into soup
-    soup = BeautifulSoup(unidecode(html), 'html.parser')
-
-    return soup
-
-
 def is_null_zero_or_spaces(variable):
     # Verifica se a variável é None
     if variable is None:
@@ -916,6 +882,37 @@ def is_null_zero_or_spaces(variable):
         return True
     else:
         return False
+import warnings
+
+
+# define selenium webdriver options
+options = webdriver.ChromeOptions()
+
+# create selenium webdriver instancee
+driver = webdriver.Chrome(options=options)
+
+#silvio 2
+wbsaida = openpyxl.Workbook()
+
+#Silvio inicio  criaPlanilhaIndiEmpresa b
+
+#Silvio fim
+
+def get_stock_soup(stock):
+    ''' Get raw html from a stock '''
+
+    # access the stock url
+    driver.get(f'https://statusinvest.com.br/acoes/{stock}')
+    #driver.get(f'https://statusinvest.com.br/acoes/eua/{stock}')
+
+    # get html from stock
+    html = driver.find_element(By.ID, 'main-2').get_attribute('innerHTML')
+
+    # remove accents from html and transform html into soup
+    soup = BeautifulSoup(unidecode(html), 'html.parser')
+
+    return soup
+
 
 
 def soup_to_dict(soup):
@@ -936,17 +933,19 @@ def soup_to_dict(soup):
 
         titles = [t.get_text() for t in titles]
         keys += titles
-
+        print(keys)
         # get only numbers from a div and append to values
         numbers = s.find_all('strong', re.compile('value[^"]*'))
-        numbers = [n.get_text() for n in numbers]
+        numbers = [n.get_text()for n in numbers]
         values += numbers
-
+        print(keys)
+        print(values)
     # remove unused key and insert needed keys
     keys.remove('PART. IBOV')
     keys.insert(6, 'TAG ALONG')
     keys.insert(7, 'LIQUIDEZ MEDIA DIARIA')
-
+    print(keys)
+    print(values)
     # clean keys list
     keys = [k.replace('\nhelp_outline', '').strip() for k in keys]
     keys = [k for k in keys if k != '']
@@ -961,74 +960,93 @@ def soup_to_dict(soup):
     return d
 
 
-# Fim funcionalidades statusinvest
-
-# pylint: disable=line-too-long
-if __name__ == '__main__':
+if __name__ == "__main__":
     dict_stocks = {}  # dicionario statusinvest
     Dicrentabilidade = {}  # fundamentus
     linhafundamentus = 1  # silvio
     linhastatus = 0
 
-
     criaPlanilhaIndRentabilidade(wbsaida)
     wsIndiRentabilidade = wbsaida['IndiRentabilidade']
-
+    # start timer
     start = time.time()
-    with open('stocks.txt', 'r') as f:
+    # Silvio Inicio
+
+    # Silvio Fim
+    # read file with stocks codes to get stock information
+    with (open('stocks.txt', 'r') as f):
         stocks = f.read().splitlines()
+        linha = 1 # silvio
+        # get stock information and create excel sheet
         for stock in stocks:
-            linhastatus = linhafundamentus
-            linhastatus = linhastatus + 1  # silvio
-            linhafundamentus = linhastatus + 1  # silvio
+            try:
+                # get data and transform into dictionary
+                soup = get_stock_soup(stock)
+                dict_stock = soup_to_dict(soup)
+                dict_stocks[stock] = dict_stock
+                linha = linha + 1 #silvio
+                print('pip')
+                main_pipeline = fundamentus.Pipeline(stock.upper())
+                print('pip sai')
+                print('response')
+                response = main_pipeline.get_all_information()
+                print('sai')
 
-            main_pipeline = fundamentus.Pipeline(stock.upper())
-            response = main_pipeline.get_all_information()
+                # Extract the information from the response.
+                stock_identification = response.transformed_information['stock_identification']
+                financial_summary = response.transformed_information['financial_summary']
+                price_information = response.transformed_information['price_information']
+                detailed_information = response.transformed_information[
+                    'detailed_information']
+                oscillations = response.transformed_information['oscillations']
+                valuation_indicators = response.transformed_information[
+                    'valuation_indicators']
+                profitability_indicators = response.transformed_information[
+                    'profitability_indicators']
+                indebtedness_indicators = response.transformed_information[
+                    'indebtedness_indicators']
+                balance_sheet = response.transformed_information['balance_sheet']
+                income_statement = response.transformed_information['income_statement']
 
-            # Incio statusinvest
-            # get data and transform into dictionary
-            soup = get_stock_soup(stock)
-            dict_stock = soup_to_dict(soup)
-            dict_stocks[stock] = dict_stock
-            # Fim Statausinvest
+                montadicionario(stock_identification, financial_summary, price_information, detailed_information,
+                                oscillations,
+                                valuation_indicators, profitability_indicators, indebtedness_indicators, balance_sheet,
+                                income_statement)
+                # print(Dicrentabilidade)
+                print('grava')
+                gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
+                print('grava saida')
+                gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, Dicindebtedness_indicators,
+                                          Dicvaluation_indicators,
+                                          Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+                                          Dicfinancial_summary, stock)
 
-            # Extract the information from the response.
-            stock_identification = response.transformed_information['stock_identification']
-            financial_summary = response.transformed_information['financial_summary']
-            price_information = response.transformed_information['price_information']
-            detailed_information = response.transformed_information[
-                'detailed_information']
-            oscillations = response.transformed_information['oscillations']
-            valuation_indicators = response.transformed_information[
-                'valuation_indicators']
-            profitability_indicators = response.transformed_information[
-                'profitability_indicators']
-            indebtedness_indicators = response.transformed_information[
-                'indebtedness_indicators']
-            balance_sheet = response.transformed_information['balance_sheet']
-            income_statement = response.transformed_information['income_statement']
 
-            montadicionario(stock_identification, financial_summary, price_information, detailed_information,
-                            oscillations,
-                            valuation_indicators, profitability_indicators, indebtedness_indicators, balance_sheet,
-                            income_statement)
-            # print(Dicrentabilidade)
 
-            gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
-            gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,Dicindebtedness_indicators,
-                               Dicvaluation_indicators,
-                               Dicprice_information,Dicdetailed_information,Dicbalance_sheet,Dicfinancial_summary,stock)
 
-          #  print(dict_stocks)
-          #  print(Dicprice_information)
-          #  print(Dicdetailed_information)
-          #  print(Dicbalance_sheet)
-          #  print(Dicfinancial_summary)
+            except:
+                # if we not get the information... just skip it
+                print(f'Could not get {stock} information')
 
-          #  print(MetricasStatus)
+               # print(soup)
+               # print(dict_stock)
+               # print(stock)
+
+
+
+    # create dataframe using dictionary of stocks informations
+    df = pd.DataFrame(dict_stocks)
+
+    # replace missing values with NaN to facilitate processing
+    df = df.replace(['', '-', '--', '-%', '--%'], np.nan)
+
+    # write dataframe into csv file
+    df.to_excel('stocks_data.xlsx', index_label='indicadores')
+
     # exit the driver
     driver.quit()
 
     # end timer
     end = time.time()
-    wbsaida.save("StatusInvest2.xlsx")  # silvio
+    wbsaida.save("StatusInvest4.xlsx") # silvio
+    print(f'Brasilian stocks information got in {int(end-start)} s')
