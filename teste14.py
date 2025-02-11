@@ -392,13 +392,64 @@ MetricasStatus = {
 
 
 MetricasFund = {
-    'ROA': {
+    'ROE': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
         'agrupador': 'Eficiência'
+    },
+
+    'ROIC': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Eficiência'
+    },
+    'Giro ativos': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Eficiência'
+    },
+
+    'Margem bruta': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Eficiência'
+    },
+
+    'Margem EBIT': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Eficiência'
+    },
+    'Margem líquida': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Eficiência'
+    },
+    'Margem líquida': {
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
+        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
+        'agrupador': 'Endividamento'
     }
 }
 
@@ -543,7 +594,6 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
         print(f"Erro inesperado: {e}")
         print(metrica)
         print(indicadortratado)
-        print("gravaIndiEficiênciaoStaus")
     finally:
         print("gravaIndiEficiênciaoStaus")
 
@@ -592,7 +642,6 @@ def gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators,
         print(f"Erro inesperado: {e}")
         print(metrica)
         print(indicadortratado)
-        print("gravaIndiRentabilidadeFund2")
     finally:
         print("gravaIndiRentabilidadeFund")
 
@@ -733,15 +782,15 @@ if __name__ == '__main__':
                             valuation_indicators, profitability_indicators, indebtedness_indicators, balance_sheet,
                             income_statement)
             # print(Dicrentabilidade)
-            print(Dicprofitability_indicators)
-            gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
-           # gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
 
-           # print(dict_stocks)
-           # print(Dicprofitability_indicators)
-           # print(Dicdetailed_information)
-            #print(Dicbalance_sheet)
-            #print(Dicfinancial_summary)
+            gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
+            gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, stock)
+
+            print(dict_stocks)
+            print(Dicprice_information)
+            print(Dicdetailed_information)
+            print(Dicbalance_sheet)
+            print(Dicfinancial_summary)
 
             print(MetricasStatus)
     # exit the driver
