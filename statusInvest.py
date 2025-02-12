@@ -398,19 +398,50 @@ def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(
         ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo'])
-def tratamento(indicador):
 
+
+def tratamento(indicador):
     indicador2 = indicador
 
-    if indicador2 in ["-", "--"]:
-        indicador2 = ""
-    elif is_null_zero_or_spaces(indicador2):
-        indicador2 = 0
-    else:
-        indicador2 = float(indicador2.strip('%')) / 100
-    return indicador2
+    try:
+        if indicador2 in ["-", "--"]:
+            indicador2 = ""
+        elif indicador2 is None or is_null_zero_or_spaces(indicador2):
+            indicador2 = 0
+        else:
+            indicador2 = float(indicador2.strip('%')) / 100
+        return indicador2
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+        print('tratamneto - erro')
+
+    finally:
+        print('tratamneto OK')
 
 
+# Certifique-se de que as variáveis `metrica` e `indicadortratado` estão definidas corretamente no contexto onde a função é chamada.
+
+def tratamento2(indicador):
+    indicador2 = indicador
+
+    try:
+        if indicador2 in ["-", "--"]:
+            indicador2 = ""
+        elif indicador2 is None or is_null_zero_or_spaces(indicador2):
+            indicador2 = 0
+
+        return indicador2
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+        print('tratamneto2 - erro')
+
+    finally:
+        print('tratamneto2 OK')
 def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     # fontes ['StatusInvest', 'Fundamentus']
 
@@ -422,9 +453,12 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
         for metrica, detalhes in MetricasStatus.items():
     #        print(f'Métrica: {metrica}')
             linha2 += 1
-            indicadortratado = tratamento(dict_stocks[stock].get(metrica))
-
-            valor_pl = indicadortratado
+            if metrica == 'Giro ativos':
+                indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                valor_pl = indicadortratado
+            else:
+                indicadortratado = tratamento(dict_stocks[stock].get(metrica))
+                valor_pl = indicadortratado
             categoria_pl = categorizar_valor(metrica,valor_pl
                                              )  # Certifique-se de que 'ROE' é o valor correto para a métrica
    #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')

@@ -54,7 +54,7 @@ MetricasStatus = {
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Eficiência'
     },
-    'Dív. líquida/PL': {
+    'Div. liquida/PL': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
@@ -63,7 +63,7 @@ MetricasStatus = {
         'agrupador': 'Endividamento'
     },
 
-    'Dív. líquida/EBITDA': {
+    'Div. liquida/EBITDA': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
@@ -72,7 +72,7 @@ MetricasStatus = {
         'agrupador': 'Endividamento'
     },
 
-    'Dív. líquida/EBIT': {
+    'Div. liquida/EBIT': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
@@ -453,9 +453,10 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
-            if  metrica in ['Giro ativos','Div. liquida/PL','Dív. líquida/EBITDA','Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos'
+            if  metrica in ['Giro ativos','Div. liquida/PL','Dív. líquida/EBITDA','Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos',
                            'Liq. corrente']:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
+                print("entrou if celula : ",metrica )
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
             wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
