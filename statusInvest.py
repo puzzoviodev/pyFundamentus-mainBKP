@@ -72,7 +72,7 @@ MetricasStatus = {
         'agrupador': 'Endividamento'
     },
 
-    'Dív. líquida/EBIT': {
+    'Div. liquida/EBIT': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
@@ -454,7 +454,10 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
         for metrica, detalhes in MetricasStatus.items():
     #        print(f'Métrica: {metrica}')
             linha2 += 1
-            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA']:
+            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBIT','PL/Ativos',
+                           'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
+                            'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
+                            'P/SR','P/Ativo Circ. Liq.']:
                 print('IF tratamneto2 ',metrica )
                 indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
@@ -473,10 +476,16 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
-            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA']:
+            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
+                           'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
+                           'P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
+                            'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
+                            'P/SR','P/Ativo Circ. Liq.']:
                 print('IF da celula - Indicador', metrica )
                 print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
+            elif  metrica == 'Valor atual':
+                  wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
             wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
