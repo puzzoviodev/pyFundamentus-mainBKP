@@ -1,26 +1,5 @@
-import openpyxl
-import re
-import time
-import numpy as np
-import pandas as pd
-from unidecode import unidecode
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from openpyxl.styles import Color, PatternFill, Font, Border
-from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
-import requests
-
-import warnings
+from openpyxl import Workbook
 from openpyxl.styles import numbers
-
-TITLES = [
-    'Identificação', 'Resumo Financeiro', 'Cotações', 'Informações Básicas',
-    'Oscilações', 'Indicadores de Valuation', 'Indicadores de Rentabilidade',
-    'Indicadores de Endividamento', 'Balanço Patrimonial', 'Demonstrativo de Resultados'
-]
-
-linha2 = 1
 MetricasStatus = {
     'M. Liquida': {
         'baixo': {'min': 0, 'max': 3},
@@ -365,21 +344,12 @@ MetricasStatus = {
     }
 }
 
-wbsaida = openpyxl.Workbook()
-
-
-# define selenium webdriver options
-options = webdriver.ChromeOptions()
-
-# create selenium webdriver instance
-driver = webdriver.Chrome(options=options)
-
 def categorizar_valor(metrica, valor):
     try:
         if metrica not in MetricasStatus:
             return 'Métrica não reconhecida'
         valor2 = float(valor)
-        print("valor2", valor2)
+        print("valor2"  , valor2)
         for categoria, limites in MetricasStatus[metrica].items():
             if categoria in ['descricao', 'agrupador']:
                 continue
@@ -393,180 +363,53 @@ def categorizar_valor(metrica, valor):
         print("categorizar_valor - OK")
 
 
-def criaPlanilhaIndRentabilidade(IndiRentabilidade):
-    wbsaida.create_sheet('IndiRentabilidade')
-    IndiRentabilidade = wbsaida['IndiRentabilidade']
-    IndiRentabilidade.append(
-        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo'])
-def tratamento(indicador):
 
-    indicador2 = indicador
+# Criando uma nova planilha
+wb = Workbook()
+ws = wb.active
 
-    if indicador2 in ["-", "--"]:
-        indicador2 = ""
-    elif is_null_zero_or_spaces(indicador2):
-        indicador2 = 0
-    else:
-        indicador2 = float(indicador2.strip('%')) / 100
-    return indicador2
+# Aplicando diferentes formatos de número
+ws.cell(row=1, column=1, value='0.004699999999999999').number_format = numbers.FORMAT_GENERAL
+ws.cell(row=1, column=2, value="Formato geral")
 
+ws.cell(row=2, column=1, value='0.004699999999999999').number_format = numbers.FORMAT_NUMBER
+ws.cell(row=2, column=2, value="Número com casas decimais padrão")
 
-def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
-    # fontes ['StatusInvest', 'Fundamentus']
+ws.cell(row=3, column=1, value=12345.678).number_format = numbers.FORMAT_NUMBER_00
+ws.cell(row=3, column=2, value="Número com duas casas decimais")
 
+ws.cell(row=4, column=1, value=0.1234).number_format = numbers.FORMAT_PERCENTAGE
+ws.cell(row=4, column=2, value="Porcentagem")
 
+ws.cell(row=5, column=1, value=0.1234).number_format = numbers.FORMAT_PERCENTAGE_00
+ws.cell(row=5, column=2, value="Porcentagem com duas casas decimais")
 
-    global linha2
-    #linha2 = 1
-    try:
-        for metrica, detalhes in MetricasStatus.items():
-    #        print(f'Métrica: {metrica}')
-            linha2 += 1
-            indicadortratado = tratamento(dict_stocks[stock].get(metrica))
+ws.cell(row=6, column=1, value=12345.678).number_format = numbers.FORMAT_CURRENCY_USD_SIMPLE
+ws.cell(row=6, column=2, value="Moeda em dólares americanos, formato simples")
 
-            valor_pl = indicadortratado
-            categoria_pl = categorizar_valor(metrica,valor_pl
-                                             )  # Certifique-se de que 'ROE' é o valor correto para a métrica
-   #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-   #         print(f"  Agrupador: {detalhes['agrupador']}")
+ws.cell(row=7, column=1, value='2025-02-12').number_format = numbers.FORMAT_DATE_YYYYMMDD2
+ws.cell(row=7, column=2, value="Data no formato AAAA-MM-DD")
 
 
-            wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
-            wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
-            wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
-            wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
-            if metrica == 'Giro ativos':
-                wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
-            else:
-                wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
-            wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
-            wsIndiRentabilidade.cell(row=linha2, column=7,
-                                     value=f"Mínimo = {detalhes['baixo']['min']}, Máximo = {detalhes['baixo']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=8,
-                                     value=f"Mínimo = {detalhes['regular']['min']}, Máximo = {detalhes['regular']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=9,
-                                     value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=10,
-                                     value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
-    except Exception as e:
-        print(f"Erro inesperado: {e}")
-        print(metrica)
-        print(indicadortratado)
-        print('gravaIndiEficiênciaoStaus - erro')
-    finally:
-        print('gravaIndiEficiênciaoStaus  OK''')
 
-def is_null_zero_or_spaces(variable):
-    # Verifica se a variável é None
-    if variable is None:
-        return True
-    # Verifica se a variável é zero (0)
-    elif variable == 0:
-        return True
-    # Verifica se a variável é uma string e contém apenas espaços
-    elif isinstance(variable, str) and variable.strip() == '':
-        return True
-    elif variable == '-%':
-        return True
-    else:
-        return False
+ws.cell(row=9, column=1, value='12/2/2025').number_format = numbers.FORMAT_DATE_DMYSLASH
+ws.cell(row=9, column=2, value="Data no formato D/M/AAAA")
 
 
-def get_stock_soup(stock):
-    ''' Get raw html from a stock '''
+numero = 0.004699999999999999
+numero_formatado = round(numero, 6)
+print(numero_formatado)  # Saída: 0.0
 
-    # access the stock urlww
-    driver.get(f'https://statusinvest.com.br/acoes/{stock}')
+numero = 0.004699999999999999
+numero_formatado = "{:.2f}".format(numero)
+print(numero_formatado)  # Saída: 0.00
 
-    # get html from stock
-    html = driver.find_element(By.ID, 'main-2').get_attribute('innerHTML')
+numero = 0.004699999999999999
+numero_formatado = f"{numero:.2f}"
+print(numero_formatado)  # Saída: 0.00
 
-    # remove accents from html and transform html into soup
-    soup = BeautifulSoup(unidecode(html), 'html.parser')
-
-    return soup
-
-
-def soup_to_dict(soup):
-    '''Get all data from stock soup and return as a dictionary '''
-    keys, values = [], []
-
-    # get divs from stock
-    soup1 = soup.find('div', class_='pb-3 pb-md-5')
-    soup2 = soup.find('div', class_='card rounded text-main-green-dark')
-    soup3 = soup.find('div', class_='indicator-today-container')
-    soup4 = soup.find(
-        'div', class_='top-info info-3 sm d-flex justify-between mb-3')
-    soups = [soup1, soup2, soup3, soup4]
-
-    for s in soups:
-        # get only titles from a div and append to keys
-        titles = s.find_all('h3', re.compile('title m-0[^"]*'))
-        titles = [t.get_text() for t in titles]
-        keys += titles
-
-        # get only numbers from a div and append to values
-        numbers = s.find_all('strong', re.compile('value[^"]*'))
-        numbers = [n.get_text()for n in numbers]
-        values += numbers
-
-    # remove unused key and insert needed keys
-    keys.remove('PART. IBOV')
-    keys.insert(6, 'TAG ALONG')
-    keys.insert(7, 'LIQUIDEZ MEDIA DIARIA')
-
-    # clean keys list
-    keys = [k.replace('\nhelp_outline', '').strip() for k in keys]
-    keys = [k for k in keys if k != '']
-
-    # clean values list
-    values = [v.replace('\nhelp_outline', '').strip() for v in values]
-    values = [v.replace('.', '').replace(',', '.') for v in values]
-
-    # create a dictionary using keys and values from indicators
-    d = {k: v for k, v in zip(keys, values)}
-
-    return d
-
-
-if __name__ == "__main__":
-    dict_stocks = {}
-    criaPlanilhaIndRentabilidade(wbsaida)
-    wsIndiRentabilidade = wbsaida['IndiRentabilidade']
-
-    # start timer
-    start = time.time()
-
-    # read file with stocks codes to get stock information
-    with open('stocks.txt', 'r') as f:
-        stocks = f.read().splitlines()
-
-        # get stock information and create excel sheet
-        for stock in stocks:
-            try:
-                # get data and transform into dictionary
-                soup = get_stock_soup(stock)
-                dict_stock = soup_to_dict(soup)
-                dict_stocks[stock] = dict_stock
-                gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
-            except:
-                # if we not get the information... just skip it
-                print(f'Could not get {stock} information')
-
-    # create dataframe using dictionary of stocks informations
-    df = pd.DataFrame(dict_stocks)
-
-    # replace missing values with NaN to facilitate processing
-    df = df.replace(['', '-', '--', '-%', '--%'], np.nan)
-
-    # write dataframe into csv file
-    df.to_excel('stocks_data.xlsx', index_label='indicadores')
-
-    # exit the driver
-    driver.quit()
-
-    # end timer
-    end = time.time()
-    wbsaida.save("StatusInvest.xlsx")
-
-    print(f'Brasilian stocks information got in {int(end-start)} s')
+categoria_pl = categorizar_valor('Giro ativos','10.47')
+print(numero_formatado)
+print(categoria_pl)
+# Salvando a planilha
+wb.save("exemplo_formatos.xlsx")

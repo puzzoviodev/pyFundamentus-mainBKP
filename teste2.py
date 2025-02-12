@@ -378,8 +378,13 @@ def categorizar_valor(metrica, valor):
     try:
         if metrica not in MetricasStatus:
             return 'Métrica não reconhecida'
-        valor2 = float(valor)
-        print("valor2", valor2)
+        print("mterica ", metrica)
+        print("valor original :" , valor)
+
+        valor2 = float(valor.strip('%'))
+        print("valor2 ", valor2)
+        print("mterica ", metrica)
+        print("valor original :" , )
         for categoria, limites in MetricasStatus[metrica].items():
             if categoria in ['descricao', 'agrupador']:
                 continue
@@ -399,7 +404,6 @@ def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     IndiRentabilidade.append(
         ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo'])
 def tratamento(indicador):
-
     indicador2 = indicador
 
     if indicador2 in ["-", "--"]:
@@ -407,9 +411,18 @@ def tratamento(indicador):
     elif is_null_zero_or_spaces(indicador2):
         indicador2 = 0
     else:
-        indicador2 = float(indicador2.strip('%')) / 100
+        #indicador2 = float(indicador2.strip('%')) / 100
+        indicador2 = indicador
     return indicador2
+def tratamento2(indicador):
+    indicador2 = indicador
 
+    if indicador2 in ["-", "--"]:
+        indicador2 = ""
+    elif is_null_zero_or_spaces(indicador2):
+        indicador2 = 0
+
+    return indicador2
 
 def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     # fontes ['StatusInvest', 'Fundamentus']
@@ -422,11 +435,16 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
         for metrica, detalhes in MetricasStatus.items():
     #        print(f'Métrica: {metrica}')
             linha2 += 1
-            indicadortratado = tratamento(dict_stocks[stock].get(metrica))
 
-            valor_pl = indicadortratado
-            categoria_pl = categorizar_valor(metrica,valor_pl
-                                             )  # Certifique-se de que 'ROE' é o valor correto para a métrica
+            if metrica == 'Giro ativos':
+                indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                valor_pl = indicadortratado
+            else:
+                indicadortratado = tratamento(dict_stocks[stock].get(metrica))
+                valor_pl = indicadortratado
+
+
+            categoria_pl = categorizar_valor(metrica,valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
    #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
    #         print(f"  Agrupador: {detalhes['agrupador']}")
 
@@ -435,7 +453,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
-            if metrica == 'Giro ativos':
+            if  metrica == 'Giro ativos':
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
@@ -567,6 +585,6 @@ if __name__ == "__main__":
 
     # end timer
     end = time.time()
-    wbsaida.save("StatusInvest.xlsx")
+    wbsaida.save("StatusInvestbase2.xlsx")
 
     print(f'Brasilian stocks information got in {int(end-start)} s')
