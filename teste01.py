@@ -1,0 +1,7 @@
+metrica = 'Div. liquida/PL'
+if metrica in ['Giro ativos', 'Div. liquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT', 'PL/Ativos',
+               'Passivos/Ativos', 'Liq. corrente']:
+
+    print("tratamento2: ", metrica)
+else:
+    print("tratamento1: ", metrica)

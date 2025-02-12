@@ -412,4 +412,16 @@ categoria_pl = categorizar_valor('Giro ativos','10.47')
 print(numero_formatado)
 print(categoria_pl)
 # Salvando a planilha
+
+
+metrica = 'Dív. líquida/PL'
+if metrica in ['Giro ativos', 'Div. liquida/PL', 'Dív. líquida/EBITDA', 'Dív. líquida/EBIT', 'PL/Ativos', 'Passivos/Ativos', 'Liq. corrente']:
+    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+    valor_pl = indicadortratado
+
+    print("tratamento2: ", metrica)
+else:
+    indicadortratado = tratamento(dict_stocks[stock].get(metrica))
+    valor_pl = indicadortratado
+
 wb.save("exemplo_formatos.xlsx")
