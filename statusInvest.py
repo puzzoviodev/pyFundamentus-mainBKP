@@ -54,7 +54,7 @@ MetricasStatus = {
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Eficiência'
     },
-    'Dív. líquida/PL': {
+    'Div. liquida/PL': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
@@ -63,7 +63,7 @@ MetricasStatus = {
         'agrupador': 'Endividamento'
     },
 
-    'Dív. líquida/EBITDA': {
+    'Div. liquida/EBITDA': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
@@ -441,7 +441,7 @@ def tratamento2(indicador):
         print('tratamneto2 - erro')
 
     finally:
-        print('tratamneto2 OK')
+        print('tratamneto2 OK', indicador)
 def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     # fontes ['StatusInvest', 'Fundamentus']
 
@@ -450,13 +450,17 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     global linha2
     #linha2 = 1
     try:
+        print(dict_stocks)
         for metrica, detalhes in MetricasStatus.items():
     #        print(f'Métrica: {metrica}')
             linha2 += 1
-            if metrica == 'Giro ativos':
+            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA']:
+                print('IF tratamneto2 ',metrica )
                 indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
+
             else:
+                print('IF tratamneto ', metrica)
                 indicadortratado = tratamento(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
             categoria_pl = categorizar_valor(metrica,valor_pl
@@ -469,7 +473,9 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
-            if metrica == 'Giro ativos':
+            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA']:
+                print('IF da celula - Indicador', metrica )
+                print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
