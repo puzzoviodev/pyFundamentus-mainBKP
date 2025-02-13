@@ -378,13 +378,8 @@ def categorizar_valor(metrica, valor):
     try:
         if metrica not in MetricasStatus:
             return 'Métrica não reconhecida'
-        print("mterica ", metrica)
-        print("valor original :" , valor)
-
-        valor2 = float(valor.strip('%'))
-        print("valor2 ", valor2)
-        print("mterica ", metrica)
-        print("valor original :" , )
+        valor2 = float(valor)
+        print("valor2", valor2)
         for categoria, limites in MetricasStatus[metrica].items():
             if categoria in ['descricao', 'agrupador']:
                 continue
@@ -402,28 +397,70 @@ def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(
-        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo'])
+        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo','DESCRIÇÃO'])
+
+
 def tratamento(indicador):
     indicador2 = indicador
 
-    if indicador2 in ["-", "--"]:
-        indicador2 = ""
-    elif is_null_zero_or_spaces(indicador2):
-        indicador2 = 0
-    else:
-        #indicador2 = float(indicador2.strip('%')) / 100
-        indicador2 = indicador
-    return indicador2
+    try:
+        if indicador2 in ["-", "--"]:
+            indicador2 = ""
+        elif indicador2 is None or is_null_zero_or_spaces(indicador2):
+            indicador2 = 0
+        else:
+            indicador2 = float(indicador2.strip('%')) / 100
+        return indicador2
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+        print('tratamneto - erro')
+
+    finally:
+        print('tratamneto OK')
+def tratamento3(indicador):
+    indicador2 = indicador
+
+    try:
+        if indicador2 in ["-", "--"]:
+            indicador2 = ""
+        elif indicador2 is None or is_null_zero_or_spaces(indicador2):
+            indicador2 = 0
+        else:
+            indicador2 = float(indicador2)
+        return indicador2
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+        print('tratamneto3 - erro')
+
+    finally:
+        print('tratamneto3 OK')
+
+# Certifique-se de que as variáveis `metrica` e `indicadortratado` estão definidas corretamente no contexto onde a função é chamada.
+
 def tratamento2(indicador):
     indicador2 = indicador
 
-    if indicador2 in ["-", "--"]:
-        indicador2 = ""
-    elif is_null_zero_or_spaces(indicador2):
-        indicador2 = 0
+    try:
+        if indicador2 in ["-", "--"]:
+            indicador2 = ""
+        elif indicador2 is None or is_null_zero_or_spaces(indicador2):
+            indicador2 = 0
 
-    return indicador2
+        return indicador2
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+        print('tratamneto2 - erro')
 
+    finally:
+        print('tratamneto2 OK', indicador)
 def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     # fontes ['StatusInvest', 'Fundamentus']
 
@@ -432,19 +469,28 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     global linha2
     #linha2 = 1
     try:
+        print(dict_stocks)
         for metrica, detalhes in MetricasStatus.items():
     #        print(f'Métrica: {metrica}')
             linha2 += 1
-
-            if metrica == 'Giro ativos':
+            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBIT','PL/Ativos',
+                           'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
+                            'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
+                            'P/SR','P/Ativo Circ. Liq.']:
+                print('IF tratamneto2 ',metrica )
                 indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
+            elif metrica in ['Valor atual','TAG ALONG','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+                             'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
+                             'Divida liquida','Valor de mercado','Valor de firma']:
+                indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                valor_pl = indicadortratado
             else:
+                print('IF tratamneto ', metrica)
                 indicadortratado = tratamento(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
-
-
-            categoria_pl = categorizar_valor(metrica,valor_pl)  # Certifique-se de que 'ROE' é o valor correto para a métrica
+            categoria_pl = categorizar_valor(metrica,valor_pl
+                                             )  # Certifique-se de que 'ROE' é o valor correto para a métrica
    #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
    #         print(f"  Agrupador: {detalhes['agrupador']}")
 
@@ -453,10 +499,18 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
-            if  metrica in ['Giro ativos','Div. liquida/PL','Dív. líquida/EBITDA','Dív. líquida/EBIT','PL/Ativos','Passivos/Ativos',
-                           'Liq. corrente']:
+            if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
+                           'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
+                           'P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
+                            'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
+                            'P/SR','P/Ativo Circ. Liq.']:
+                print('IF da celula - Indicador', metrica )
+                print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
-                print("entrou if celula : ",metrica )
+            elif  metrica in ['Valor atual','TAG ALONG','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+                             'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
+                             'Divida liquida','Valor de mercado','Valor de firma']:
+                  wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
             wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
@@ -468,6 +522,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                                      value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
             wsIndiRentabilidade.cell(row=linha2, column=10,
                                      value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
+            wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descricao']}")
     except Exception as e:
         print(f"Erro inesperado: {e}")
         print(metrica)
@@ -587,6 +642,6 @@ if __name__ == "__main__":
 
     # end timer
     end = time.time()
-    wbsaida.save("StatusInvestbase2.xlsx")
+    wbsaida.save("StatusInvest.xlsx")
 
     print(f'Brasilian stocks information got in {int(end-start)} s')

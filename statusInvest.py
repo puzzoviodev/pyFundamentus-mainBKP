@@ -69,7 +69,10 @@ MetricasStatus = {
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
-        'agrupador': 'Endividamento'
+        'agrupador': 'Endividamento',
+        'descrbaixo': 'baixo',
+        'descregular': 'regular'
+
     },
 
     'Div. liquida/EBIT': {
@@ -381,7 +384,8 @@ def categorizar_valor(metrica, valor):
         valor2 = float(valor)
         print("valor2", valor2)
         for categoria, limites in MetricasStatus[metrica].items():
-            if categoria in ['descricao', 'agrupador']:
+
+            if categoria in ['descricao', 'agrupador','descrbaixo','descregular']:
                 continue
             if limites['min'] <= valor2 < limites['max']:
                 return categoria
@@ -397,7 +401,7 @@ def criaPlanilhaIndRentabilidade(IndiRentabilidade):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(
-        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo'])
+        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo','DESCRIÇÃO'])
 
 
 def tratamento(indicador):
@@ -522,6 +526,18 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                                      value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
             wsIndiRentabilidade.cell(row=linha2, column=10,
                                      value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
+            print(detalhes)
+            if metrica == 'Div. liquida/EBITDA':
+                if categoria_pl == 'baixo':
+                   wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descrbaixo']}")
+                if  categoria_pl == 'regular':
+                    wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descregular']}")
+                if  categoria_pl == 'bom':
+                    wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descricao']}")
+                if categoria_pl == 'otimo':
+                    wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descricao']}")
+
+
     except Exception as e:
         print(f"Erro inesperado: {e}")
         print(metrica)
