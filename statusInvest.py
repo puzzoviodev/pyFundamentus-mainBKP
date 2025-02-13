@@ -420,7 +420,26 @@ def tratamento(indicador):
 
     finally:
         print('tratamneto OK')
+def tratamento3(indicador):
+    indicador2 = indicador
 
+    try:
+        if indicador2 in ["-", "--"]:
+            indicador2 = ""
+        elif indicador2 is None or is_null_zero_or_spaces(indicador2):
+            indicador2 = 0
+        else:
+            indicador2 = float(indicador2)
+        return indicador2
+
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+        print('tratamneto3 - erro')
+
+    finally:
+        print('tratamneto3 OK')
 
 # Certifique-se de que as variáveis `metrica` e `indicadortratado` estão definidas corretamente no contexto onde a função é chamada.
 
@@ -461,7 +480,11 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 print('IF tratamneto2 ',metrica )
                 indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
-
+            elif metrica in ['Valor atual','TAG ALONG','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+                             'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
+                             'Divida liquida','Valor de mercado','Valor de firma']:
+                indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                valor_pl = indicadortratado
             else:
                 print('IF tratamneto ', metrica)
                 indicadortratado = tratamento(dict_stocks[stock].get(metrica))
@@ -484,7 +507,9 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 print('IF da celula - Indicador', metrica )
                 print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
-            elif  metrica == 'Valor atual':
+            elif  metrica in ['Valor atual','TAG ALONG','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+                             'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
+                             'Divida liquida','Valor de mercado','Valor de firma']:
                   wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
