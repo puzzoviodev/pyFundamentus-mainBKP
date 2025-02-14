@@ -14,6 +14,18 @@ import requests
 import warnings
 from openpyxl.styles import numbers
 
+fillvermelho= PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid") # Vermelho
+
+fillverde= PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid") # Verde
+
+fillamarelo =  PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid") # Amarelo
+
+#filltitulo =   PatternFill(start_color="#002060", end_color="#002060", fill_type="solid")
+
+filltitulo = PatternFill(start_color="002060", end_color="002060", fill_type="solid")  # Azul escuro
+
+font_branca = Font(color="FFFFFF")  # Branco
+
 TITLES = [
     'Identificação', 'Resumo Financeiro', 'Cotações', 'Informações Básicas',
     'Oscilações', 'Indicadores de Valuation', 'Indicadores de Rentabilidade',
@@ -397,12 +409,15 @@ def categorizar_valor(metrica, valor):
         print("categorizar_valor - OK")
 
 
-def criaPlanilhaIndRentabilidade(IndiRentabilidade):
+def criaPlanilhaIndRentabilidade(wbsaida):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(
-        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'valor', 'referencia', 'Baixo', 'regular', 'bom', 'otimo','DESCRIÇÃO'])
+        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'Valor', 'Referencia', 'Baixo', 'Regular', 'Bom', 'Otimo', 'Descrição'])
 
+    for cell in IndiRentabilidade[1]:  # Apenas o cabeçalho
+        cell.fill = filltitulo
+        cell.font = font_branca
 
 def tratamento(indicador):
     indicador2 = indicador
@@ -517,7 +532,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                   wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
-            wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
+
+
             wsIndiRentabilidade.cell(row=linha2, column=7,
                                      value=f"Mínimo = {detalhes['baixo']['min']}, Máximo = {detalhes['baixo']['max']}")
             wsIndiRentabilidade.cell(row=linha2, column=8,
@@ -529,6 +545,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             print(detalhes)
             if metrica == 'Div. liquida/EBITDA':
                 if categoria_pl == 'baixo':
+                   wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill = fillvermelho
                    wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descrbaixo']}")
                 if  categoria_pl == 'regular':
                     wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descregular']}")
