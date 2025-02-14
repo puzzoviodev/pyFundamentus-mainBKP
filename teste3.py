@@ -35,11 +35,11 @@ TITLES = [
 linha2 = 1
 MetricasStatus = {
 
-    'TAG ALONG': {
-        'baixo': {'min': 2, 'max': 10},
-        'regular': {'min': 1, 'max': 2},
-        'bom': {'min': 0.5, 'max': 1},
-        'otimo': {'min': 0.5, 'max': 0.5},
+    'Div. liquida/PL': {
+        'baixo': {'min': -50, 'max': 2},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 60, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
         'descrbaixo': 'BAIXO',
@@ -63,7 +63,7 @@ def categorizar_valor(metrica, valor):
         if metrica not in MetricasStatus:
             return 'Métrica não reconhecida'
         valor2 = float(valor)
-        print("valor2", valor2)
+        #print("categoriza_valor", valor2)
         for categoria, limites in MetricasStatus[metrica].items():
 
             if categoria in ['descricao', 'agrupador','descrbaixo','descregular','descrbom','descotimo']:
@@ -72,12 +72,14 @@ def categorizar_valor(metrica, valor):
                 return categoria
         return 'Valor fora do alcance definido'
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado categorizar: {e}")
         print(f"Erro metrica: {e}")
         print("categorizar_valor - Erro" , metrica)
+        print("categoriza_valor", valor2)
+        print('categoriza_valor' ,stock)
     finally:
-        print("categorizar_valor - OK")
-
+       # print("categorizar_valor - OK")
+       pass
 
 def criaPlanilhaIndRentabilidade(wbsaida):
     wbsaida.create_sheet('IndiRentabilidade')
@@ -98,17 +100,22 @@ def tratamento(indicador):
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
         else:
-            indicador2 = float(indicador2.strip('%')) / 100
+            if indicador2 == "":  # Verificação adicionada para string vazia
+                indicador2 = 0
+            else:
+                indicador2 = float(indicador2.strip('%')) / 100
         return indicador2
 
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado tratamento : {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto - erro')
+        print('tratamneto - erro', stock)
+
 
     finally:
-        print('tratamneto OK')
+       # print('tratamneto OK')
+       pass
 def tratamento3(indicador):
     indicador2 = indicador
 
@@ -118,18 +125,22 @@ def tratamento3(indicador):
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
         else:
-            indicador2 = float(indicador2)
+            if indicador2 == "":  # Verificação adicionada para string vazia
+                indicador2 = 0
+            else:
+                indicador2 = float(indicador2)
         return indicador2
 
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado tratamento 3 : {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto3 - erro')
+        print('tratamneto3 - erro', stock)
+
 
     finally:
-        print('tratamneto3 OK')
-
+        #print('tratamneto3 OK')
+        pass
 # Certifique-se de que as variáveis `metrica` e `indicadortratado` estão definidas corretamente no contexto onde a função é chamada.
 
 def tratamento2(indicador):
@@ -140,16 +151,24 @@ def tratamento2(indicador):
             indicador2 = ""
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
+        elif indicador2 == "":  # Verificação adicionada para string vazia
+            indicador2 = 0
+        else:
+            indicador2 = float(indicador2)
+        return indicador2
+
 
         return indicador2
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado tratamento2: {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto2 - erro')
+        print('tratamneto2 - erro', stock)
+
 
     finally:
-        print('tratamneto2 OK', indicador)
+        #print('tratamneto2 OK', indicador)
+        pass
 def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     # fontes ['StatusInvest', 'Fundamentus']
 
@@ -166,26 +185,28 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                            'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
                             'P/SR','P/Ativo Circ. Liq.']:
-                print('IF tratamneto2 ',metrica )
+             #   print('IF tratamneto2 ',metrica )
 
                 indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
                 categoria_pl = categorizar_valor(metrica, (valor_pl))
-                print("categoria tratamento2 " + categoria_pl)
-            elif metrica in ['Valor atual','TAG ALONG','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+              #  print("categoria " + categoria_pl)
+               # print("categoria tratamento2 " + categoria_pl)
+            elif metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
                              'Divida liquida','Valor de mercado','Valor de firma']:
-                print('IF tratamneto3 ', metrica)
+               # print('IF tratamneto3 ', metrica)
+               # print("categoria " + categoria_pl)
                 indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
                 categoria_pl = categorizar_valor(metrica, (valor_pl))
-                print("categoria tratamento3" + categoria_pl)
+               # print("categoria tratamento3" + categoria_pl)
             else:
-                print('IF tratamneto ', metrica)
+               # print('IF tratamneto ', metrica)
                 indicadortratado = tratamento(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
                 categoria_pl = categorizar_valor(metrica,(valor_pl * 100))
-                print("categoria tratamento" + categoria_pl)
+                #print("categoria tratamento" + categoria_pl)
                 # Certifique-se de que 'ROE' é o valor correto para a métrica
    #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
    #         print(f"  Agrupador: {detalhes['agrupador']}")
@@ -203,7 +224,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                # print('IF da celula - Indicador', metrica )
                # print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
-            elif  metrica in ['Valor atual','TAG ALONG','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+            elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
                              'Divida liquida','Valor de mercado','Valor de firma']:
                   wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
@@ -237,12 +258,13 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
 
 
     except Exception as e:
-        print(f"Erro inesperado: {e}")
+        print(f"Erro inesperado grava planilha: {e}")
         print(metrica)
         print(indicadortratado)
-        print('gravaIndiEficiênciaoStaus - erro')
+
+        print('gravaIndiEficiênciaoStaus - erro' ,  stock)
     finally:
-        print('gravaIndiEficiênciaoStaus  OK''')
+        print('gravaIndiEficiênciaoStaus  OK''', stock)
 
 def is_null_zero_or_spaces(variable):
     # Verifica se a variável é None
@@ -331,6 +353,7 @@ if __name__ == "__main__":
 
         # get stock information and create excel sheet
         for stock in stocks:
+            print(stock)
             try:
                 # get data and transform into dictionary
                 soup = get_stock_soup(stock)
