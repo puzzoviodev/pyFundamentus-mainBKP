@@ -87,7 +87,7 @@ MetricasStatus = {
         'baixo': {'min': -50, 'max': 2},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
-        'otimo': {'min': 10, 'max': float('inf')},
+        'otimo': {'min': float(0,5), 'max': float(0,5)},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
         'descrbaixo': 'BAIXO',

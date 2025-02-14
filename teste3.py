@@ -34,17 +34,18 @@ TITLES = [
 
 linha2 = 1
 MetricasStatus = {
-    'M. Liquida': {
-        'baixo': {'min': -50, 'max': 5},
-        'regular': {'min': 5, 'max':10},
-        'bom': {'min': 10, 'max': 20},
-        'otimo': {'min': 20, 'max': float('inf')},
-        'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
-        'agrupador': 'Eficiência',
-        'descrbaixo': 'Uma margem líquida abaixo de 5% sugere que a empresa tem uma margem de lucro relativamente baixa. Isso pode ser típico em setores com alta concorrência e margens reduzidas, como o varejo ou o setor de alimentos e bebidas. Pode indicar baixa eficiência na gestão de custos ou baixa rentabilidade',
-        'descregular': 'Uma margem líquida nessa faixa é considerada moderada e pode ser típica de empresas que operam em setores com margens mais equilibradas, como algumas indústrias ou serviços. Reflete uma eficiência razoável em converter receita em lucro líquido.',
-        'descrbom': 'Uma margem líquida entre 10% e 20% é geralmente considerada boa e indica uma empresa que é eficiente na gestão de suas despesas e custos, resultando em uma rentabilidade sólida. É comum em setores com menos concorrência e mais poder de precificação',
-        'descotimo': 'Uma margem líquida acima de 20% sugere alta eficiência e rentabilidade. Empresas com margens líquidas altas geralmente operam em setores com altas barreiras de entrada, produtos ou serviços de alto valor agregado, ou que têm uma forte vantagem competitiva. Isso pode ser visto em setores como tecnologia, software ou bens de luxo'
+
+    'Div. liquida/PL': {
+        'baixo': {'min': -50, 'max': 2},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': float(0.5), 'max': float(0.7)},
+        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
+        'agrupador': 'Endividamento',
+        'descrbaixo': 'BAIXO',
+        'descregular': 'REGULAR',
+        'descrbom': 'BOM',
+        'descotimo': 'OTIMO'
     }
 }
 
@@ -176,8 +177,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 print('IF tratamneto ', metrica)
                 indicadortratado = tratamento(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
-                categoria_pl = categorizar_valor(metrica,(valor_pl * 100)
-                                             )  # Certifique-se de que 'ROE' é o valor correto para a métrica
+                categoria_pl = categorizar_valor(metrica,(valor_pl * 100))  # Certifique-se de que 'ROE' é o valor correto para a métrica
    #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
    #         print(f"  Agrupador: {detalhes['agrupador']}")
 
