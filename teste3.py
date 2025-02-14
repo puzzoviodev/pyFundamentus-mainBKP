@@ -96,7 +96,7 @@ def tratamento(indicador):
 
     try:
         if indicador2 in ["-", "--"]:
-            indicador2 = ""
+            indicador2 = 0
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
         else:
@@ -121,7 +121,7 @@ def tratamento3(indicador):
 
     try:
         if indicador2 in ["-", "--"]:
-            indicador2 = ""
+            indicador2 = 0
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
         else:
@@ -148,7 +148,7 @@ def tratamento2(indicador):
 
     try:
         if indicador2 in ["-", "--"]:
-            indicador2 = ""
+            indicador2 = 0
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
         elif indicador2 == "":  # Verificação adicionada para string vazia
