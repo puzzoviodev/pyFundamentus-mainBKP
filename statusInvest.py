@@ -583,7 +583,7 @@ def tratamento(indicador):
     indicador2 = indicador
 
     try:
-        if indicador2 in ["-", "--"]:
+        if indicador2 in ["-", "--","--%"]:
             indicador2 = 0
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
@@ -595,10 +595,10 @@ def tratamento(indicador):
         return indicador2
 
     except Exception as e:
-        print(f"Erro inesperado tratamento : {e}")
+        print(f"Erro inesperado tratamento : {e}", "metrica  ", metrica, " indicador  ", indicador, " stock  ",stock)
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto - erro', stock, "    ", metrica)
+        #print('tratamneto - erro', stock, "   ", metrica)
 
 
     finally:
@@ -608,7 +608,7 @@ def tratamento3(indicador):
     indicador2 = indicador
 
     try:
-        if indicador2 in ["-", "--"]:
+        if indicador2 in ["-", "--","--%"]:
             indicador2 = 0
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
@@ -620,11 +620,10 @@ def tratamento3(indicador):
         return indicador2
 
     except Exception as e:
-        print(f"Erro inesperado tratamento 3 : {e}")
+        print(f"Erro inesperado tratamento 3 : {e}", " metrica  ", metrica, " indicador  ", indicador, " stock  ",stock)
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto3 - erro', stock, "   ", metrica)
-
+        #print('tratamneto3 - erro', stock, "   ", metrica)
 
 
     finally:
@@ -636,7 +635,7 @@ def tratamento2(indicador):
     indicador2 = indicador
 
     try:
-        if indicador2 in ["-", "--"]:
+        if indicador2 in ["-", "--","--%"]:
             indicador2 = 0
         elif indicador2 is None or is_null_zero_or_spaces(indicador2):
             indicador2 = 0
@@ -649,10 +648,10 @@ def tratamento2(indicador):
 
         return indicador2
     except Exception as e:
-        print(f"Erro inesperado tratamento2: {e}")
+        print(f"Erro inesperado tratamento2: {e}", " metrica  ", metrica, " indicador  ", indicador ," stock ", stock)
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto2 - erro', stock," Metrica  ", metrica)
+        #print('tratamneto2 - erro', stock, "   ", metrica)
 
 
     finally:
@@ -751,7 +750,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
         print(metrica)
         print(indicadortratado)
 
-        print('gravaIndiEficiênciaoStaus - erro' ,  stock)
+        print('gravaIndiEficiênciaoStaus - erro' ,  stock,"    ", metrica)
     finally:
         print('gravaIndiEficiênciaoStaus  OK''', stock)
 
@@ -842,7 +841,7 @@ if __name__ == "__main__":
 
         # get stock information and create excel sheet
         for stock in stocks:
-            print(stock)
+            print("stock :"  ,stock)
             try:
                 # get data and transform into dictionary
                 soup = get_stock_soup(stock)
@@ -851,7 +850,7 @@ if __name__ == "__main__":
                 gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
             except:
                 # if we not get the information... just skip it
-                print(f'Could not get {stock} information')
+                print(f'Could not get {stock} information', "    ", metrica)
 
     # create dataframe using dictionary of stocks informations
     df = pd.DataFrame(dict_stocks)
