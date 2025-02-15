@@ -14,6 +14,8 @@ import requests
 import warnings
 from openpyxl.styles import numbers
 
+from teste01 import metrica
+
 fillvermelho= PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid") # Vermelho
 
 fillverde= PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid") # Verde
@@ -596,7 +598,7 @@ def tratamento(indicador):
         print(f"Erro inesperado tratamento : {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto - erro', stock)
+        print('tratamneto - erro', stock, "    ", metrica)
 
 
     finally:
@@ -621,7 +623,8 @@ def tratamento3(indicador):
         print(f"Erro inesperado tratamento 3 : {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto3 - erro', stock)
+        print('tratamneto3 - erro', stock, "   ", metrica)
+
 
 
     finally:
@@ -649,7 +652,7 @@ def tratamento2(indicador):
         print(f"Erro inesperado tratamento2: {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
-        print('tratamneto2 - erro', stock)
+        print('tratamneto2 - erro', stock," Metrica  ", metrica)
 
 
     finally:
