@@ -14,13 +14,17 @@ import requests
 import warnings
 from openpyxl.styles import numbers
 
-from teste01 import metrica
+#from teste01 import metrica
 
 fillvermelho= PatternFill(start_color="FF0000", end_color="FF0000", fill_type="solid") # Vermelho
 
 fillverde= PatternFill(start_color="00FF00", end_color="00FF00", fill_type="solid") # Verde
 
 fillamarelo =  PatternFill(start_color="FFFF00", end_color="FFFF00", fill_type="solid") # Amarelo
+
+
+fillazul = PatternFill(start_color="0000FF", end_color="0000FF", fill_type="solid") # Azul
+
 
 #filltitulo =   PatternFill(start_color="#002060", end_color="#002060", fill_type="solid")
 
@@ -35,6 +39,8 @@ TITLES = [
 ]
 
 linha2 = 1
+metricasts= ""
+
 MetricasStatus = {
     'M. Liquida': {
         'baixo': {'min': -50, 'max': 5},
@@ -86,23 +92,23 @@ MetricasStatus = {
 
     },
     'Div. liquida/PL': {
-        'baixo': {'min': -50, 'max': 2},
-        'regular': {'min': 3, 'max': 6},
-        'bom': {'min': 6, 'max': 10},
-        'otimo': {'min': 60, 'max': float('inf')},
+        'baixo': {'min': 2, 'max': float('inf')},
+        'regular': {'min': 1, 'max': 2},
+        'bom': {'min': 0.5, 'max': 1},
+        'otimo': {'min': -0.5, 'max': 5},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrbaixo': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
+        'descrbaixo': 'ste nível indica que a empresa está altamente alavancada, com um montante significativo de dívida em relação ao patrimônio líquido. Isso pode sinalizar um alto risco financeiro e a possibilidade de dificuldades para cumprir obrigações de dívida, especialmente se a empresa enfrentar quedas nos lucros ou aumento nos custos de financiamento.',
+        'descregular': 'Empresas com múltiplos nessa faixa estão mais alavancadas, o que pode aumentar o risco financeiro, especialmente em períodos de incerteza econômica. Essas empresas dependem mais de financiamento por dívida, o que pode afetar sua capacidade de enfrentar crises ou de expandir.',
+        'descrbom': 'Um múltiplo nessa faixa sugere que a empresa tem um equilíbrio saudável entre dívida e patrimônio líquido. Isso é comum em empresas que utilizam algum nível de alavancagem para financiar seu crescimento, mas que ainda mantêm um risco financeiro relativamente controlado.',
+        'descotimo': 'Indica que a empresa tem um nível relativamente baixo de dívida em comparação ao seu patrimônio líquido. Empresas nessa faixa são geralmente consideradas financeiramente conservadoras e menos arriscadas, com menor dependência de financiamento por dívida.'
     },
 
     'Div. liquida/EBITDA': {
-        'baixo': {'min': 0, 'max': 3},
-        'regular': {'min': 3, 'max': 6},
-        'bom': {'min': 6, 'max': 10},
-        'otimo': {'min': 10, 'max': float('inf')},
+        'baixo': {'min': 4, 'max': float('inf')},
+        'regular': {'min': 3, 'max': 4},
+        'bom': {'min': 2, 'max': 3},
+        'otimo': {'min': 0, 'max': 2},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
         'descrbaixo': 'BAIXO',
@@ -342,20 +348,7 @@ MetricasStatus = {
         'descrbom': 'BOM',
         'descotimo': 'OTIMO'
     },
-'''
-    'TAG ALONG': {
-        'baixo': {'min': 0, 'max': 3},
-        'regular': {'min': 3, 'max': 6},
-        'bom': {'min': 6, 'max': 10},
-        'otimo': {'min': 10, 'max': float('inf')},
-        'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
-        'agrupador': 'Empresa',
-        'descrbaixo': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
-'''
+
     'LIQUIDEZ MEDIA DIARIA': {
         'baixo': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
@@ -595,7 +588,7 @@ def tratamento(indicador):
         return indicador2
 
     except Exception as e:
-        print(f"Erro inesperado tratamento : {e}", "metrica  ", metrica, " indicador  ", indicador, " stock  ",stock)
+        print(f"Erro inesperado tratamento : {e}", "metrica  ", metricasts, " indicador  ", indicador, " stock  ",stock)
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
         #print('tratamneto - erro', stock, "   ", metrica)
@@ -620,7 +613,7 @@ def tratamento3(indicador):
         return indicador2
 
     except Exception as e:
-        print(f"Erro inesperado tratamento 3 : {e}", " metrica  ", metrica, " indicador  ", indicador, " stock  ",stock)
+        print(f"Erro inesperado tratamento 3 : {e}", " metrica  ", metricasts, " indicador  ", indicador, " stock  ",stock)
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
         #print('tratamneto3 - erro', stock, "   ", metrica)
@@ -663,12 +656,14 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
 
 
     global linha2
+    global metricasts
     #linha2 = 1
     try:
         #print(dict_stocks)
         for metrica, detalhes in MetricasStatus.items():
     #        print(f'Métrica: {metrica}')
             linha2 += 1
+            metricasts = metrica
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBIT','PL/Ativos',
                            'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
@@ -703,6 +698,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
+           # print('celula - Indicador', metrica)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
                            'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
@@ -735,13 +731,13 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill = fillvermelho
                 wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descrbaixo']}")
             if  categoria_pl == 'regular':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
+                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill =fillamarelo
                 wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descregular']}")
             if  categoria_pl == 'bom':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
+                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill = fillverde
                 wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descrbom']}")
             if categoria_pl == 'otimo':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl)
+                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill =fillazul
                 wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descotimo']}")
 
 
@@ -841,7 +837,7 @@ if __name__ == "__main__":
 
         # get stock information and create excel sheet
         for stock in stocks:
-            print("stock :"  ,stock)
+            #print("stock :"  ,stock)
             try:
                 # get data and transform into dictionary
                 soup = get_stock_soup(stock)
@@ -850,7 +846,7 @@ if __name__ == "__main__":
                 gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
             except:
                 # if we not get the information... just skip it
-                print(f'Could not get {stock} information', "    ", metrica)
+                print(f'Could not get {stock} information', "    ", metricasts)
 
     # create dataframe using dictionary of stocks informations
     df = pd.DataFrame(dict_stocks)
