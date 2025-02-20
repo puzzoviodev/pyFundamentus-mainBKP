@@ -863,5 +863,5 @@ if __name__ == "__main__":
     # end timer
     end = time.time()
     wbsaida.save("StatusInvest.xlsx")
-
+    print("teste")
     print(f'Brasilian stocks information got in {int(end-start)} s')
