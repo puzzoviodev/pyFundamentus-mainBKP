@@ -76,7 +76,7 @@ MetricasStatus = {
         'descrbaixo': 'Uma margem EBITDA abaixo de 10% pode indicar que a empresa tem uma baixa eficiência operacional ou enfrenta altos custos operacionais. Isso pode ser comum em setores com alta concorrência e margens reduzidas, como o varejo ou indústrias com alta estrutura de custos',
         'descregular': 'Uma margem EBITDA nessa faixa é geralmente considerada moderada e pode ser típica de empresas que operam em setores com uma estrutura de custo mais equilibrada. Reflete uma eficiência operacional razoável e uma capacidade de gerar EBITDA de forma eficaz',
         'descrbom': ' Uma margem EBITDA entre 20% e 30% indica uma boa eficiência operacional, com a empresa gerando uma quantidade significativa de EBITDA em relação à receita líquida. Isso é comum em setores com menos pressão sobre margens e onde as empresas conseguem manter um controle eficiente dos custos.',
-        'descotimo': 'Otima margem EBITDA acima de 30% sugere uma alta eficiência operacional e uma forte capacidade de gerar EBITDA a partir das vendas. Isso pode ser típico de setores com alta margem bruta e baixo custo de produção, como tecnologia, software e serviços financeiros.IMO'
+        'descotimo': 'OTUma margem EBITDA acima de 30% sugere uma alta eficiência operacional e uma forte capacidade de gerar EBITDA a partir das vendas. Isso pode ser típico de setores com alta margem bruta e baixo custo de produção, como tecnologia, software e serviços financeiros.IMO'
     },
     'M. Bruta': {
         'baixo': {'min': -50, 'max': 20},
@@ -108,65 +108,65 @@ MetricasStatus = {
         'baixo': {'min': 4, 'max': float('inf')},
         'regular': {'min': 3, 'max': 4},
         'bom': {'min': 2, 'max': 3},
-        'otimo': {'min': -10, 'max': 2},
+        'otimo': {'min': 0, 'max': 2},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrbaixo': 'Este múltiplo sugere que a empresa está altamente alavancada e pode enfrentar dificuldades em cumprir suas obrigações financeiras. Empresas com múltiplos acima de 4 estão em uma posição financeira mais vulnerável e podem estar em risco de insolvência ou precisar de reestruturação financeira se o EBITDA não for sustentável',
-        'descregular': 'Indica uma alavancagem significativa. Empresas com múltiplos nesta faixa devem ser monitoradas de perto, pois têm menos margem de segurança para lidar com quedas no EBITDA ou aumentos de dívida. Em setores mais voláteis, esse nível de alavancagem pode ser preocupante.            ',
-        'descrbom': 'Um múltiplo nesta faixa é considerado aceitável, especialmente em setores onde é comum operar com algum nível de alavancagem. Indica que a empresa está gerenciando bem sua dívida, mas existe uma exposição maior ao risco se houver uma queda no EBITDA ou aumento na dívida.',
-        'descotimo': 'Indica uma posição financeira forte, com baixa alavancagem. Empresas nesta faixa são geralmente vistas como financeiramente saudáveis, com uma sólida capacidade de pagar suas dívidas rapidamente utilizando seus lucros operacionais antes de despesas não operacionais. Essas empresas têm menor risco de problemas financeiros, mesmo em períodos de crise.'
+        'descrbaixo': 'BAIXO',
+        'descregular': 'REGULAR',
+        'descrbom': 'BOM',
+        'descotimo': 'OTIMO'
 
     },
 
     'Div. liquida/EBIT': {
-        'baixo': {'min': 4, 'max': float('inf')},
-        'regular': {'min': 3, 'max': 4},
-        'bom': {'min': 2, 'max': 3},
-        'otimo': {'min': -10, 'max': 2},
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrbaixo': 'Este valor sugere que a empresa está altamente alavancada e pode ter dificuldades para cumprir suas obrigações de dívida se o EBIT não for sustentável. Empresas com múltiplos superiores a 4 estão em uma posição financeira mais vulnerável e podem enfrentar problemas significativos se não conseguirem aumentar seus lucros ou reduzir suas dívidas',
-        'descregular': 'Um múltiplo nesta faixa começa a indicar um nível elevado de alavancagem. Isso pode ser preocupante, especialmente se a empresa tiver fluxos de caixa voláteis ou se houver uma queda inesperada nos lucros. Embora possa ser administrável em setores com fluxos de caixa estáveis, é necessário cautela.',
-        'descrbom': ' Esta faixa é considerada aceitável, especialmente em setores onde o uso de alavancagem é comum, como utilities ou infraestrutura. Indica que a empresa está gerenciando bem sua alavancagem, mas qualquer aumento significativo na dívida ou uma queda no EBIT pode levar a preocupações financeiras.',
-        'descotimo': 'Este valor é considerado saudável. Indica que a empresa está em uma posição financeira sólida, com baixa alavancagem e boa capacidade de pagar suas dívidas rapidamente com os lucros operacionais. Empresas com este múltiplo são vistas como menos arriscadas e geralmente têm mais facilidade para enfrentar períodos de incerteza econômica.'
+        'descrbaixo': 'BAIXO',
+        'descregular': 'REGULAR',
+        'descrbom': 'BOM',
+        'descotimo': 'OTIMO'
     },
 
     'PL/Ativos': {
-        'baixo': {'min': -10, 'max': 0.30},
-        'regular': {'min': 0.30, 'max':0.50},
-        'bom': {'min': 0.50, 'max': 0.70},
-        'otimo': {'min': 0.70, 'max': float('inf')},
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrbaixo': 'Um índice abaixo de 0,30 indica que a empresa tem uma alta proporção de ativos financiados por dívidas, o que pode indicar uma estrutura de capital altamente alavancada. Isso pode ser um sinal de risco financeiro elevado, pois a empresa depende fortemente de financiamento externo para operar. Em setores onde o capital é intensivo e o endividamento é comum, como o setor imobiliário ou de infraestrutura, valores baixos podem ser mais aceitáveis.',
-        'descregular': 'Um índice nessa faixa sugere uma estrutura de capital com uma proporção razoável de patrimônio líquido em relação aos ativos. A empresa tem um equilíbrio entre o financiamento próprio e o financiamento externo. Esse nível de alavancagem é geralmente considerado moderado e pode ser típico em muitos setores',
-        'descrbom': 'Um índice entre 0,50 e 0,70 indica que a empresa possui uma boa proporção de patrimônio líquido em relação aos ativos, o que sugere uma sólida base financeira e uma menor dependência de dívidas. Empresas com valores nessa faixa geralmente têm uma estrutura de capital mais conservadora e são menos suscetíveis a riscos financeiros.',
-        'descotimo': 'Um índice acima de 0,70 mostra que a empresa possui uma alta proporção de patrimônio líquido em relação aos seus ativos, indicando baixa alavancagem. Isso sugere que a empresa é financeiramente sólida e menos dependente de financiamento externo. No entanto, uma estrutura de capital com alta proporção de patrimônio líquido também pode indicar que a empresa não está aproveitando oportunidades de alavancagem financeira para expandir seus negócios.'
+        'descrbaixo': 'BAIXO',
+        'descregular': 'REGULAR',
+        'descrbom': 'BOM',
+        'descotimo': 'OTIMO'
     },
-     # ajustar
+
     'Passivos/Ativos': {
-        'baixo': {'min': 0, 'max': 0.30},
-        'regular': {'min': 0.30, 'max': 0.50},
-        'bom': {'min': 0.50, 'max': 0.70},
-        'otimo': {'min': 0.70, 'max': float('inf')},
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrbaixo': 'Um índice abaixo de 0,30 indica que a empresa tem uma alta proporção de ativos financiados por dívidas, o que pode indicar uma estrutura de capital altamente alavancada. Isso pode ser um sinal de risco financeiro elevado, pois a empresa depende fortemente de financiamento externo para operar. Em setores onde o capital é intensivo e o endividamento é comum, como o setor imobiliário ou de infraestrutura, valores baixos podem ser mais aceitáveis',
-        'descregular': 'Um índice nessa faixa sugere uma estrutura de capital com uma proporção razoável de patrimônio líquido em relação aos ativos. A empresa tem um equilíbrio entre o financiamento próprio e o financiamento externo. Esse nível de alavancagem é geralmente considerado moderado e pode ser típico em muitos setores.',
-        'descrbom': 'Um índice entre 0,50 e 0,70 indica que a empresa possui uma boa proporção de patrimônio líquido em relação aos ativos, o que sugere uma sólida base financeira e uma menor dependência de dívidas. Empresas com valores nessa faixa geralmente têm uma estrutura de capital mais conservadora e são menos suscetíveis a riscos financeiros.',
-        'descotimo': 'Um índice acima de 0,70 mostra que a empresa possui uma alta proporção de patrimônio líquido em relação aos seus ativos, indicando baixa alavancagem. Isso sugere que a empresa é financeiramente sólida e menos dependente de financiamento externo. No entanto, uma estrutura de capital com alta proporção de patrimônio líquido também pode indicar que a empresa não está aproveitando oportunidades de alavancagem financeira para expandir seus negócios.'
+        'descrbaixo': 'BAIXO',
+        'descregular': 'REGULAR',
+        'descrbom': 'BOM',
+        'descotimo': 'OTIMO'
     },
     'Liq. corrente': {
-        'baixo': {'min': -10, 'max': 1},
-        'regular': {'min': 1, 'max': 1.5},
-        'bom': {'min': 1.5, 'max': 2},
-        'otimo': {'min': 2, 'max': float('inf')},
+        'baixo': {'min': 0, 'max': 3},
+        'regular': {'min': 3, 'max': 6},
+        'bom': {'min': 6, 'max': 10},
+        'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrbaixo': 'Um valor abaixo de 1 indica que a empresa possui mais passivos circulantes do que ativos circulantes, sugerindo que ela pode ter dificuldades em cumprir suas obrigações de curto prazo. Esse é um sinal de alerta, pois a empresa pode enfrentar problemas de liquidez, especialmente em momentos de pressão financeira.',
-        'descregular': 'Um múltiplo nesta faixa é geralmente considerado aceitável, significando que a empresa possui ativos circulantes suficientes para cobrir suas obrigações de curto prazo. No entanto, esse nível de liquidez pode ser considerado baixo em setores com alta volatilidade nos fluxos de caixa ou onde os ciclos de pagamento e recebimento são longos.',
-        'descrbom': 'Essa faixa é vista como saudável, indicando que a empresa tem uma margem de segurança confortável para cobrir suas obrigações de curto prazo. Empresas com liquidez corrente nesta faixa geralmente são consideradas financeiramente estáveis.',
-        'descotimo': 'Um valor acima de 2 sugere que a empresa tem uma posição de liquidez muito forte, com ativos circulantes significativamente superiores aos passivos circulantes. Enquanto isso pode indicar uma gestão financeira conservadora, em alguns casos pode também sinalizar que a empresa não está utilizando seus ativos de forma eficiente para gerar retornos.'
+        'descrbaixo': 'BAIXO',
+        'descregular': 'REGULAR',
+        'descrbom': 'BOM',
+        'descotimo': 'OTIMO'
     },
     'D.Y': {
         'baixo': {'min': 0, 'max': 3},
@@ -641,7 +641,7 @@ def tratamento2(indicador):
 
         return indicador2
     except Exception as e:
-        print(f"Erro inesperado tratamento2: {e}", " metrica  ", metrica, " indicador  ", indicador ," stock ", stock)
+      #  print(f"Erro inesperado tratamento2: {e}", " metrica  ", metrica, " indicador  ", indicador ," stock ", stock)
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
         #print('tratamneto2 - erro', stock, "   ", metrica)
