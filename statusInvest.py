@@ -559,7 +559,7 @@ def categorizar_valor(metrica, valor):
         print("categoriza_valor", valor2)
         print('categoriza_valor' ,stock)
     finally:
-       # print("categorizar_valor - OK")
+       # print("categorizar_valor - OK2")
        pass
 
 def criaPlanilhaIndRentabilidade(wbsaida):
