@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 from openpyxl.styles import Color, PatternFill, Font, Border
 from openpyxl.formatting.rule import ColorScaleRule, CellIsRule, FormulaRule
 import requests
-
+# teste silvio
 import warnings
 from openpyxl.styles import numbers
 
