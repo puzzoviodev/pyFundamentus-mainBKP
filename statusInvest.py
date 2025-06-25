@@ -43,492 +43,540 @@ metricasts= ""
 
 MetricasStatus = {
     'M. Liquida': {
-'ruim': {'min': -50, 'max': 5},
-        'ruim': {'min': -50, 'max': 5},
+        'pessimo': {'min': -150, 'max': 0},
+        'ruim': {'min': 0, 'max': 5},
         'regular': {'min': 5, 'max':10},
         'bom': {'min': 10, 'max': 20},
         'otimo': {'min': 20, 'max': float('inf')},
         'descricao': 'Rendimento de dividendos. Acima de 6% é considerado bom.',
         'agrupador': 'Eficiência',
-        'descrruim': 'Uma margem líquida abaixo de 5% sugere que a empresa tem uma margem de lucro relativamente baixa. Isso pode ser típico em setores com alta concorrência e margens reduzidas, como o varejo ou o setor de alimentos e bebidas. Pode indicar baixa eficiência na gestão de custos ou baixa rentabilidade',
-        'descregular': 'Uma margem líquida nessa faixa é considerada moderada e pode ser típica de empresas que operam em setores com margens mais equilibradas, como algumas indústrias ou serviços. Reflete uma eficiência razoável em converter receita em lucro líquido.',
-        'descrbom': 'Uma margem líquida entre 10% e 20% é geralmente considerada boa e indica uma empresa que é eficiente na gestão de suas despesas e custos, resultando em uma rentabilidade sólida. É comum em setores com menos concorrência e mais poder de precificação',
-        'descotimo': 'Uma margem líquida acima de 20% sugere alta eficiência e rentabilidade. Empresas com margens líquidas altas geralmente operam em setores com altas barreiras de entrada, produtos ou serviços de alto valor agregado, ou que têm uma forte vantagem competitiva. Isso pode ser visto em setores como tecnologia, software ou bens de luxo'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
     'M. EBIT': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': -50, 'max': 5},
         'regular': {'min': 5, 'max': 10},
         'bom': {'min': 10, 'max': 20},
         'otimo': {'min': 20, 'max': float('inf')},
         'descricao': 'Capacidade de pagar dívidas. Menor que 2.5 é considerado saudável.',
         'agrupador': 'Eficiência',
-        'descrruim': 'Uma margem EBIT abaixo de 5% sugere que a empresa tem uma baixa eficiência operacional. Isso pode ser comum em setores com alta concorrência e baixos níveis de diferenciação, como o varejo e alguns segmentos industriais. Indica que a empresa pode estar enfrentando desafios significativos em controlar seus custos operacionais',
-        'descregular': 'Uma margem EBIT nessa faixa é considerada moderada e pode ser típica de empresas em setores com margens mais equilibradas. Reflete uma eficiência operacional razoável, mas pode haver espaço para melhorar a rentabilidade operacional',
-        'descrbom': 'Uma margem EBIT entre 10% e 20% indica uma boa eficiência operacional. A empresa consegue gerar uma quantidade significativa de lucro operacional em relação à receita líquida. Esse nível é comum em setores menos intensivos em capital e com uma boa capacidade de controle de custos',
-        'descotimo': 'Uma margem EBIT acima de 20% sugere alta eficiência operacional e uma forte capacidade de gerar lucro operacional a partir das vendas. Isso pode ser típico de setores com altos margens brutas e controle eficaz dos custos operacionais, como tecnologia, software e alguns serviços especializados'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
     'M. EBITDA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': -50, 'max': 10},
         'regular': {'min':10, 'max': 20},
         'bom': {'min': 20, 'max': 30},
         'otimo': {'min': 30, 'max': float('inf')},
         'descricao': 'Rendimento do fluxo de caixa livre. Acima de 10% é considerado bom.',
         'agrupador': 'Eficiência',
-        'descrruim': 'Uma margem EBITDA abaixo de 10% pode indicar que a empresa tem uma baixa eficiência operacional ou enfrenta altos custos operacionais. Isso pode ser comum em setores com alta concorrência e margens reduzidas, como o varejo ou indústrias com alta estrutura de custos',
-        'descregular': 'Uma margem EBITDA nessa faixa é geralmente considerada moderada e pode ser típica de empresas que operam em setores com uma estrutura de custo mais equilibrada. Reflete uma eficiência operacional razoável e uma capacidade de gerar EBITDA de forma eficaz',
-        'descrbom': ' Uma margem EBITDA entre 20% e 30% indica uma boa eficiência operacional, com a empresa gerando uma quantidade significativa de EBITDA em relação à receita líquida. Isso é comum em setores com menos pressão sobre margens e onde as empresas conseguem manter um controle eficiente dos custos.',
-        'descotimo': 'OTUma margem EBITDA acima de 30% sugere uma alta eficiência operacional e uma forte capacidade de gerar EBITDA a partir das vendas. Isso pode ser típico de setores com alta margem bruta e baixo custo de produção, como tecnologia, software e serviços financeiros.IMO'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
     'M. Bruta': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': -50, 'max': 20},
         'regular': {'min': 20, 'max': 40},
         'bom': {'min': 40, 'max': 60},
         'otimo': {'min': 60, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Eficiência',
-        'descrruim': 'Uma margem bruta abaixo de 20% pode indicar que a empresa tem um custo de produção relativamente alto em relação à sua receita. Isso é comum em setores com altos custos de matéria-prima ou produção, como o varejo de alimentos e algumas indústrias manufatureiras.',
-        'descregular': 'Uma margem bruta nessa faixa é geralmente considerada moderada e pode ser típica de empresas com uma estrutura de custos mais equilibrada. Indica que a empresa está conseguindo controlar seus custos de produção de maneira razoável.',
-        'descrbom': 'Uma margem bruta entre 40% e 60% indica uma boa eficiência na produção e venda de produtos ou serviços. Isso é comum em setores que têm menos custos variáveis e uma estrutura de custo mais favorável, como serviços e algumas indústrias com alta diferenciação de produtos.',
-        'descotimo': 'Uma margem bruta acima de 60% sugere uma alta eficiência na produção e venda, com um custo relativamente baixo em relação à receita. Isso é típico em setores com altas barreiras de entrada, baixo custo de produção, ou produtos/serviços de alto valor agregado, como tecnologia e software'
-
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
     'Div. liquida/PL': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 2, 'max': float('inf')},
         'regular': {'min': 1, 'max': 2},
         'bom': {'min': 0.5, 'max': 1},
         'otimo': {'min': -0.5, 'max': 5},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrruim': 'ste nível indica que a empresa está altamente alavancada, com um montante significativo de dívida em relação ao patrimônio líquido. Isso pode sinalizar um alto risco financeiro e a possibilidade de dificuldades para cumprir obrigações de dívida, especialmente se a empresa enfrentar quedas nos lucros ou aumento nos custos de financiamento.',
-        'descregular': 'Empresas com múltiplos nessa faixa estão mais alavancadas, o que pode aumentar o risco financeiro, especialmente em períodos de incerteza econômica. Essas empresas dependem mais de financiamento por dívida, o que pode afetar sua capacidade de enfrentar crises ou de expandir.',
-        'descrbom': 'Um múltiplo nessa faixa sugere que a empresa tem um equilíbrio saudável entre dívida e patrimônio líquido. Isso é comum em empresas que utilizam algum nível de alavancagem para financiar seu crescimento, mas que ainda mantêm um risco financeiro relativamente controlado.',
-        'descotimo': 'Indica que a empresa tem um nível relativamente baixo de dívida em comparação ao seu patrimônio líquido. Empresas nessa faixa são geralmente consideradas financeiramente conservadoras e menos arriscadas, com menor dependência de financiamento por dívida.'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
 
     'Div. liquida/EBITDA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 4, 'max': float('inf')},
         'regular': {'min': 3, 'max': 4},
         'bom': {'min': 2, 'max': 3},
         'otimo': {'min': 0, 'max': 2},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
 
     'Div. liquida/EBIT': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'PL/Ativos': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Passivos/Ativos': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
+
     'Liq. corrente': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Endividamento',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
     'D.Y': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/L': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'PEG Ratio': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/VP': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
 
     'EV/EBITDA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'EV/EBIT': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/EBITDA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/EBIT': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'VPA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/Ativo': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'LPA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': -10, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/SR': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'P/Ativo Circ. Liq.': {
+
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Valuation',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
     'Valor atual': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'LIQUIDEZ MEDIA DIARIA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Patrimonio liquido': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
 
     'Ativos': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Ativo circulante': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Divida bruta': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Disponibilidade': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Divida liquida': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Valor de mercado': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'
     },
 
     'Valor de firma': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Free Float': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Empresa',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'ROE': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Rentabilidade',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
     'ROA': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Rentabilidade',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
     'ROIC': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Rentabilidade',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    },
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    },
 
     'Giro ativos': {
+        'pessimo': {'min': -150, 'max': -10},
         'ruim': {'min': 0, 'max': 3},
         'regular': {'min': 3, 'max': 6},
         'bom': {'min': 6, 'max': 10},
         'otimo': {'min': 10, 'max': float('inf')},
         'descricao': 'Preço em relação ao lucro. Quanto menor, mais barata a ação.',
         'agrupador': 'Rentabilidade',
-        'descrruim': 'BAIXO',
-        'descregular': 'REGULAR',
-        'descrbom': 'BOM',
-        'descotimo': 'OTIMO'
-    }
+        'descrpessimo': 'descrpessimo',
+        'descrruim': 'descrruim',
+        'descregular': 'descregular.',
+        'descrbom': 'descrbom',
+        'descotimo': 'descotimo'    }
 }
 
 wbsaida = openpyxl.Workbook()
@@ -548,12 +596,13 @@ def categorizar_valor(metrica, valor):
         #print("categoriza_valor", valor2)
         for categoria, limites in MetricasStatus[metrica].items():
 
-            if categoria in ['descricao', 'agrupador','descrruim','descregular','descrbom','descotimo']:
+            if categoria in ['descricao', 'agrupador','descrpessimo','descrruim','descregular','descrbom','descotimo']:
                 continue
             if limites['min'] <= valor2 < limites['max']:
                 return categoria
         return 'Valor fora do alcance definido'
     except Exception as e:
+        print("Debug - limites:", limites)
         print(f"Erro inesperado categorizar: {e}")
         print(f"Erro metrica: {e}")
         print("categorizar_valor - Erro" , metrica)
@@ -567,7 +616,7 @@ def criaPlanilhaIndRentabilidade(wbsaida):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(
-        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'Valor', 'Referencia', 'Ruim', 'Regular', 'Bom', 'Otimo', 'Descrição'])
+        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'Valor', 'Referencia', 'Pessimo','Ruim', 'Regular', 'Bom', 'Otimo', 'Descrição'])
 
     for cell in IndiRentabilidade[1]:  # Apenas o cabeçalho
         cell.fill = filltitulo
@@ -716,18 +765,22 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
 
-
             wsIndiRentabilidade.cell(row=linha2, column=7,
-                                     value=f"Mínimo = {detalhes['ruim']['min']}, Máximo = {detalhes['ruim']['max']}")
+                             value=f"Mínimo = {detalhes['pessimo']['min']}, Máximo = {detalhes['pessimo']['max']}")
             wsIndiRentabilidade.cell(row=linha2, column=8,
-                                     value=f"Mínimo = {detalhes['regular']['min']}, Máximo = {detalhes['regular']['max']}")
+                                     value=f"Mínimo = {detalhes['ruim']['min']}, Máximo = {detalhes['ruim']['max']}")
             wsIndiRentabilidade.cell(row=linha2, column=9,
-                                     value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
+                                     value=f"Mínimo = {detalhes['regular']['min']}, Máximo = {detalhes['regular']['max']}")
             wsIndiRentabilidade.cell(row=linha2, column=10,
+                                     value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
+            wsIndiRentabilidade.cell(row=linha2, column=11,
                                      value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
             #print(detalhes)
 
             #if metrica == 'Div. liquida/EBITDA':
+            if categoria_pl == 'pessimo':
+                wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill = fillvermelho
+                wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descrpessimo']}")
             if categoria_pl == 'ruim':
                 wsIndiRentabilidade.cell(row=linha2, column=6, value=categoria_pl).fill = fillvermelho
                 wsIndiRentabilidade.cell(row=linha2, column=11, value=f"{detalhes['descrruim']}")
