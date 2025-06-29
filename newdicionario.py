@@ -42,6 +42,7 @@ linha2 = 1
 metricasts= ""
 
 MetricasStatus = {
+
     'Dívida Líquida/EBIT': {
         'pessimo': {'min': 4, 'max': float('inf'), 'descrpessimo': 'Endividamento crítico, alto risco de insolvência: A empresa levaria mais de 4 anos de EBIT para quitar a dívida líquida, indicando alavancagem extrema. Comum em empresas em crise ou setores cíclicos (ex.: construção em recessão). Investidores devem evitar, salvo reestruturação robusta com forte geração de caixa. Análise de fluxo de caixa e cobertura de juros é essencial.'},
         'ruim': {'min': 3, 'max': 4, 'descrruim': 'Endividamento elevado, risco financeiro significativo: Leva 3-4 anos de EBIT para pagar a dívida, um nível alto para a maioria dos setores. Comum em setores intensivos em capital (ex.: infraestrutura). Investidores devem analisar a estabilidade do EBIT e a exposição a riscos macroeconômicos (ex.: aumento de juros).'},
