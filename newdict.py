@@ -1272,3 +1272,130 @@ indicadores = {
     }
 }
 ```
+=======================
+
+
+Revisão Detalhada
+
+Vou revisar cada indicador, destacando possíveis erros e ajustes. A análise será resumida aqui, e o dicionário completo será fornecido no artefato.
+
+    Dívida Líquida/EBIT:
+        Atual: Ótimo = float('-inf') a 0, Péssimo = 4 a inf.
+        Análise: Correto. Negativos indicam caixa excedendo dívida, ideal (ex.: WEGR3). Positivos altos (ex.: OIBR3) são arriscados.
+        Ajuste: Nenhum. Faixas e descrições estão adequadas.
+    Dívida Líquida/EBITDA:
+        Atual: Ótimo = float('-inf') a 0, Péssimo = 3.5 a inf.
+        Análise: Correto. Mesma lógica do anterior.
+        Ajuste: Nenhum.
+    Dívida Líquida/Patrimônio Líquido:
+        Atual: Ótimo = float('-inf') a 0, Péssimo = 1 a inf.
+        Análise: Correto. Negativos são ideais.
+        Ajuste: Nenhum.
+    Patrimônio/Ativos:
+        Atual: Péssimo = float('-inf') a 0.2, Ótimo = 0.7 a inf.
+        Análise: Correto. Patrimônio negativo é "Péssimo" (ex.: OIBR3). Faixa inclui negativos adequadamente.
+        Ajuste: Nenhum.
+    PL/Ativos:
+        Atual: Péssimo = float('-inf') a 0.2, Ótimo = 0.7 a inf.
+        Análise: Correto. Mesma lógica do Patrimônio/Ativos.
+        Ajuste: Nenhum.
+    Dividend Yield (DY):
+        Atual: Péssimo = 0 a 0, Ótimo = 6 a inf.
+        Análise: Correto. DY negativo é impossível (dividendos ≥ 0).
+        Ajuste: Nenhum.
+    EV/EBIT:
+        Atual: Ótimo = float('-inf') a 5, Péssimo = 20 a inf.
+        Análise: Potencial problema. Negativos são "Ótimo" apenas com EV negativo (alto caixa) e EBIT positivo (ex.: WEGR3). EBIT negativo (ex.: OIBR3) é "Péssimo", mas a faixa atual não isola explicitamente esse caso.
+        Ajuste: Dividir "Péssimo" em duas faixas: 20 a inf (valuation alto) e float('-inf') a 0 (se EBIT negativo). Atualizar descrição para esclarecer.
+    EV/EBITDA:
+        Atual: Ótimo = float('-inf') a 4, Péssimo = 15 a inf.
+        Análise: Mesmo problema do EV/EBIT. EBITDA negativo deve ser "Péssimo".
+        Ajuste: Dividir "Péssimo" em 15 a inf e float('-inf') a 0 (EBITDA negativo). Atualizar descrição.
+    P/ATIVO:
+        Atual: Ótimo = 0 a 0.5, Péssimo = 2 a inf.
+        Análise: Correto. Negativos são impossíveis (preço ≥ 0).
+        Ajuste: Nenhum.
+    P/Ativo Circulante Líquido:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 0 a 0.5.
+        Análise: Correto. Ativo circulante líquido negativo é "Péssimo" (ex.: OIBR3).
+        Ajuste: Nenhum.
+    P/Capital de Giro:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 0 a 0.5.
+        Análise: Correto. Capital de giro negativo é "Péssimo".
+        Ajuste: Nenhum.
+    P/EBIT:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 0 a 10.
+        Análise: Correto. EBIT negativo é "Péssimo" (ex.: OIBR3).
+        Ajuste: Nenhum.
+    P/EBITDA:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 0 a 4.
+        Análise: Correto. EBITDA negativo é "Péssimo".
+        Ajuste: Nenhum.
+    P/L:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 0 a 10.
+        Análise: Correto. Lucro negativo é "Péssimo" (ex.: OIBR3).
+        Ajuste: Nenhum.
+    P/VPA:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 0 a 1.
+        Análise: Correto. VPA negativo é "Péssimo" (ex.: OIBR3).
+        Ajuste: Nenhum.
+    PSR:
+        Atual: Ótimo = 0 a 0.5, Péssimo = 3 a inf.
+        Análise: Correto. Negativos são impossíveis (receita ≥ 0).
+        Ajuste: Nenhum.
+    Giro do Ativo:
+        Atual: Péssimo = 0 a 0.5, Ótimo = 2 a inf.
+        Análise: Correto. Negativos são impossíveis (receita ≥ 0).
+        Ajuste: Nenhum.
+    Liquidez Corrente:
+        Atual: Péssimo = 0 a 1, Ótimo = 2 a inf.
+        Análise: Correto. Negativos são impossíveis (ativos circulantes ≥ 0).
+        Ajuste: Nenhum.
+    LPA:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 2 a inf.
+        Análise: Correto. Lucro negativo é "Péssimo".
+        Ajuste: Nenhum.
+    Margem Bruta:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 30 a inf.
+        Análise: Correto. Margem negativa é "Péssimo" (ex.: OIBR3).
+        Ajuste: Nenhum.
+    Margem EBIT:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 15 a inf.
+        Análise: Correto. EBIT negativo é "Péssimo".
+        Ajuste: Nenhum.
+    Margem EBITDA:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 20 a inf.
+        Análise: Correto. EBITDA negativo é "Péssimo".
+        Ajuste: Nenhum.
+    Margem Líquida:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 20 a inf.
+        Análise: Correto. Lucro líquido negativo é "Péssimo".
+        Ajuste: Nenhum.
+    ROA:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 15 a inf.
+        Análise: Correto. ROA negativo é "Péssimo".
+        Ajuste: Nenhum.
+    ROE:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 20 a inf.
+        Análise: Correto. ROE negativo é "Péssimo".
+        Ajuste: Nenhum.
+    CAGR Lucros 5 anos:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 20 a inf.
+        Análise: Correto. Crescimento negativo é "Péssimo".
+        Ajuste: Nenhum.
+    ROIC:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 15 a inf.
+        Análise: Correto. ROIC negativo é "Péssimo".
+        Ajuste: Nenhum.
+    VPA:
+        Atual: Péssimo = float('-inf') a 0, Ótimo = 10 a inf.
+        Análise: Correto. VPA negativo é "Péssimo".
+        Ajuste: Nenhum.
+
+Problemas Identificados e Correções
+
+    EV/EBIT e EV/EBITDA: A faixa "Ótimo" inclui negativos (float('-inf') a 5 e float('-inf') a 4), mas a faixa "Péssimo" não tratava explicitamente negativos devido a EBIT/EBITDA negativo. Correção: Dividir "Péssimo" em duas faixas: 20 a inf (valuation alto) e float('-inf') a 0 (se EBIT/EBITDA negativo), com descrições claras.
+    Outros Indicadores: A maioria está correta, com negativos adequadamente classificados como "Péssimo" (ex.: P/EBIT, P/EBITDA, P/L, margens, LPA) ou excluídos onde impossíveis (ex.: PSR, Giro do Ativo).
+    Descrições: Atualizadas para maior clareza, especialmente em EV/EBIT e EV/EBITDA, explicando quando negativos são "Ótimo" (EV negativo, EBIT/EBITDA positivo) ou "Péssimo" (EBIT/EBITDA negativo).
+
+=========================
