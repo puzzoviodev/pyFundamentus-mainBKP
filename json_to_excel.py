@@ -28,4 +28,6 @@ excel_file_path = 'Indicadores_Atualizado_Critico.xlsx'
 
 # Executar a conversão
 if __name__ == "__main__":
-    json_to_excel(json_file_path, excel_file_path)
+    #json_to_excel('D:\indicadores_completo.json', 'D:\saida.xlsx')
+    # Forma correta usando barras duplas
+    json_to_excel(r'D:\indicadores_completo.json', r'D:\saida.xlsx')
