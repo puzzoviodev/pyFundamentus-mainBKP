@@ -42,6 +42,7 @@ linha2 = 1
 metricasts= ""
 
 MetricasStatus = {
+    # OK
     'M. Liquida': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 3},
@@ -56,6 +57,7 @@ MetricasStatus = {
         'descrbom': 'Boa lucratividade líquida, eficiência sólida em toda a cadeia. Comum em setores com margens moderadas (ex.: bens de consumo). Investidores devem confirmar consistência do lucro.',
         'descotimo': 'Alta lucratividade líquida, desempenho excepcional, comum em setores de alta margem (ex.: tecnologia). Investidores devem verificar sustentabilidade frente a riscos setoriais ou macroeconômicos.'
     },
+    # ok
     'M. EBIT': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -69,6 +71,8 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'    },
+
+    # OK
     'M. EBITDA': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -82,6 +86,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'    },
+    # OK
     'M. Bruta': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -95,6 +100,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'    },
+    # OK
     'Div. liquida/PL': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -108,7 +114,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'    },
-
+  # OK
     'Div. liquida/EBITDA': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -122,7 +128,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'    },
-
+    # OK
     'Div. liquida/EBIT': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -137,7 +143,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+     # ok
     'PL/Ativos': {
         'pessimo': {'min': -150, 'max': 0},
         'pessimo': {'min': -150, 'max': 0},
@@ -153,7 +159,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+# pendente
     'Passivos/Ativos': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -167,7 +173,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'},
-
+# OK
     'Liq. corrente': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -181,6 +187,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'},
+    # OK
     'D.Y': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -194,7 +201,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'},
-
+# OK
     'P/L': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -208,7 +215,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'},
-
+    # pendente
     'PEG Ratio': {
         'pessimo': {'min': -150, 'max': -10},
         'pessimo': {'min': -150, 'max': 0},
@@ -224,7 +231,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+   # OK
     'P/VP': {
         'pessimo': {'min': -150, 'max': -10},
         'pessimo': {'min': -150, 'max': 0},
@@ -240,7 +247,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+# OK
     'EV/EBITDA': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -254,7 +261,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'},
-
+# OK
     'EV/EBIT': {
         'pessimo': {'min': -150, 'max': -10},
         'pessimo': {'min': -150, 'max': 0},
@@ -270,7 +277,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+# OK
     'P/EBITDA': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -284,7 +291,7 @@ MetricasStatus = {
         'descrmoderado': 'moderado',
         'descrbom': 'bom',
         'descotimo': 'otimo'},
-
+# OK
     'P/EBIT': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -300,6 +307,7 @@ MetricasStatus = {
         'descotimo': 'otimo'
     },
 
+# OK
     'VPA': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -314,7 +322,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+#    OK
     'P/Ativo': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
@@ -329,7 +337,7 @@ MetricasStatus = {
         'descrbom': 'bom',
         'descotimo': 'otimo'
     },
-
+#  OK
     'LPA': {
         'pessimo': {'min': -150, 'max': 0},
         'ruim': {'min': 0, 'max': 5},
