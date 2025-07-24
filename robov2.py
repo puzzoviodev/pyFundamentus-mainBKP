@@ -40,7 +40,14 @@ TITLES = [
 
 linha2 = 1
 metricasts= ""
-
+''''categorias = {
+    'otimo': {'min': float('-inf'), 'max': -2},  # Valores muito baixos são ótimos
+    'bom': {'min': -2, 'max': 0},               # Valores entre -2 e 0
+    'moderado': {'min': 0, 'max': 1.5},         # Valores entre 0 e 1.5
+    'ruim': {'min': 1.5, 'max': 3},             # Valores entre 1.5 e 3
+    'pessimo': {'min': 3, 'max': 4},            # Valores entre 3 e 4
+    'critico': {'min': 4, 'max': float('inf')}   # Valores acima de 4
+}'''
 MetricasStatus = {
     'Div. liquida/EBIT': {
         'critico': {'min': float('-inf'), 'max': 0},
@@ -670,8 +677,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                            'P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
                             'P/SR','P/Ativo Circ. Liq.']:
-               # print('IF da celula - Indicador', metrica )
-               # print('IF da celula - valor', valor_pl)
+                print('IF da celula - Indicador', metrica )
+                print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
             elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
