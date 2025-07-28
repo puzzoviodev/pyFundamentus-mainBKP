@@ -289,8 +289,9 @@ MetricasStatus = {
         'descrbom': 'Boa capacidade de financiar operações, indicando equilíbrio financeiro. Comum em empresas maduras (ex.: LREN3). Investidores devem confirmar sustentabilidade.',
         'descrotimo': 'Alta capacidade de financiar operações, sugerindo subvalorização ou excesso de caixa. Comum em tecnologia (ex.: TOTS3). Investidores devem avaliar alocação de capital.'
     },
+    # ajustado 28/07
     'P/EBIT': {
-        'critico': {'min': float('-inf'), 'max': 0},
+        'critico': {'min': float('-inf'), 'max': -0.1 },
         'pessimo': {'min': 20, 'max': float('inf')},
         'ruim': {'min': 15, 'max': 20},
         'moderado': {'min': 10, 'max': 15},
@@ -305,8 +306,9 @@ MetricasStatus = {
         'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do EBIT.',
         'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou EBIT inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROIC.'
     },
+# ajustado 28/07
     'P/EBITDA': {
-        'critico': {'min': float('-inf'), 'max': 0},
+        'critico': {'min': float('-inf'), 'max': -0.1},
         'pessimo': {'min': 15, 'max': float('inf')},
         'ruim': {'min': 10, 'max': 15},
         'moderado': {'min': 6, 'max': 10},
@@ -677,8 +679,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                            'P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
                             'P/SR','P/Ativo Circ. Liq.']:
-                print('IF da celula - Indicador', metrica )
-                print('IF da celula - valor', valor_pl)
+               # print('IF da celula - Indicador', metrica )
+               # print('IF da celula - valor', valor_pl)
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
             elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
