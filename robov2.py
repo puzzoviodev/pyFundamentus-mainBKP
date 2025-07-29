@@ -500,7 +500,23 @@ MetricasStatus = {
         'descrmoderado': 'Crescimento moderado, aceitável em setores estáveis (ex.: ABEV3). Investidores devem verificar sustentabilidade do crescimento e barreiras de entrada.',
         'descrbom': 'Bom crescimento, desempenho sólido, comum em setores com expansão moderada (ex.: LREN3). Investidores devem confirmar consistência do crescimento.',
         'descrotimo': 'Crescimento excepcional, refletindo forte expansão. Comum em setores de alta margem ou inovação (ex.: TOTS3). Investidores devem verificar sustentabilidade frente a riscos setoriais.'
-    }
+    },
+    'Divida bruta': {
+        'critico': {'min': float('-inf'), 'max': 0},
+        'pessimo': {'min': 0, 'max': 0.05},
+        'ruim': {'min': 0.05, 'max': 0.1},
+        'moderado': {'min': 0.1, 'max': 0.15},
+        'bom': {'min': 0.15, 'max': 0.2},
+        'otimo': {'min': 0.2, 'max': float('inf')},
+        'descricao': 'Taxa composta de crescimento anual dos lucros nos últimos 5 anos. Mede crescimento de rentabilidade.',
+        'agrupador': 'Outros',
+        'descrcritico': 'Crescimento negativo dos lucros, indicando declínio ou prejuízo recorrente. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
+        'descrpessimo': 'Crescimento muito baixo, indicando estagnação. Comum em setores maduros com baixa inovação (ex.: varejo tradicional). Investidores devem investigar potencial de melhoria.',
+        'descrruim': 'Crescimento limitado, comum em setores cíclicos (ex.: GGBR4). Investidores devem analisar tendências setoriais e estratégias de crescimento.',
+        'descrmoderado': 'Crescimento moderado, aceitável em setores estáveis (ex.: ABEV3). Investidores devem verificar sustentabilidade do crescimento e barreiras de entrada.',
+        'descrbom': 'Bom crescimento, desempenho sólido, comum em setores com expansão moderada (ex.: LREN3). Investidores devem confirmar consistência do crescimento.',
+        'descrotimo': 'Crescimento excepcional, refletindo forte expansão. Comum em setores de alta margem ou inovação (ex.: TOTS3). Investidores devem verificar sustentabilidade frente a riscos setoriais.'
+        }
 }
 
 wbsaida = openpyxl.Workbook()
@@ -672,7 +688,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
-           # print('celula - Indicador', metrica)
+            print('celula - Indicador', metrica)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
                            'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
@@ -685,6 +701,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
                              'Divida liquida','Valor de mercado','Valor de firma']:
+                  print('IF da celula - valor', valor_pl)
+                  print('IF da celula - Indicador', metrica)
                   wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
