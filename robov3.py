@@ -649,7 +649,7 @@ def tratamento2(indicador):
         return indicador2
     except Exception as e:
       # print(f"Erro inesperado tratamento2: {e}", " metrica  ", metrica, " indicador  ", indicador ," stock ", stock)
-        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(metrica) g # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
         print('tratamneto2 - erro', stock)
 
