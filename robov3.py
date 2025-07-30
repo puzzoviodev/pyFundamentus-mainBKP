@@ -543,7 +543,399 @@ def classificar_divida_ebit(valor):
             return {'classificacao': 'pessimo', 'descricao': 'teste'}
         else:
             return {'classificacao': 'pessimo', 'descricao': 'teste'}
+def evaluate_div_liquida_ebit(value):
+    if value == float('-inf') or value < 0:
+        return 'critico'
+    elif value <= 1.5:
+        return 'bom'
+    elif value <= 3:
+        return 'moderado'
+    elif value <= 4:
+        return 'ruim'
+    else:
+        return 'pessimo'
 
+def evaluate_div_liquida_ebitda(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 1:
+        return 'bom'
+    elif value <= 2.5:
+        return 'moderado'
+    elif value <= 3.5:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_div_liquida_pl(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.3:
+        return 'bom'
+    elif value <= 0.7:
+        return 'moderado'
+    elif value <= 1:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_dy(value):
+    if value == 0:
+        return 'critico'
+    elif value <= 0.02:
+        return 'ruim'
+    elif value <= 0.04:
+        return 'moderado'
+    elif value <= 0.06:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_ev_ebit(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 4:
+        return 'otimo'
+    elif value <= 8:
+        return 'bom'
+    elif value <= 12:
+        return 'moderado'
+    elif value <= 15:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_ev_ebitda(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 3:
+        return 'otimo'
+    elif value <= 6:
+        return 'bom'
+    elif value <= 10:
+        return 'moderado'
+    elif value <= 12:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_giro_ativo(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.2:
+        return 'pessimo'
+    elif value <= 0.4:
+        return 'ruim'
+    elif value <= 0.8:
+        return 'moderado'
+    elif value <= 1.2:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_liq_corrente(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.8:
+        return 'pessimo'
+    elif value <= 1.2:
+        return 'ruim'
+    elif value <= 1.8:
+        return 'moderado'
+    elif value <= 2.5:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_lpa(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.1:
+        return 'pessimo'
+    elif value <= 0.5:
+        return 'ruim'
+    elif value <= 1:
+        return 'moderado'
+    elif value <= 2:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_m_bruta(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.15:
+        return 'pessimo'
+    elif value <= 0.25:
+        return 'ruim'
+    elif value <= 0.4:
+        return 'moderado'
+    elif value <= 0.6:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_m_ebit(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.05:
+        return 'pessimo'
+    elif value <= 0.15:
+        return 'ruim'
+    elif value <= 0.25:
+        return 'moderado'
+    elif value <= 0.35:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_m_ebitda(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.1:
+        return 'pessimo'
+    elif value <= 0.2:
+        return 'ruim'
+    elif value <= 0.3:
+        return 'moderado'
+    elif value <= 0.4:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_m_liquida(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.05:
+        return 'pessimo'
+    elif value <= 0.1:
+        return 'ruim'
+    elif value <= 0.15:
+        return 'moderado'
+    elif value <= 0.25:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_p_ativo_circulante_liquido(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 1:
+        return 'ruim'
+    elif value <= 2:
+        return 'moderado'
+    elif value <= 3:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_p_capital_giro(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 2:
+        return 'ruim'
+    elif value <= 4:
+        return 'moderado'
+    elif value <= 6:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_p_ebit(value):
+    if value <= -0.1:
+        return 'critico'
+    elif value <= 5:
+        return 'otimo'
+    elif value <= 10:
+        return 'bom'
+    elif value <= 15:
+        return 'moderado'
+    elif value <= 20:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_p_ebitda(value):
+    if value <= -0.1:
+        return 'critico'
+    elif value <= 3:
+        return 'otimo'
+    elif value <= 6:
+        return 'bom'
+    elif value <= 10:
+        return 'moderado'
+    elif value <= 15:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_p_l(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 5:
+        return 'otimo'
+    elif value <= 10:
+        return 'bom'
+    elif value <= 15:
+        return 'moderado'
+    elif value <= 20:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_p_vp(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.5:
+        return 'otimo'
+    elif value <= 1:
+        return 'bom'
+    elif value <= 1.5:
+        return 'moderado'
+    elif value <= 2:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_p_ativo(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.2:
+        return 'pessimo'
+    elif value <= 0.3:
+        return 'ruim'
+    elif value <= 0.5:
+        return 'moderado'
+    elif value <= 0.8:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_pl_ativos(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.2:
+        return 'pessimo'
+    elif value <= 0.5:
+        return 'ruim'
+    elif value <= 0.8:
+        return 'moderado'
+    elif value <= 1:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_psr(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.5:
+        return 'otimo'
+    elif value <= 1:
+        return 'bom'
+    elif value <= 2:
+        return 'moderado'
+    elif value <= 3:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_p_sales_ratio(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.5:
+        return 'otimo'
+    elif value <= 1:
+        return 'bom'
+    elif value <= 2:
+        return 'moderado'
+    elif value <= 3:
+        return 'ruim'
+    else:
+        return 'pessimo'
+
+def evaluate_roa(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.03:
+        return 'pessimo'
+    elif value <= 0.08:
+        return 'ruim'
+    elif value <= 0.15:
+        return 'moderado'
+    elif value <= 0.25:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_roe(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.05:
+        return 'pessimo'
+    elif value <= 0.1:
+        return 'ruim'
+    elif value <= 0.15:
+        return 'moderado'
+    elif value <= 0.25:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_roic(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.05:
+        return 'pessimo'
+    elif value <= 0.1:
+        return 'ruim'
+    elif value <= 0.15:
+        return 'moderado'
+    elif value <= 0.2:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_vpa(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.5:
+        return 'pessimo'
+    elif value <= 1:
+        return 'ruim'
+    elif value <= 2:
+        return 'moderado'
+    elif value <= 5:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_cagr_lucros_5_anos(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.05:
+        return 'pessimo'
+    elif value <= 0.1:
+        return 'ruim'
+    elif value <= 0.15:
+        return 'moderado'
+    elif value <= 0.2:
+        return 'bom'
+    else:
+        return 'otimo'
+
+def evaluate_divida_bruta(value):
+    if value <= 0:
+        return 'critico'
+    elif value <= 0.05:
+        return 'pessimo'
+    elif value <= 0.1:
+        return 'ruim'
+    elif value <= 0.15:
+        return 'moderado'
+    elif value <= 0.2:
+        return 'bom'
+    else:
+        return 'otimo'
 
 def categorizar_valor(metrica, valor):
     try:
