@@ -844,6 +844,8 @@ if __name__ == "__main__":
                 soup = get_stock_soup(stock)
                 dict_stock = soup_to_dict(soup)
                 dict_stocks[stock] = dict_stock
+                print(soup)
+                print(dict_stock)
                 gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
             except:
                 # if we not get the information... just skip it
