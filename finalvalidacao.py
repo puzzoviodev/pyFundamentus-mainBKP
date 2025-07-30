@@ -77,11 +77,22 @@ def evaluate_ev_ebit(value, ebit):
         return 'pessimo'
 
 
-def evaluate_ev_ebitda(value, ebitda):
+def evaluate_ev_ebitda(value, ebitda, ev):
+    """
+    Avalia o múltiplo EV/EBITDA com base em faixas predefinidas.
+    Args:
+        value: O valor do EV/EBITDA.
+        ebitda: O valor do EBITDA da empresa.
+        ev: O valor do Enterprise Value (EV).
+    Returns:
+        str: Classificação ('critico', 'pessimo', 'ruim', 'moderado', 'bom', 'otimo').
+    """
     if ebitda <= 0:  # EBITDA negativo ou zero indica problemas operacionais
         return 'critico'
-    if value < 0:  # EV/EBITDA negativo é favorável
+    if value < 0 and ev < 0:  # EV/EBITDA negativo devido a EV negativo é favorável
         return 'otimo'
+    if value < 0:  # EV/EBITDA negativo devido a outros fatores (ex.: erro de cálculo)
+        return 'critico'
     elif value <= 3:
         return 'otimo'
     elif value <= 6:
@@ -239,21 +250,6 @@ def evaluate_p_ebit(value, ebit):
     elif value <= 15:
         return 'moderado'
     elif value <= 20:
-        return 'ruim'
-    else:
-        return 'pessimo'
-
-
-def evaluate_p_ebitda(value, ebitda):
-    if ebitda <= 0:  # EBITDA negativo ou zero indica problemas operacionais
-        return 'critico'
-    if value <= 3:  # Inclui valores negativos e até 3 como ótimo
-        return 'otimo'
-    elif value <= 6:
-        return 'bom'
-    elif value <= 10:
-        return 'moderado'
-    elif value <= 15:
         return 'ruim'
     else:
         return 'pessimo'
@@ -453,6 +449,8 @@ def calculate_indicators(financial_data):
     try:
         # Dívida Líquida
         divida_liquida = financial_data.get('divida_total', 0) - financial_data.get('caixa', 0)
+        # Enterprise Value
+        ev = financial_data.get('valor_mercado', 0) + divida_liquida
 
         # Indicadores
         indicators['div_liquida_ebit'] = divida_liquida / financial_data['ebit'] if financial_data.get(
@@ -475,8 +473,7 @@ def calculate_indicators(financial_data):
             'capital_giro'] if financial_data.get('capital_giro') else float('inf')
         indicators['p_ebit'] = financial_data.get('valor_mercado', 0) / financial_data['ebit'] if financial_data.get(
             'ebit') else float('inf')
-        indicators['p_ebitda'] = financial_data.get('valor_mercado', 0) / financial_data[
-            'ebitda'] if financial_data.get('ebitda') else float('inf')
+        indicators['p_ebitda'] = ev / financial_data['ebitda'] if financial_data.get('ebitda') else float('inf')
         indicators['p_l'] = financial_data.get('valor_mercado', 0) / financial_data[
             'lucro_liquido'] if financial_data.get('lucro_liquido') else float('inf')
         indicators['p_vp'] = financial_data.get('preco_acao', 0) / financial_data['vp'] if financial_data.get(
@@ -492,6 +489,7 @@ def calculate_indicators(financial_data):
             'pl') else float('inf')
         indicators['divida_bruta'] = financial_data.get('divida_total', 0) / financial_data[
             'ebitda'] if financial_data.get('ebitda') else float('inf')
+        indicators['ev'] = ev  # Adiciona EV para uso na avaliação
     except ZeroDivisionError:
         pass  # Já tratado pelas funções de avaliação
     return indicators
@@ -518,7 +516,8 @@ def cross_validate_indicators(indicators):
     results['p_capital_giro'] = evaluate_p_capital_giro(indicators.get('p_capital_giro', float('inf')),
                                                         indicators.get('capital_giro', 0))
     results['p_ebit'] = evaluate_p_ebit(indicators.get('p_ebit', float('inf')), indicators.get('ebit', 0))
-    results['p_ebitda'] = evaluate_p_ebitda(indicators.get('p_ebitda', float('inf')), indicators.get('ebitda', 0))
+    results['p_ebitda'] = evaluate_ev_ebitda(indicators.get('p_ebitda', float('inf')), indicators.get('ebitda', 0),
+                                             indicators.get('ev', 0))
     results['p_l'] = evaluate_p_l(indicators.get('p_l', float('inf')), indicators.get('lucro_liquido', 0))
     results['p_vp'] = evaluate_p_vp(indicators.get('p_vp', float('inf')), indicators.get('vp', 0))
     results['pl_ativos'] = evaluate_pl_ativos(indicators.get('pl_ativos', float('inf')), indicators.get('pl', 0))
@@ -530,26 +529,22 @@ def cross_validate_indicators(indicators):
                                                     indicators.get('ebitda', 0))
 
     # Validação cruzada
-    # 1. Consistência entre P/L, P/EBIT, P/EBITDA
     valuation_metrics = ['p_l', 'p_ebit', 'p_ebitda']
     valuation_results = [results[m] for m in valuation_metrics]
     if 'otimo' in valuation_results and 'pessimo' in valuation_results:
         alerts.append("Inconsistência: Avaliações de valuation (P/L, P/EBIT, P/EBITDA) muito discrepantes.")
 
-    # 2. Consistência entre Margens
     margin_metrics = ['m_bruta', 'm_ebit', 'm_ebitda', 'm_liquida']
     margin_results = [results[m] for m in margin_metrics]
     if 'otimo' in margin_results and 'critico' in margin_results:
         alerts.append("Inconsistência: Margens (Bruta, EBIT, EBITDA, Líquida) com avaliações muito discrepantes.")
 
-    # 3. Consistência entre indicadores de endividamento
     debt_metrics = ['div_liquida_ebit', 'div_liquida_ebitda', 'div_liquida_pl', 'divida_bruta']
     debt_results = [results[m] for m in debt_metrics]
     if 'otimo' in debt_results and 'pessimo' in debt_results:
         alerts.append(
             "Inconsistência: Indicadores de endividamento (Div. Líquida/EBIT, Div. Líquida/EBITDA, Div. Líquida/PL, Dívida Bruta) muito discrepantes.")
 
-    # 4. Consistência entre ROE, P/L e P/VP
     if results['roe'] == 'critico' and (results['p_l'] in ['otimo', 'bom'] or results['p_vp'] in ['otimo', 'bom']):
         alerts.append("Inconsistência: ROE crítico, mas P/L ou P/VP são favoráveis.")
 
