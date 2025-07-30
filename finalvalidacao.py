@@ -1,589 +1,616 @@
 def evaluate_p_l(value, lucro_liquido):
     """
     Avalia o Preço/Lucro (P/L). Faixas baseadas no mercado brasileiro:
-    - < 8: Subvalorizado (ótimo)
-    - 8-12: Atraente (bom)
-    - 12-18: Neutro (moderado)
-    - 18-25: Caro (ruim)
-    - > 25: Sobrevalorizado (péssimo)
+    - Lucro Líquido ≤ 0: Prejuízo (crítico)
+    - 0 < P/L ≤ 8: Subvalorizado (ótimo)
+    - 8 < P/L ≤ 12: Atraente (bom)
+    - 12 < P/L ≤ 18: Neutro (moderado)
+    - 18 < P/L ≤ 25: Caro (ruim)
+    - P/L > 25: Sobrevalorizado (péssimo)
     """
     if lucro_liquido <= 0:  # Lucro Líquido negativo indica prejuízo
         return 'critico'
-    if value <= 8:
+    if value <= 0 or value == float('inf'):
+        return 'critico'
+    elif 0 < value <= 8:
         return 'otimo'
-    elif value <= 12:
+    elif 8 < value <= 12:
         return 'bom'
-    elif value <= 18:
+    elif 12 < value <= 18:
         return 'moderado'
-    elif value <= 25:
+    elif 18 < value <= 25:
         return 'ruim'
-    else:
+    else:  # value > 25
         return 'pessimo'
 
 
 def evaluate_p_vp(value, vp):
     """
     Avalia o Preço/Valor Patrimonial (P/VP). Faixas baseadas em análise fundamentalista:
-    - < 0.8: Subvalorizado (ótimo)
-    - 0.8-1.2: Atraente (bom)
-    - 1.2-1.8: Neutro (moderado)
-    - 1.8-2.5: Caro (ruim)
-    - > 2.5: Sobrevalorizado (péssimo)
+    - Valor Patrimonial ≤ 0: Insolvência (crítico)
+    - P/VP ≤ 0: Inválido (crítico)
+    - 0 < P/VP ≤ 0.8: Subvalorizado (ótimo)
+    - 0.8 < P/VP ≤ 1.2: Atraente (bom)
+    - 1.2 < P/VP ≤ 1.8: Neutro (moderado)
+    - 1.8 < P/VP ≤ 2.5: Caro (ruim)
+    - P/VP > 2.5: Sobrevalorizado (péssimo)
     """
-    if vp <= 0:  # Valor Patrimonial negativo indica insolvência
+    if vp <= 0 or value <= 0:
         return 'critico'
-    if value <= 0:
-        return 'critico'
-    elif value <= 0.8:
+    elif 0 < value <= 0.8:
         return 'otimo'
-    elif value <= 1.2:
+    elif 0.8 < value <= 1.2:
         return 'bom'
-    elif value <= 1.8:
+    elif 1.2 < value <= 1.8:
         return 'moderado'
-    elif value <= 2.5:
+    elif 1.8 < value <= 2.5:
         return 'ruim'
-    else:
+    else:  # value > 2.5
         return 'pessimo'
 
 
 def evaluate_p_ebitda(value, ebitda):
     """
     Avalia o Preço/EBITDA. Faixas ajustadas para mercado brasileiro:
-    - < 4: Subvalorizado (ótimo)
-    - 4-7: Atraente (bom)
-    - 7-10: Neutro (moderado)
-    - 10-13: Caro (ruim)
-    - > 13: Sobrevalorizado (péssimo)
+    - EBITDA ≤ 0: Problemas operacionais (crítico)
+    - P/EBITDA ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < P/EBITDA ≤ 4: Subvalorizado (ótimo)
+    - 4 < P/EBITDA ≤ 7: Atraente (bom)
+    - 7 < P/EBITDA ≤ 10: Neutro (moderado)
+    - 10 < P/EBITDA ≤ 13: Caro (ruim)
+    - P/EBITDA > 13: Sobrevalorizado (péssimo)
     """
-    if ebitda <= 0:  # EBITDA negativo ou zero indica problemas operacionais
+    if ebitda <= 0 or value <= 0 or value == float('inf'):
         return 'critico'
-    if value <= 0 or value == float('inf'):
-        return 'critico'
-    elif value <= 4:
+    elif 0 < value <= 4:
         return 'otimo'
-    elif value <= 7:
+    elif 4 < value <= 7:
         return 'bom'
-    elif value <= 10:
+    elif 7 < value <= 10:
         return 'moderado'
-    elif value <= 13:
+    elif 10 < value <= 13:
         return 'ruim'
-    else:
+    else:  # value > 13
         return 'pessimo'
 
 
 def evaluate_p_ebit(value, ebit):
     """
     Avalia o Preço/EBIT. Faixas ajustadas para mercado brasileiro:
-    - < 5: Subvalorizado (ótimo)
-    - 5-9: Atraente (bom)
-    - 9-14: Neutro (moderado)
-    - 14-20: Caro (ruim)
-    - > 20: Sobrevalorizado (péssimo)
+    - EBIT ≤ 0: Problemas operacionais (crítico)
+    - P/EBIT ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < P/EBIT ≤ 5: Subvalorizado (ótimo)
+    - 5 < P/EBIT ≤ 9: Atraente (bom)
+    - 9 < P/EBIT ≤ 14: Neutro (moderado)
+    - 14 < P/EBIT ≤ 20: Caro (ruim)
+    - P/EBIT > 20: Sobrevalorizado (péssimo)
     """
-    if ebit <= 0:  # EBIT negativo ou zero indica problemas operacionais
+    if ebit <= 0 or value <= 0 or value == float('inf'):
         return 'critico'
-    if value <= 5:
+    elif 0 < value <= 5:
         return 'otimo'
-    elif value <= 9:
+    elif 5 < value <= 9:
         return 'bom'
-    elif value <= 14:
+    elif 9 < value <= 14:
         return 'moderado'
-    elif value <= 20:
+    elif 14 < value <= 20:
         return 'ruim'
-    else:
+    else:  # value > 20
         return 'pessimo'
 
 
 def evaluate_ev_ebitda(value, ebitda, ev):
     """
     Avalia o EV/EBITDA. Faixas baseadas em benchmarks fundamentalistas:
-    - < 4: Subvalorizado (ótimo)
-    - 4-7: Atraente (bom)
-    - 7-10: Neutro (moderado)
-    - 10-13: Caro (ruim)
-    - > 13: Sobrevalorizado (péssimo)
+    - EBITDA ≤ 0: Problemas operacionais (crítico)
+    - EV/EBITDA < 0 e EV < 0: Excesso de caixa (ótimo)
+    - EV/EBITDA < 0 (outros casos): Inválido (crítico)
+    - 0 < EV/EBITDA ≤ 4: Subvalorizado (ótimo)
+    - 4 < EV/EBITDA ≤ 7: Atraente (bom)
+    - 7 < EV/EBITDA ≤ 10: Neutro (moderado)
+    - 10 < EV/EBITDA ≤ 13: Caro (ruim)
+    - EV/EBITDA > 13: Sobrevalorizado (péssimo)
     """
-    if ebitda <= 0:  # EBITDA negativo ou zero indica problemas operacionais
+    if ebitda <= 0:
         return 'critico'
     if value < 0 and ev < 0:  # EV/EBITDA negativo devido a EV negativo é favorável
         return 'otimo'
-    if value < 0:  # EV/EBITDA negativo devido a outros fatores (ex.: erro de cálculo)
+    if value < 0:  # Outros casos de EV/EBITDA negativo
         return 'critico'
-    elif value <= 4:
+    elif 0 < value <= 4:
         return 'otimo'
-    elif value <= 7:
+    elif 4 < value <= 7:
         return 'bom'
-    elif value <= 10:
+    elif 7 < value <= 10:
         return 'moderado'
-    elif value <= 13:
+    elif 10 < value <= 13:
         return 'ruim'
-    else:
+    else:  # value > 13
         return 'pessimo'
 
 
 def evaluate_ev_ebit(value, ebit):
     """
     Avalia o EV/EBIT. Faixas ajustadas para mercado brasileiro:
-    - < 6: Subvalorizado (ótimo)
-    - 6-10: Atraente (bom)
-    - 10-15: Neutro (moderado)
-    - 15-20: Caro (ruim)
-    - > 20: Sobrevalorizado (péssimo)
+    - EBIT ≤ 0: Problemas operacionais (crítico)
+    - EV/EBIT < 0: Excesso de caixa (ótimo)
+    - 0 < EV/EBIT ≤ 6: Subvalorizado (ótimo)
+    - 6 < EV/EBIT ≤ 10: Atraente (bom)
+    - 10 < EV/EBIT ≤ 15: Neutro (moderado)
+    - 15 < EV/EBIT ≤ 20: Caro (ruim)
+    - EV/EBIT > 20: Sobrevalorizado (péssimo)
     """
-    if ebit <= 0:  # EBIT negativo ou zero indica problemas operacionais
+    if ebit <= 0:
         return 'critico'
     if value < 0:
         return 'otimo'
-    elif value <= 6:
+    elif 0 < value <= 6:
         return 'otimo'
-    elif value <= 10:
+    elif 6 < value <= 10:
         return 'bom'
-    elif value <= 15:
+    elif 10 < value <= 15:
         return 'moderado'
-    elif value <= 20:
+    elif 15 < value <= 20:
         return 'ruim'
-    else:
+    else:  # value > 20
         return 'pessimo'
 
 
 def evaluate_p_sr(value):
     """
     Avalia o Preço/Receita (P/SR). Faixas baseadas em médias setoriais:
-    - < 0.7: Subvalorizado (ótimo)
-    - 0.7-1.2: Atraente (bom)
-    - 1.2-2: Neutro (moderado)
-    - 2-3: Caro (ruim)
-    - > 3: Sobrevalorizado (péssimo)
+    - P/SR ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < P/SR ≤ 0.7: Subvalorizado (ótimo)
+    - 0.7 < P/SR ≤ 1.2: Atraente (bom)
+    - 1.2 < P/SR ≤ 2: Neutro (moderado)
+    - 2 < P/SR ≤ 3: Caro (ruim)
+    - P/SR > 3: Sobrevalorizado (péssimo)
     """
     if value <= 0 or value == float('inf'):
         return 'critico'
-    elif value <= 0.7:
+    elif 0 < value <= 0.7:
         return 'otimo'
-    elif value <= 1.2:
+    elif 0.7 < value <= 1.2:
         return 'bom'
-    elif value <= 2:
+    elif 1.2 < value <= 2:
         return 'moderado'
-    elif value <= 3:
+    elif 2 < value <= 3:
         return 'ruim'
-    else:
+    else:  # value > 3
         return 'pessimo'
 
 
 def evaluate_p_ativo(value):
     """
     Avalia o Preço/Ativo. Faixas baseadas em análise fundamentalista:
-    - < 0.3: Subvalorizado (ótimo)
-    - 0.3-0.5: Atraente (bom)
-    - 0.5-0.8: Neutro (moderado)
-    - 0.8-1.2: Caro (ruim)
-    - > 1.2: Sobrevalorizado (péssimo)
+    - P/Ativo ≤ 0: Inválido (crítico)
+    - 0 < P/Ativo ≤ 0.3: Subvalorizado (ótimo)
+    - 0.3 < P/Ativo ≤ 0.5: Atraente (bom)
+    - 0.5 < P/Ativo ≤ 0.8: Neutro (moderado)
+    - 0.8 < P/Ativo ≤ 1.2: Caro (ruim)
+    - P/Ativo > 1.2: Sobrevalorizado (péssimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.3:
+    elif 0 < value <= 0.3:
         return 'otimo'
-    elif value <= 0.5:
+    elif 0.3 < value <= 0.5:
         return 'bom'
-    elif value <= 0.8:
+    elif 0.5 < value <= 0.8:
         return 'moderado'
-    elif value <= 1.2:
+    elif 0.8 < value <= 1.2:
         return 'ruim'
-    else:
+    else:  # value > 1.2
         return 'pessimo'
 
 
 def evaluate_vpa(value, pl):
     """
     Avalia o Valor Patrimonial por Ação (VPA). Faixas baseadas em crescimento patrimonial:
-    - < 0.5: Muito baixo (péssimo)
-    - 0.5-1: Baixo (ruim)
-    - 1-2: Neutro (moderado)
-    - 2-5: Atraente (bom)
-    - > 5: Excelente (ótimo)
+    - Patrimônio Líquido ≤ 0: Insolvência (crítico)
+    - VPA ≤ 0: Inválido (crítico)
+    - 0 < VPA ≤ 0.5: Muito baixo (péssimo)
+    - 0.5 < VPA ≤ 1: Baixo (ruim)
+    - 1 < VPA ≤ 2: Neutro (moderado)
+    - 2 < VPA ≤ 5: Atraente (bom)
+    - VPA > 5: Excelente (ótimo)
     """
-    if pl <= 0:
+    if pl <= 0 or value <= 0:
         return 'critico'
-    if value <= 0:
-        return 'critico'
-    elif value <= 0.5:
+    elif 0 < value <= 0.5:
         return 'pessimo'
-    elif value <= 1:
+    elif 0.5 < value <= 1:
         return 'ruim'
-    elif value <= 2:
+    elif 1 < value <= 2:
         return 'moderado'
-    elif value <= 5:
+    elif 2 < value <= 5:
         return 'bom'
-    else:
+    else:  # value > 5
         return 'otimo'
 
 
 def evaluate_lpa(value):
     """
     Avalia o Lucro por Ação (LPA). Faixas baseadas em benchmarks brasileiros:
-    - < 0.2: Muito baixo (péssimo)
-    - 0.2-0.5: Baixo (ruim)
-    - 0.5-1: Neutro (moderado)
-    - 1-2: Atraente (bom)
-    - > 2: Excelente (ótimo)
+    - LPA ≤ 0: Prejuízo (crítico)
+    - 0 < LPA ≤ 0.2: Muito baixo (péssimo)
+    - 0.2 < LPA ≤ 0.5: Baixo (ruim)
+    - 0.5 < LPA ≤ 1: Neutro (moderado)
+    - 1 < LPA ≤ 2: Atraente (bom)
+    - LPA > 2: Excelente (ótimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.2:
+    elif 0 < value <= 0.2:
         return 'pessimo'
-    elif value <= 0.5:
+    elif 0.2 < value <= 0.5:
         return 'ruim'
-    elif value <= 1:
+    elif 0.5 < value <= 1:
         return 'moderado'
-    elif value <= 2:
+    elif 1 < value <= 2:
         return 'bom'
-    else:
+    else:  # value > 2
         return 'otimo'
 
 
 def evaluate_peg_ratio(value):
     """
     Avalia o PEG Ratio (P/L dividido por crescimento do lucro). Faixas baseadas em Peter Lynch:
-    - < 0.5: Subvalorizado (ótimo)
-    - 0.5-1: Atraente (bom)
-    - 1-1.5: Neutro (moderado)
-    - 1.5-2: Caro (ruim)
-    - > 2: Sobrevalorizado (péssimo)
+    - PEG ≤ 0: Inválido (crítico)
+    - 0 < PEG ≤ 0.5: Subvalorizado (ótimo)
+    - 0.5 < PEG ≤ 1: Atraente (bom)
+    - 1 < PEG ≤ 1.5: Neutro (moderado)
+    - 1.5 < PEG ≤ 2: Caro (ruim)
+    - PEG > 2: Sobrevalorizado (péssimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.5:
+    elif 0 < value <= 0.5:
         return 'otimo'
-    elif value <= 1:
+    elif 0.5 < value <= 1:
         return 'bom'
-    elif value <= 1.5:
+    elif 1 < value <= 1.5:
         return 'moderado'
-    elif value <= 2:
+    elif 1.5 < value <= 2:
         return 'ruim'
-    else:
+    else:  # value > 2
         return 'pessimo'
 
 
 def evaluate_margem_bruta(value):
     """
     Avalia a Margem Bruta. Faixas baseadas em médias setoriais:
-    - < 15%: Muito baixa (péssimo)
-    - 15-25%: Baixa (ruim)
-    - 25-40%: Neutra (moderado)
-    - 40-60%: Alta (bom)
-    - > 60%: Excelente (ótimo)
+    - Margem Bruta ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < Margem Bruta ≤ 15%: Muito baixa (péssimo)
+    - 15% < Margem Bruta ≤ 25%: Baixa (ruim)
+    - 25% < Margem Bruta ≤ 40%: Neutra (moderado)
+    - 40% < Margem Bruta ≤ 60%: Alta (bom)
+    - Margem Bruta > 60%: Excelente (ótimo)
     """
     if value <= 0 or value == float('inf'):
         return 'critico'
-    elif value <= 0.15:
+    elif 0 < value <= 0.15:
         return 'pessimo'
-    elif value <= 0.25:
+    elif 0.15 < value <= 0.25:
         return 'ruim'
-    elif value <= 0.4:
+    elif 0.25 < value <= 0.4:
         return 'moderado'
-    elif value <= 0.6:
+    elif 0.4 < value <= 0.6:
         return 'bom'
-    else:
+    else:  # value > 0.6
         return 'otimo'
 
 
 def evaluate_margem_ebitda(value):
     """
     Avalia a Margem EBITDA. Faixas baseadas em setores brasileiros:
-    - < 10%: Muito baixa (péssimo)
-    - 10-20%: Baixa (ruim)
-    - 20-30%: Neutra (moderado)
-    - 30-45%: Alta (bom)
-    - > 45%: Excelente (ótimo)
+    - Margem EBITDA ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < Margem EBITDA ≤ 10%: Muito baixa (péssimo)
+    - 10% < Margem EBITDA ≤ 20%: Baixa (ruim)
+    - 20% < Margem EBITDA ≤ 30%: Neutra (moderado)
+    - 30% < Margem EBITDA ≤ 45%: Alta (bom)
+    - Margem EBITDA > 45%: Excelente (ótimo)
     """
     if value <= 0 or value == float('inf'):
         return 'critico'
-    elif value <= 0.1:
+    elif 0 < value <= 0.1:
         return 'pessimo'
-    elif value <= 0.2:
+    elif 0.1 < value <= 0.2:
         return 'ruim'
-    elif value <= 0.3:
+    elif 0.2 < value <= 0.3:
         return 'moderado'
-    elif value <= 0.45:
+    elif 0.3 < value <= 0.45:
         return 'bom'
-    else:
+    else:  # value > 0.45
         return 'otimo'
 
 
 def evaluate_margem_ebit(value):
     """
     Avalia a Margem EBIT. Faixas baseadas em benchmarks brasileiros:
-    - < 8%: Muito baixa (péssimo)
-    - 8-15%: Baixa (ruim)
-    - 15-25%: Neutra (moderado)
-    - 25-40%: Alta (bom)
-    - > 40%: Excelente (ótimo)
+    - Margem EBIT ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < Margem EBIT ≤ 8%: Muito baixa (péssimo)
+    - 8% < Margem EBIT ≤ 15%: Baixa (ruim)
+    - 15% < Margem EBIT ≤ 25%: Neutra (moderado)
+    - 25% < Margem EBIT ≤ 40%: Alta (bom)
+    - Margem EBIT > 40%: Excelente (ótimo)
     """
     if value <= 0 or value == float('inf'):
         return 'critico'
-    elif value <= 0.08:
+    elif 0 < value <= 0.08:
         return 'pessimo'
-    elif value <= 0.15:
+    elif 0.08 < value <= 0.15:
         return 'ruim'
-    elif value <= 0.25:
+    elif 0.15 < value <= 0.25:
         return 'moderado'
-    elif value <= 0.4:
+    elif 0.25 < value <= 0.4:
         return 'bom'
-    else:
+    else:  # value > 0.4
         return 'otimo'
 
 
 def evaluate_margem_liquida(value):
     """
     Avalia a Margem Líquida. Faixas baseadas em médias setoriais:
-    - < 5%: Muito baixa (péssimo)
-    - 5-10%: Baixa (ruim)
-    - 10-20%: Neutra (moderado)
-    - 20-30%: Alta (bom)
-    - > 30%: Excelente (ótimo)
+    - Margem Líquida ≤ 0 ou infinito: Inválido (crítico)
+    - 0 < Margem Líquida ≤ 5%: Muito baixa (péssimo)
+    - 5% < Margem Líquida ≤ 10%: Baixa (ruim)
+    - 10% < Margem Líquida ≤ 20%: Neutra (moderado)
+    - 20% < Margem Líquida ≤ 30%: Alta (bom)
+    - Margem Líquida > 30%: Excelente (ótimo)
     """
     if value <= 0 or value == float('inf'):
         return 'critico'
-    elif value <= 0.05:
+    elif 0 < value <= 0.05:
         return 'pessimo'
-    elif value <= 0.1:
+    elif 0.05 < value <= 0.1:
         return 'ruim'
-    elif value <= 0.2:
+    elif 0.1 < value <= 0.2:
         return 'moderado'
-    elif value <= 0.3:
+    elif 0.2 < value <= 0.3:
         return 'bom'
-    else:
+    else:  # value > 0.3
         return 'otimo'
 
 
 def evaluate_roe(value, pl):
     """
     Avalia o ROE (Retorno sobre Patrimônio). Faixas baseadas em mercado brasileiro:
-    - < 5%: Muito baixo (péssimo)
-    - 5-10%: Baixo (ruim)
-    - 10-20%: Neutro (moderado)
-    - 20-30%: Alto (bom)
-    - > 30%: Excelente (ótimo)
+    - Patrimônio Líquido ≤ 0: Insolvência (crítico)
+    - ROE ≤ 0: Inválido (crítico)
+    - 0 < ROE ≤ 5%: Muito baixo (péssimo)
+    - 5% < ROE ≤ 10%: Baixo (ruim)
+    - 10% < ROE ≤ 20%: Neutro (moderado)
+    - 20% < ROE ≤ 30%: Alto (bom)
+    - ROE > 30%: Excelente (ótimo)
     """
-    if pl <= 0:
+    if pl <= 0 or value <= 0:
         return 'critico'
-    if value <= 0:
-        return 'critico'
-    elif value <= 0.05:
+    elif 0 < value <= 0.05:
         return 'pessimo'
-    elif value <= 0.1:
+    elif 0.05 < value <= 0.1:
         return 'ruim'
-    elif value <= 0.2:
+    elif 0.1 < value <= 0.2:
         return 'moderado'
-    elif value <= 0.3:
+    elif 0.2 < value <= 0.3:
         return 'bom'
-    else:
+    else:  # value > 0.3
         return 'otimo'
 
 
 def evaluate_roa(value):
     """
     Avalia o ROA (Retorno sobre Ativos). Faixas baseadas em benchmarks brasileiros:
-    - < 3%: Muito baixo (péssimo)
-    - 3-6%: Baixo (ruim)
-    - 6-10%: Neutro (moderado)
-    - 10-15%: Alto (bom)
-    - > 15%: Excelente (ótimo)
+    - ROA ≤ 0: Inválido (crítico)
+    - 0 < ROA ≤ 3%: Muito baixo (péssimo)
+    - 3% < ROA ≤ 6%: Baixo (ruim)
+    - 6% < ROA ≤ 10%: Neutro (moderado)
+    - 10% < ROA ≤ 15%: Alto (bom)
+    - ROA > 15%: Excelente (ótimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.03:
+    elif 0 < value <= 0.03:
         return 'pessimo'
-    elif value <= 0.06:
+    elif 0.03 < value <= 0.06:
         return 'ruim'
-    elif value <= 0.1:
+    elif 0.06 < value <= 0.1:
         return 'moderado'
-    elif value <= 0.15:
+    elif 0.1 < value <= 0.15:
         return 'bom'
-    else:
+    else:  # value > 0.15
         return 'otimo'
 
 
 def evaluate_roic(value):
     """
     Avalia o ROIC (Retorno sobre Capital Investido). Faixas baseadas em benchmarks:
-    - < 5%: Muito baixo (péssimo)
-    - 5-8%: Baixo (ruim)
-    - 8-12%: Neutro (moderado)
-    - 12-20%: Alto (bom)
-    - > 20%: Excelente (ótimo)
+    - ROIC ≤ 0: Inválido (crítico)
+    - 0 < ROIC ≤ 5%: Muito baixo (péssimo)
+    - 5% < ROIC ≤ 8%: Baixo (ruim)
+    - 8% < ROIC ≤ 12%: Neutro (moderado)
+    - 12% < ROIC ≤ 20%: Alto (bom)
+    - ROIC > 20%: Excelente (ótimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.05:
+    elif 0 < value <= 0.05:
         return 'pessimo'
-    elif value <= 0.08:
+    elif 0.05 < value <= 0.08:
         return 'ruim'
-    elif value <= 0.12:
+    elif 0.08 < value <= 0.12:
         return 'moderado'
-    elif value <= 0.2:
+    elif 0.12 < value <= 0.2:
         return 'bom'
-    else:
+    else:  # value > 0.2
         return 'otimo'
 
 
 def evaluate_divida_liquida_ebitda(value, ebitda):
     """
     Avalia a Dívida Líquida/EBITDA. Faixas baseadas em análise de endividamento:
-    - < 0: Excesso de caixa (ótimo)
-    - 0-1.5: Baixa (bom)
-    - 1.5-3: Neutra (moderado)
-    - 3-4: Alta (ruim)
-    - > 4: Muito alta (péssimo)
+    - EBITDA ≤ 0: Problemas operacionais (crítico)
+    - Dívida Líquida/EBITDA < 0: Excesso de caixa (ótimo)
+    - 0 < Dívida Líquida/EBITDA ≤ 1.5: Baixa (bom)
+    - 1.5 < Dívida Líquida/EBITDA ≤ 3: Neutra (moderado)
+    - 3 < Dívida Líquida/EBITDA ≤ 4: Alta (ruim)
+    - Dívida Líquida/EBITDA > 4: Muito alta (péssimo)
     """
     if ebitda <= 0:
         return 'critico'
     if value < 0:
         return 'otimo'
-    elif value <= 1.5:
+    elif 0 < value <= 1.5:
         return 'bom'
-    elif value <= 3:
+    elif 1.5 < value <= 3:
         return 'moderado'
-    elif value <= 4:
+    elif 3 < value <= 4:
         return 'ruim'
-    else:
+    else:  # value > 4
         return 'pessimo'
 
 
 def evaluate_divida_bruta_ebitda(value, ebitda):
     """
     Avalia a Dívida Bruta/EBITDA. Faixas baseadas em benchmarks brasileiros:
-    - 0: Sem dívida (ótimo)
-    - 0-1.5: Baixa (bom)
-    - 1.5-3: Neutra (moderado)
-    - 3-4: Alta (ruim)
-    - > 4: Muito alta (péssimo)
+    - EBITDA ≤ 0: Problemas operacionais (crítico)
+    - Dívida Bruta/EBITDA < 0: Inválido (crítico)
+    - Dívida Bruta/EBITDA = 0: Sem dívida (ótimo)
+    - 0 < Dívida Bruta/EBITDA ≤ 1.5: Baixa (bom)
+    - 1.5 < Dívida Bruta/EBITDA ≤ 3: Neutra (moderado)
+    - 3 < Dívida Bruta/EBITDA ≤ 4: Alta (ruim)
+    - Dívida Bruta/EBITDA > 4: Muito alta (péssimo)
     """
     if ebitda <= 0:
         return 'critico'
-    if value <= 0:
+    if value < 0:  # Valor negativo é inválido (erro de dados)
+        return 'critico'
+    if value == 0:  # Sem dívida bruta
         return 'otimo'
-    elif value <= 1.5:
+    elif 0 < value <= 1.5:
         return 'bom'
-    elif value <= 3:
+    elif 1.5 < value <= 3:
         return 'moderado'
-    elif value <= 4:
+    elif 3 < value <= 4:
         return 'ruim'
-    else:
+    else:  # value > 4
         return 'pessimo'
 
 
 def evaluate_divida_liquida_pl(value, pl):
     """
     Avalia a Dívida Líquida/PL. Faixas baseadas em análise de solvência:
-    - < 0: Excesso de caixa (ótimo)
-    - 0-0.4: Baixa (bom)
-    - 0.4-0.8: Neutra (moderado)
-    - 0.8-1.2: Alta (ruim)
-    - > 1.2: Muito alta (péssimo)
+    - Patrimônio Líquido ≤ 0: Insolvência (crítico)
+    - Dívida Líquida/PL < 0: Excesso de caixa (ótimo)
+    - 0 < Dívida Líquida/PL ≤ 0.4: Baixa (bom)
+    - 0.4 < Dívida Líquida/PL ≤ 0.8: Neutra (moderado)
+    - 0.8 < Dívida Líquida/PL ≤ 1.2: Alta (ruim)
+    - Dívida Líquida/PL > 1.2: Muito alta (péssimo)
     """
     if pl <= 0:
         return 'critico'
     if value < 0:
         return 'otimo'
-    elif value <= 0.4:
+    elif 0 < value <= 0.4:
         return 'bom'
-    elif value <= 0.8:
+    elif 0.4 < value <= 0.8:
         return 'moderado'
-    elif value <= 1.2:
+    elif 0.8 < value <= 1.2:
         return 'ruim'
-    else:
+    else:  # value > 1.2
         return 'pessimo'
 
 
 def evaluate_giro_ativo(value):
     """
     Avalia o Giro dos Ativos. Faixas baseadas em eficiência operacional:
-    - < 0.3: Muito baixo (péssimo)
-    - 0.3-0.5: Baixo (ruim)
-    - 0.5-1: Neutro (moderado)
-    - 1-1.5: Alto (bom)
-    - > 1.5: Excelente (ótimo)
+    - Giro dos Ativos ≤ 0: Inválido (crítico)
+    - 0 < Giro dos Ativos ≤ 0.3: Muito baixo (péssimo)
+    - 0.3 < Giro dos Ativos ≤ 0.5: Baixo (ruim)
+    - 0.5 < Giro dos Ativos ≤ 1: Neutro (moderado)
+    - 1 < Giro dos Ativos ≤ 1.5: Alto (bom)
+    - Giro dos Ativos > 1.5: Excelente (ótimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.3:
+    elif 0 < value <= 0.3:
         return 'pessimo'
-    elif value <= 0.5:
+    elif 0.3 < value <= 0.5:
         return 'ruim'
-    elif value <= 1:
+    elif 0.5 < value <= 1:
         return 'moderado'
-    elif value <= 1.5:
+    elif 1 < value <= 1.5:
         return 'bom'
-    else:
+    else:  # value > 1.5
         return 'otimo'
 
 
 def evaluate_dividend_yield(value):
     """
     Avalia o Dividend Yield. Faixas baseadas em empresas brasileiras:
-    - 0%: Sem dividendos (crítico)
-    - < 2%: Muito baixo (ruim)
-    - 2-4%: Neutro (moderado)
-    - 4-6%: Atraente (bom)
-    - > 6%: Excelente (ótimo)
+    - Dividend Yield = 0: Sem dividendos (crítico)
+    - 0 < Dividend Yield ≤ 2%: Muito baixo (ruim)
+    - 2% < Dividend Yield ≤ 4%: Neutro (moderado)
+    - 4% < Dividend Yield ≤ 6%: Atraente (bom)
+    - Dividend Yield > 6%: Excelente (ótimo)
     """
     if value == 0:
         return 'critico'
-    elif value <= 0.02:
+    elif 0 < value <= 0.02:
         return 'ruim'
-    elif value <= 0.04:
+    elif 0.02 < value <= 0.04:
         return 'moderado'
-    elif value <= 0.06:
+    elif 0.04 < value <= 0.06:
         return 'bom'
-    else:
+    else:  # value > 0.06
         return 'otimo'
 
 
 def evaluate_cagr_receita_5_anos(value):
     """
     Avalia o CAGR de Receita (5 anos). Faixas baseadas em crescimento:
-    - < 0%: Negativo (crítico)
-    - 0-5%: Muito baixo (péssimo)
-    - 5-10%: Baixo (ruim)
-    - 10-15%: Neutro (moderado)
-    - 15-20%: Alto (bom)
-    - > 20%: Excelente (ótimo)
+    - CAGR Receita ≤ 0: Negativo (crítico)
+    - 0 < CAGR Receita ≤ 5%: Muito baixo (péssimo)
+    - 5% < CAGR Receita ≤ 10%: Baixo (ruim)
+    - 10% < CAGR Receita ≤ 15%: Neutro (moderado)
+    - 15% < CAGR Receita ≤ 20%: Alto (bom)
+    - CAGR Receita > 20%: Excelente (ótimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.05:
+    elif 0 < value <= 0.05:
         return 'pessimo'
-    elif value <= 0.1:
+    elif 0.05 < value <= 0.1:
         return 'ruim'
-    elif value <= 0.15:
+    elif 0.1 < value <= 0.15:
         return 'moderado'
-    elif value <= 0.2:
+    elif 0.15 < value <= 0.2:
         return 'bom'
-    else:
+    else:  # value > 0.2
         return 'otimo'
 
 
 def evaluate_cagr_lucro_5_anos(value):
     """
     Avalia o CAGR de Lucro (5 anos). Faixas baseadas em crescimento:
-    - < 0%: Negativo (crítico)
-    - 0-5%: Muito baixo (péssimo)
-    - 5-10%: Baixo (ruim)
-    - 10-15%: Neutro (moderado)
-    - 15-20%: Alto (bom)
-    - > 20%: Excelente (ótimo)
+    - CAGR Lucro ≤ 0: Negativo (crítico)
+    - 0 < CAGR Lucro ≤ 5%: Muito baixo (péssimo)
+    - 5% < CAGR Lucro ≤ 10%: Baixo (ruim)
+    - 10% < CAGR Lucro ≤ 15%: Neutro (moderado)
+    - 15% < CAGR Lucro ≤ 20%: Alto (bom)
+    - CAGR Lucro > 20%: Excelente (ótimo)
     """
     if value <= 0:
         return 'critico'
-    elif value <= 0.05:
+    elif 0 < value <= 0.05:
         return 'pessimo'
-    elif value <= 0.1:
+    elif 0.05 < value <= 0.1:
         return 'ruim'
-    elif value <= 0.15:
+    elif 0.1 < value <= 0.15:
         return 'moderado'
-    elif value <= 0.2:
+    elif 0.15 < value <= 0.2:
         return 'bom'
-    else:
+    else:  # value > 0.2
         return 'otimo'
 
 
