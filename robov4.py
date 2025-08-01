@@ -94,36 +94,53 @@ def classificar_divida_ebit(valor):
             return {'classificacao': 'pessimo', 'descricao': 'teste'}
 
 def evaluate_pl(PL):
-    """
-    Avalia o Preço/Lucro (P/L). Faixas baseadas no mercado brasileiro:
-    - Lucro Líquido ≤ 0: Prejuízo (crítico)
-    - 0 < P/L ≤ 8: Subvalorizado (ótimo)
-    - 8 < P/L ≤ 12: Atraente (bom)
-    - 12 < P/L ≤ 18: Neutro (moderado)
-    - 18 < P/L ≤ 25: Caro (ruim)
-    - P/L > 25: Sobrevalorizado (péssimo)
-    """
+    ''''Avalia o Preço/Lucro (P/L) com base em faixas definidas para o mercado brasileiro:
+    - P/L < 0: Crítico (prejuízo, risco elevado)
+    - 0 ≤ P/L ≤ 10: Ótimo (subvalorizado, oportunidade de compra)
+    - 10 < P/L ≤ 15: Moderado (valuation justo, crescimento moderado)
+    - 15 < P/L ≤ 20: Ruim (sobrevalorizado, cautela necessária)
+    - 20 < P/L ≤ 30: Péssimo (muito caro, alto risco)
+    - P/L > 30: Fora da faixa (extremamente sobrevalorizado, risco elevado)'''
     # if lucro_liquido <= 0:  # Lucro Líquido negativo indica prejuízo
     #    return 'critico'   colocar no futuro integração com o fundamentus
     try:
         if PL < 0:
-            return {'classificacao': 'Critico', 'faixa': 'PL < 0',
-                    'descricao': ' P/L negativo indica que a empresa não está gerando lucro, o que pode sugerir problemas operacionais, má gestão ou dificuldades no mercado'}
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'PL < 0',
+                'descricao': 'P/L negativo indica que a empresa está com prejuízo, sugerindo riscos como problemas operacionais, má gestão ou dificuldades de mercado. Pode ser temporário em setores cíclicos (ex.: celulose, mineração), mas exige análise de fundamentos como EBITDA e fluxo de caixa para avaliar recuperação.'
+            }
         elif 0 <= PL <= 10:
-            return {'classificacao': 'Otimo', 'faixa': '0 <= PL <= 10',
-                    'descricao': ' P/L negativo indica que a empresa não está gerando lucro, o que pode sugerir problemas operacionais, má gestão ou dificuldades no mercado'}
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '0 <= PL <= 10',
+                'descricao': 'P/L baixo sugere que a ação está subvalorizada ou que o mercado tem perspectiva negativa sobre o futuro da empresa. Comum em setores maduros (ex.: bancos, utilities) ou em empresas com desafios financeiros temporários. Pode representar uma oportunidade de valor se o mercado estiver subestimando o potencial de recuperação.'
+            }
         elif 10 < PL <= 15:
-            return {'classificacao': 'Moderado', 'faixa': '10 < PL <= 15',
-                    'descricao': ' P/L negativo indica que a empresa não está gerando lucro, o que pode sugerir problemas operacionais, má gestão ou dificuldades no mercado'}
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '10 < PL <= 15',
+                'descricao': 'P/L indica valuation justo, típico de empresas com crescimento estável e fundamentos sólidos. Comum em setores consolidados com margens previsíveis (ex.: varejo, energia). Menos potencial de upside que ações subvalorizadas, mas oferece equilíbrio entre risco e retorno.'
+            }
         elif 15 < PL <= 20:
-            return {'classificacao': 'Ruim', 'faixa': '15 < PL <= 20',
-                    'descricao': ' P/L negativo indica que a empresa não está gerando lucro, o que pode sugerir problemas operacionais, má gestão ou dificuldades no mercado'}
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '15 < PL <= 20',
+                'descricao': 'P/L elevado sugere sobrevalorização moderada, indicando que o mercado espera crescimento, mas com riscos crescentes. Pode ser justificado em setores dinâmicos (ex.: varejo tech), mas exige análise de perspectivas de lucro e comparação com pares do setor.'
+            }
         elif 20 < PL <= 30:
-            return {'classificacao': 'Pessimo', 'faixa': '20 < PL <= 30',
-                    'descricao': ' P/L negativo indica que a empresa não está gerando lucro, o que pode sugerir problemas operacionais, má gestão ou dificuldades no mercado'}
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '20 < PL <= 30',
+                'descricao': 'P/L muito alto indica que a ação está cara, com expectativas de crescimento elevadas que podem não se concretizar. Comum em setores de alto crescimento (ex.: tecnologia), mas há risco significativo de correção se os resultados desapontarem.'
+            }
         else:  # PL > 30
-            return {'classificacao': 'Fora da faixa', 'faixa': 'PL > 30',
-                    'descricao': ' P/L negativo indica que a empresa não está gerando lucro, o que pode sugerir problemas operacionais, má gestão ou dificuldades no mercado'}
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'PL > 30',
+                'descricao': 'P/L extremamente elevado sugere sobrevalorização severa, típica de empresas especulativas ou em bolhas de mercado. Pode ser aceitável em setores de crescimento excepcional (ex.: tecnologia, biotech), mas o risco de correção é alto. Análise detalhada do crescimento futuro é essencial.'
+            }
+
     except Exception as e:
         print(f"Erro inesperado tratamento : {e}")
         # print(metrica)  # Certifique-se de que metrica está definida
