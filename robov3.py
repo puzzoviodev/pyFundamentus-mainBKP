@@ -530,7 +530,7 @@ driver = webdriver.Chrome(options=options)
 
 def classificar_divida_ebit(valor):
         indicadortratado = tratamento2(dict_stocks[stock].get('LPA'))
-        print("Pl" , indicadortratado)
+       # print("Pl" , indicadortratado)
         if valor == float('-inf') or valor < 0:
             return {'classificacao': 'pessimo', 'descricao': 'teste'}
         elif 0 <= valor < 1.5:
@@ -1073,11 +1073,11 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 valor_pl = indicadortratado
                 categoria_pl = categorizar_valor(metrica, (valor_pl))
                 teste = classificar_divida_ebit(valor_pl)
-                #print("descricao:", teste['descricao'])
-                #print("Classificação:", teste['classificacao'])
+                print("descricao:", teste['descricao'])
+                print("Classificação:", teste['classificacao'])
                 #print(teste)
-                print(teste['classificacao'])  # saída: 'pessimo'
-                print(teste['descricao'])  # saída: 'teste'
+                #print(teste['classificacao'])  # saída: 'pessimo'
+                #print(teste['descricao'])  # saída: 'teste'
               #  print("categoria " + categoria_pl)
                # print("categoria tratamento2 " + categoria_pl)
             elif metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
@@ -1085,6 +1085,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                              'Divida liquida','Valor de mercado','Valor de firma']:
                # print('IF tratamneto3 ', metrica)
                # print("categoria " + categoria_pl)
+               # print('Patrimonio liquido ' + dict_stocks[stock].get('Patrimonio liquido'))
                 indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
                 categoria_pl = categorizar_valor(metrica, (valor_pl))
@@ -1279,6 +1280,6 @@ if __name__ == "__main__":
     # end timer
     end = time.time()
     wbsaida.save("StatusInvest.xlsx")
-    print("teste")
+    #print("teste")
     print(f'Brasilian stocks information got in {int(end-start)} s')
 # silvio teste

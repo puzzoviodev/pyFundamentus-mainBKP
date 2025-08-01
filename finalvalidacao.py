@@ -8,20 +8,21 @@ def evaluate_p_l(value, lucro_liquido):
     - 18 < P/L ≤ 25: Caro (ruim)
     - P/L > 25: Sobrevalorizado (péssimo)
     """
-    if lucro_liquido <= 0:  # Lucro Líquido negativo indica prejuízo
+   # if lucro_liquido <= 0:  # Lucro Líquido negativo indica prejuízo
+    #    return 'critico'   colocar no futuro integração com o fundamentus
+
+    if value <= 0
         return 'critico'
-    if value <= 0 or value == float('inf'):
-        return 'critico'
-    elif 0 < value <= 8:
-        return 'otimo'
-    elif 8 < value <= 12:
-        return 'bom'
-    elif 12 < value <= 18:
-        return 'moderado'
-    elif 18 < value <= 25:
-        return 'ruim'
-    else:  # value > 25
+    elif 20 <= value <= 30:
         return 'pessimo'
+    elif 15 <= value <= 20:
+        return 'ruim'
+    elif 10 <= value <= 15:
+        return 'moderado'
+    elif 0 <= value <= 10:
+        return 'Otimo'
+    else:  # value > 25
+        return 'fora da faixa'
 
 
 def evaluate_p_vp(value, vp):
