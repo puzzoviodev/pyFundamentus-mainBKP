@@ -65,6 +65,54 @@ MetricasStatus = {
         'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do lucro e tendências setoriais.',
         'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do lucro.',
         'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou lucro inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROE.'
+    },
+    'P/VP': {
+        'critico': {'min': float('-inf'), 'max': 0},
+        'pessimo': {'min': 2, 'max': float('inf')},
+        'ruim': {'min': 1.5, 'max': 2},
+        'moderado': {'min': 1, 'max': 1.5},
+        'bom': {'min': 0.5, 'max': 1},
+        'otimo': {'min': 0, 'max': 0.5},
+        'descricao': 'Preço da ação dividido pelo valor patrimonial por ação. Mede valuation em relação ao patrimônio.',
+        'agrupador': 'Valuetion',
+        'descrcritico': 'Patrimônio líquido por ação negativo, indicando risco crítico de insolvência. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
+        'descrpessimo': 'Empresa extremamente cara, preço é mais de 2 vezes o valor patrimonial por ação, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar qualidade do patrimônio.',
+        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
+        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do patrimônio e tendências setoriais.',
+        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar qualidade do patrimônio e fluxo de caixa livre.',
+        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou patrimônio inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROE.'
+    },
+'P/EBITDA': {
+        'critico': {'min': float('-inf'), 'max': -0.1},
+        'pessimo': {'min': 15, 'max': float('inf')},
+        'ruim': {'min': 10, 'max': 15},
+        'moderado': {'min': 6, 'max': 10},
+        'bom': {'min': 3, 'max': 6},
+        'otimo': {'min': 0, 'max': 3},
+        'descricao': 'Preço da ação dividido pelo EBITDA por ação. Mede valuation em relação ao fluxo de caixa operacional.',
+        'agrupador': 'Valuation',
+        'descrcritico': 'Prejuízo operacional, com EBITDA negativo, indicando ineficiência grave ou problemas estruturais. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
+        'descrpessimo': 'Empresa extremamente cara, preço é mais de 15 vezes o EBITDA, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar crescimento projetado.',
+        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
+        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do EBITDA e tendências setoriais.',
+        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do EBITDA.',
+        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou EBITDA inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROIC.'
+    },
+'P/EBIT': {
+        'critico': {'min': float('-inf'), 'max': -0.1 },
+        'pessimo': {'min': 20, 'max': float('inf')},
+        'ruim': {'min': 15, 'max': 20},
+        'moderado': {'min': 10, 'max': 15},
+        'bom': {'min': 5, 'max': 10},
+        'otimo': {'min': 0, 'max': 5},
+        'descricao': 'Preço da ação dividido pelo EBIT por ação. Mede valuation em relação ao lucro operacional.',
+        'agrupador': 'Valuation',
+        'descrcritico': 'Prejuízo operacional, com EBIT negativo, indicando ineficiência grave ou investimentos pesados. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
+        'descrpessimo': 'Empresa extremamente cara, preço é mais de 20 vezes o EBIT, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar crescimento projetado.',
+        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
+        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do EBIT e tendências setoriais.',
+        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do EBIT.',
+        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou EBIT inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROIC.'
     }
 }
 
@@ -118,7 +166,7 @@ def evaluate_pl(PL):
             }
         elif 10 < PL <= 15:
             return {
-                'classificacao': 'Moderado',
+                    'classificacao': 'Moderado',
                 'faixa': '10 < PL <= 15',
                 'descricao': 'P/L indica valuation justo, típico de empresas com crescimento estável e fundamentos sólidos. Comum em setores consolidados com margens previsíveis (ex.: varejo, energia). Menos potencial de upside que ações subvalorizadas, mas oferece equilíbrio entre risco e retorno.'
             }
@@ -146,6 +194,200 @@ def evaluate_pl(PL):
         # print(metrica)  # Certifique-se de que metrica está definida
         # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
         #print('tratamneto - erro', stock, "   ", metrica)
+
+def evaluate_pvp(PVP):
+    '''
+    Avalia o Preço/Valor Patrimonial (P/VP) com base em faixas definidas para o mercado brasileiro:
+    - P/VP < 0: Crítico (patrimônio líquido negativo, risco elevado)
+    - 0 ≤ P/VP ≤ 1: Subvalorizado (ótimo, ação abaixo do patrimônio)
+    - 1 < P/VP ≤ 2: Justo (moderado, valuation alinhado)
+    - 2 < P/VP ≤ 3: Caro (ruim, sobrevalorizado)
+    - 3 < P/VP ≤ 5: Muito Caro (péssimo, alto risco)
+    - P/VP > 5: Extremamente Caro (fora da faixa, risco elevado)
+
+    Args:
+        PVP (float or int): Valor do índice Preço/Valor Patrimonial.
+
+    Returns:
+        dict: Dicionário com 'classificacao', 'faixa' e 'descricao' do P/VP.
+
+    Raises:
+        TypeError: Se PVP não for um número (int ou float).
+    '''
+    try:
+        if PVP < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'P/VP < 0',
+                'descricao': 'P/VP negativo indica patrimônio líquido negativo, sugerindo graves problemas financeiros, como dívidas elevadas ou prejuízos recorrentes. Extremamente raro, exige análise cuidadosa de ativos e passivos para avaliar viabilidade.'
+            }
+        elif 0 <= PVP <= 1:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '0 <= P/VP <= 1',
+                'descricao': 'P/VP baixo sugere que a ação está subvalorizada, negociada abaixo de seu valor patrimonial. Comum em setores maduros (ex.: bancos, siderurgia) ou empresas com desafios temporários. Representa uma oportunidade de compra se os fundamentos forem sólidos.'
+            }
+        elif 1 < PVP <= 2:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '1 < P/VP <= 2',
+                'descricao': 'P/VP indica valuation justo, típico de empresas com estabilidade financeira e crescimento moderado. Comum em setores consolidados (ex.: energia, celulose). Oferece equilíbrio entre risco e retorno, com potencial de valorização moderado.'
+            }
+        elif 2 < PVP <= 3:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '2 < P/VP <= 3',
+                'descricao': 'P/VP elevado sugere sobrevalorização moderada, com o mercado precificando crescimento ou ativos intangíveis (ex.: marca, tecnologia). Pode ser justificado em setores dinâmicos, mas exige análise de perspectivas de lucro e comparação com pares do setor.'
+            }
+        elif 3 < PVP <= 5:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '3 < P/VP <= 5',
+                'descricao': 'P/VP muito alto indica que a ação está cara, com expectativas de crescimento elevadas que podem não se concretizar. Comum em setores de alto crescimento (ex.: tecnologia, varejo online), mas há risco significativo de correção se os resultados desapontarem.'
+            }
+        else:  # pvp > 5
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'P/VP > 5',
+                'descricao': 'P/VP extremamente elevado sugere sobrevalorização severa, típica de empresas especulativas ou em bolhas de mercado. Pode ser aceitável em setores de crescimento excepcional (ex.: tecnologia, biotech), mas o risco de correção é alto. Análise detalhada do crescimento futuro é essencial.'
+            }
+
+    except Exception as e:
+        print(f"Erro inesperado tratamento : {e}")
+        # print(metrica)  # Certifique-se de que metrica está definida
+        # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+
+
+def evaluate_pebitda(pebitda):
+            """
+            Avalia o Preço/EBITDA (P/EBITDA) com base em faixas definidas para o mercado brasileiro:
+            - P/EBITDA < 0: Crítico (EBITDA negativo, risco extremo)
+            - 0 ≤ P/EBITDA ≤ 5: Ótimo (subvalorizado, oportunidade de compra)
+            - 5 < P/EBITDA ≤ 8: Moderado (valuation justo, crescimento moderado)
+            - 8 < P/EBITDA ≤ 12: Ruim (sobrevalorizado, cautela necessária)
+            - 12 < P/EBITDA ≤ 16: Péssimo (muito caro, alto risco)
+            - P/EBITDA > 16: Fora da faixa (extremamente sobrevalorizado, risco elevado)
+
+            Args:
+                pebitda (float or int): Valor do índice Preço/EBITDA.
+
+            Returns:
+                dict: Dicionário com 'classificacao', 'faixa' e 'descricao' do P/EBITDA.
+
+            Raises:
+                TypeError: Se P/EBITDA não for um número (int ou float).
+            """
+            # TODO: Futura integração com Fundamentus para obter P/EBITDA automaticamente
+            # Exemplo: Usar web scraping ou API para extrair dados de https://www.fundamentus.com.br/
+
+            try:
+                if pebitda < 0:
+                    return {
+                        'classificacao': 'Critico',
+                        'faixa': 'P/EBITDA < 0',
+                        'descricao': 'P/EBITDA negativo indica EBITDA negativo, sugerindo graves problemas operacionais ou crise financeira. Extremamente raro, exige análise detalhada de fluxo de caixa e perspectivas de recuperação.'
+                    }
+                elif 0 <= pebitda <= 5:
+                    return {
+                        'classificacao': 'Otimo',
+                        'faixa': '0 <= P/EBITDA <= 5',
+                        'descricao': 'P/EBITDA baixo sugere que a ação está subvalorizada em relação à sua geração de caixa operacional. Comum em setores maduros (ex.: bancos, utilities) ou empresas em recuperação. Representa uma oportunidade de compra se os fundamentos forem sólidos.'
+                    }
+                elif 5 < pebitda <= 8:
+                    return {
+                        'classificacao': 'Moderado',
+                        'faixa': '5 < P/EBITDA <= 8',
+                        'descricao': 'P/EBITDA indica valuation justo, típico de empresas com geração de caixa estável e crescimento moderado. Comum em setores consolidados (ex.: indústria, energia). Oferece equilíbrio entre risco e retorno.'
+                    }
+                elif 8 < pebitda <= 12:
+                    return {
+                        'classificacao': 'Ruim',
+                        'faixa': '8 < P/EBITDA <= 12',
+                        'descricao': 'P/EBITDA elevado sugere sobrevalorização, com o mercado esperando crescimento significativo. Aceitável em setores dinâmicos (ex.: varejo tech), mas exige cautela e comparação com a média do setor.'
+                    }
+                elif 12 < pebitda <= 16:
+                    return {
+                        'classificacao': 'Pessimo',
+                        'faixa': '12 < P/EBITDA <= 16',
+                        'descricao': 'P/EBITDA muito alto indica que a ação está cara, com expectativas de crescimento elevadas que podem não se concretizar. Comum em setores de alto crescimento, mas o risco de correção é significativo.'
+                    }
+                else:  # pebitda > 16
+                    return {
+                        'classificacao': 'Fora da faixa',
+                        'faixa': 'P/EBITDA > 16',
+                        'descricao': 'P/EBITDA extremamente elevado sugere sobrevalorização severa, típica de empresas especulativas ou em bolhas de mercado. Pode ser justificado em setores de crescimento excepcional (ex.: tecnologia, biotech), mas o risco de correção é alto.'
+                    }
+
+            except Exception as e:
+                print(f"Erro inesperado tratamento : {e}")
+                # print(metrica)  # Certifique-se de que metrica está definida
+                # print(indicadortratado)  # Certifique-se de que indicadortratado está definida
+                # print('tratamneto - erro', stock, "   ", metrica)
+
+
+def evaluate_pebit(pebit):
+    """
+    Avalia o Preço/EBIT (P/EBIT) com base em faixas definidas para o mercado brasileiro:
+    - P/EBIT < 0: Crítico (prejuízo operacional, risco extremo)
+    - 0 ≤ P/EBIT ≤ 6: Ótimo (subvalorizado, oportunidade de compra)
+    - 6 < P/EBIT ≤ 10: Moderado (valuation justo, crescimento moderado)
+    - 10 < P/EBIT ≤ 15: Ruim (sobrevalorizado, cautela necessária)
+    - 15 < P/EBIT ≤ 20: Péssimo (muito caro, alto risco)
+    - P/EBIT > 20: Fora da faixa (extremamente sobrevalorizado, risco elevado)
+
+    Args:
+        pebit (float or int): Valor do índice Preço/EBIT.
+
+    Returns:
+        dict: Dicionário com 'classificacao', 'faixa' e 'descricao' do P/EBIT.
+
+    Raises:
+        TypeError: Se P/EBIT não for um número (int ou float).
+    """
+    # TODO: Futura integração com Fundamentus para obter P/EBIT automaticamente
+    # Exemplo: Usar web scraping ou API para extrair dados de https://www.fundamentus.com.br/
+
+    try:
+        if pebit < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'P/EBIT < 0',
+                'descricao': 'P/EBIT negativo indica prejuízo operacional, sugerindo sérios problemas na geração de lucro antes de juros e impostos. Exige análise detalhada da operação e perspectivas de recuperação.'
+            }
+        elif 0 <= pebit <= 6:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '0 <= P/EBIT <= 6',
+                'descricao': 'P/EBIT baixo sugere que a ação está subvalorizada em relação ao lucro operacional. Pode representar uma oportunidade de compra, especialmente em setores maduros ou empresas em recuperação.'
+            }
+        elif 6 < pebit <= 10:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '6 < P/EBIT <= 10',
+                'descricao': 'P/EBIT indica valuation justo, típico de empresas com operação estável e crescimento moderado. Comum em setores consolidados como energia e indústria.'
+            }
+        elif 10 < pebit <= 15:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '10 < P/EBIT <= 15',
+                'descricao': 'P/EBIT elevado sugere sobrevalorização, com o mercado esperando crescimento significativo. Aceitável em setores dinâmicos, mas exige cautela e análise comparativa.'
+            }
+        elif 15 < pebit <= 20:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '15 < P/EBIT <= 20',
+                'descricao': 'P/EBIT muito alto indica que a ação está cara, com expectativas elevadas que podem não se concretizar. Comum em empresas de crescimento acelerado, mas com risco elevado.'
+            }
+        else:  # pebit > 20
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'P/EBIT > 20',
+                'descricao': 'P/EBIT extremamente elevado sugere sobrevalorização severa, típica de empresas especulativas ou em bolhas. Pode ser aceitável em setores de inovação, mas o risco de correção é alto.'
+            }
+
+    except Exception as e:
+        print(f"Erro inesperado no tratamento: {e}")
+
 
 def categorizar_valor(metrica, valor):
     try:
@@ -282,8 +524,14 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                 valor_pl = indicadortratado
                # categoria_pl = categorizar_valor(metrica, (valor_pl))
-
-                categoria_pl = evaluate_pl(valor_pl)
+                if metrica == 'P/L':
+                   categoria_pl = evaluate_pl(valor_pl)
+                if metrica == 'P/VP':
+                   categoria_pl = evaluate_pvp(valor_pl)
+                if metrica == 'P/EBITDA':
+                   categoria_pl = evaluate_pebitda(valor_pl)
+                if metrica == 'P/EBIT':
+                    categoria_pl = evaluate_pebit(valor_pl)
 
                 classificacao = categoria_pl['classificacao']
                 faixa = categoria_pl['faixa']
