@@ -49,73 +49,12 @@ metricasts= ""
     'pessimo': {'min': 3, 'max': 4},            # Valores entre 3 e 4
     'critico': {'min': 4, 'max': float('inf')}   # Valores acima de 4
 }'''
-MetricasStatus = {
-
-    'P/L': {
-        'critico': {'min': float('-inf'), 'max': 0},
-        'pessimo': {'min': 20, 'max': float('inf')},
-        'ruim': {'min': 15, 'max': 20},
-        'moderado': {'min': 10, 'max': 15},
-        'bom': {'min': 5, 'max': 10},
-        'otimo': {'min': 0, 'max': 5},
-        'descricao': 'Preço da ação dividido pelo lucro por ação. Mede valuation em relação ao lucro líquido.',
-        'agrupador': 'Valuation',
-        'descrcritico': 'Prejuízo por ação, indicando problemas operacionais ou financeiros graves. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
-        'descrpessimo': 'Empresa extremamente cara, preço é mais de 20 vezes o lucro por ação, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar crescimento projetado.',
-        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
-        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do lucro e tendências setoriais.',
-        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do lucro.',
-        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou lucro inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROE.'
-    },
-    'P/VP': {
-        'critico': {'min': float('-inf'), 'max': 0},
-        'pessimo': {'min': 2, 'max': float('inf')},
-        'ruim': {'min': 1.5, 'max': 2},
-        'moderado': {'min': 1, 'max': 1.5},
-        'bom': {'min': 0.5, 'max': 1},
-        'otimo': {'min': 0, 'max': 0.5},
-        'descricao': 'Preço da ação dividido pelo valor patrimonial por ação. Mede valuation em relação ao patrimônio.',
-        'agrupador': 'Valuetion',
-        'descrcritico': 'Patrimônio líquido por ação negativo, indicando risco crítico de insolvência. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
-        'descrpessimo': 'Empresa extremamente cara, preço é mais de 2 vezes o valor patrimonial por ação, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar qualidade do patrimônio.',
-        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
-        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do patrimônio e tendências setoriais.',
-        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar qualidade do patrimônio e fluxo de caixa livre.',
-        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou patrimônio inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROE.'
-    },
-'P/EBITDA': {
-        'critico': {'min': float('-inf'), 'max': -0.1},
-        'pessimo': {'min': 15, 'max': float('inf')},
-        'ruim': {'min': 10, 'max': 15},
-        'moderado': {'min': 6, 'max': 10},
-        'bom': {'min': 3, 'max': 6},
-        'otimo': {'min': 0, 'max': 3},
-        'descricao': 'Preço da ação dividido pelo EBITDA por ação. Mede valuation em relação ao fluxo de caixa operacional.',
-        'agrupador': 'Valuation',
-        'descrcritico': 'Prejuízo operacional, com EBITDA negativo, indicando ineficiência grave ou problemas estruturais. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
-        'descrpessimo': 'Empresa extremamente cara, preço é mais de 15 vezes o EBITDA, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar crescimento projetado.',
-        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
-        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do EBITDA e tendências setoriais.',
-        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do EBITDA.',
-        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou EBITDA inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROIC.'
-    },
-'P/EBIT': {
-        'critico': {'min': float('-inf'), 'max': -0.1 },
-        'pessimo': {'min': 20, 'max': float('inf')},
-        'ruim': {'min': 15, 'max': 20},
-        'moderado': {'min': 10, 'max': 15},
-        'bom': {'min': 5, 'max': 10},
-        'otimo': {'min': 0, 'max': 5},
-        'descricao': 'Preço da ação dividido pelo EBIT por ação. Mede valuation em relação ao lucro operacional.',
-        'agrupador': 'Valuation',
-        'descrcritico': 'Prejuízo operacional, com EBIT negativo, indicando ineficiência grave ou investimentos pesados. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
-        'descrpessimo': 'Empresa extremamente cara, preço é mais de 20 vezes o EBIT, sugerindo sobrevalorização. Comum em setores de tecnologia (ex.: NUBR33). Investidores devem comparar com peers e avaliar crescimento projetado.',
-        'descrruim': 'Empresa cara, comum em setores de crescimento (ex.: saúde, RDOR3). Investidores devem analisar se o crescimento justifica o preço e comparar com média setorial.',
-        'descrmoderado': 'Avaliação razoável, comum em setores maduros (ex.: varejo, LREN3). Investidores devem verificar consistência do EBIT e tendências setoriais.',
-        'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do EBIT.',
-        'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou EBIT inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROIC.'
-    }
-}
+MetricasStatus = {'Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBIT','PL/Ativos',
+                           'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
+                            'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
+                            'P/SR','P/Ativo Circ. Liq.','Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
+                             'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
+                             'Divida liquida','Valor de mercado','Valor de firma'}
 
 wbsaida = openpyxl.Workbook()
 
@@ -512,7 +451,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
     #linha2 = 1
     try:
         #print(dict_stocks)
-        for metrica, detalhes in MetricasStatus.items():
+        for metrica in MetricasStatus:
     #        print(f'Métrica: {metrica}')
             linha2 += 1
             metricasts = metrica
@@ -576,7 +515,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
    #         print(f"  Agrupador: {detalhes['agrupador']}")
 
 
-            wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
+           # wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
           #  print('celula - Indicador', metrica)
@@ -598,18 +537,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
 
-            wsIndiRentabilidade.cell(row=linha2, column=7,
-                             value=f"Mínimo = {detalhes['critico']['min']}, Máximo = {detalhes['critico']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=8,
-                             value=f"Mínimo = {detalhes['pessimo']['min']}, Máximo = {detalhes['pessimo']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=9,
-                                     value=f"Mínimo = {detalhes['ruim']['min']}, Máximo = {detalhes['ruim']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=10,
-                                     value=f"Mínimo = {detalhes['moderado']['min']}, Máximo = {detalhes['moderado']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=11,
-                                     value=f"Mínimo = {detalhes['bom']['min']}, Máximo = {detalhes['bom']['max']}")
-            wsIndiRentabilidade.cell(row=linha2, column=12,
-                                     value=f"Mínimo = {detalhes['otimo']['min']}, Máximo = {detalhes['otimo']['max']}")
+
             #print(detalhes)'''
             desc1 =  ("Lucro Líquido ≤ 0: Prejuízo (crítico)- 0 < P/L ≤ 8: Subvalorizado (ótimo) - 8 < P/L ≤ 12:"
                        " Atraente (bom) - 12 < P/L ≤ 18: Neutro (moderado)    - 18 < P/L ≤ 25: Caro (ruim)  - "
