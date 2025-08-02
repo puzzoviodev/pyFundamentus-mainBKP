@@ -282,7 +282,7 @@ if __name__ == "__main__":
     criaPlanilhaIndiEmpresa(wbsaida)
     # Silvio Fim
     # read file with stocks codes to get stock information
-    with open('stocks.txt', 'r') as f:
+    with open('../stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
         linha = 1 # silvio
         # get stock information and create excel sheet

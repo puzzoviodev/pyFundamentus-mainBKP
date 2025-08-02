@@ -1339,7 +1339,7 @@ if __name__ == '__main__':
     wsIndValuation = wbsaida['IndValuation']
     wsIndEmpresa = wbsaida['IndEmpresa']
     start = time.time()
-    with open('stocks.txt', 'r') as f:
+    with open('../stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
         for stock in stocks:
             linhastatus = linhafundamentus

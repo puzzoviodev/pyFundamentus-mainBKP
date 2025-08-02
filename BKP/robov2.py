@@ -40,7 +40,14 @@ TITLES = [
 
 linha2 = 1
 metricasts= ""
-
+''''categorias = {
+    'otimo': {'min': float('-inf'), 'max': -2},  # Valores muito baixos são ótimos
+    'bom': {'min': -2, 'max': 0},               # Valores entre -2 e 0
+    'moderado': {'min': 0, 'max': 1.5},         # Valores entre 0 e 1.5
+    'ruim': {'min': 1.5, 'max': 3},             # Valores entre 1.5 e 3
+    'pessimo': {'min': 3, 'max': 4},            # Valores entre 3 e 4
+    'critico': {'min': 4, 'max': float('inf')}   # Valores acima de 4
+}'''
 MetricasStatus = {
     'Div. liquida/EBIT': {
         'critico': {'min': float('-inf'), 'max': 0},
@@ -51,7 +58,7 @@ MetricasStatus = {
         'otimo': {'min': float('-inf'), 'max': 0},
         'descricao': 'Dívida líquida dividida pelo EBIT. Mede tempo para quitar dívida com lucro operacional.',
         'agrupador': 'Eficiência',
-        'descrcritico': 'Dívida líquida negativa pode indicar EBIT negativo (prejuízo operacional grave) ou excesso de caixa líquido. EBIT negativo, comum em empresas em crise (ex.: OI, OIBR3), reflete ineficiência operacional e risco de insolvência. Excesso de caixa, como em empresas de tecnologia (ex.: Nubank), pode indicar ineficiência na alocação de capital, com caixa ocioso não reinvestido. Em 2025, com juros altos, EBIT negativo agrava a pressão financeira. Investidores devem analisar a causa (EBIT negativo vs. caixa elevado) e evitar empresas sem plano claro de recuperação ou alocação eficiente.',
+        'descrcritico': 'Dívidaw líquida negativa pode indicar EBIT negativo (prejuízo operacional grave) ou excesso de caixa líquido. EBIT negativo, comum em empresas em crise (ex.: OI, OIBR3), reflete ineficiência operacional e risco de insolvência. Excesso de caixa, como em empresas de tecnologia (ex.: Nubank), pode indicar ineficiência na alocação de capital, com caixa ocioso não reinvestido. Em 2025, com juros altos, EBIT negativo agrava a pressão financeira. Investidores devem analisar a causa (EBIT negativo vs. caixa elevado) e evitar empresas sem plano claro de recuperação ou alocação eficiente.',
         'descrpessimo': 'Endividamento crítico, leva mais de 4 anos de EBIT para quitar a dívida líquida, indicando alavancagem extrema. Comum em empresas em crise ou setores cíclicos (ex.: construção). Aumenta vulnerabilidade a choques econômicos ou aumento de juros. Investidores devem evitar, salvo reestruturação robusta com forte geração de caixa futura.',
         'descrruim': 'Endividamento elevado, leva 3-4 anos de EBIT para pagar a dívida, um nível alto para a maioria dos setores. Comum em setores intensivos em capital (ex.: infraestrutura). Investidores devem analisar cobertura de juros e estabilidade do EBIT para avaliar riscos em cenários adversos.',
         'descrmoderado': 'Endividamento moderado, pagável em 1,5-3 anos de EBIT, aceitável em setores estáveis (ex.: utilities). Investidores devem verificar consistência do EBIT e fluxo de caixa livre para garantir que a alavancagem não comprometa a operação.',
@@ -282,8 +289,9 @@ MetricasStatus = {
         'descrbom': 'Boa capacidade de financiar operações, indicando equilíbrio financeiro. Comum em empresas maduras (ex.: LREN3). Investidores devem confirmar sustentabilidade.',
         'descrotimo': 'Alta capacidade de financiar operações, sugerindo subvalorização ou excesso de caixa. Comum em tecnologia (ex.: TOTS3). Investidores devem avaliar alocação de capital.'
     },
+    # ajustado 28/07
     'P/EBIT': {
-        'critico': {'min': float('-inf'), 'max': 0},
+        'critico': {'min': float('-inf'), 'max': -0.1 },
         'pessimo': {'min': 20, 'max': float('inf')},
         'ruim': {'min': 15, 'max': 20},
         'moderado': {'min': 10, 'max': 15},
@@ -298,8 +306,9 @@ MetricasStatus = {
         'descrbom': 'Subvalorizada, oportunidade em setores cíclicos (ex.: mineração, VALE3). Investidores devem confirmar fluxo de caixa livre e sustentabilidade do EBIT.',
         'descrotimo': 'Extremamente subvalorizada, sugere oportunidade ou EBIT inflado. Comum em setores em recuperação (ex.: PETR4). Investidores devem verificar fluxo de caixa livre e ROIC.'
     },
+# ajustado 28/07
     'P/EBITDA': {
-        'critico': {'min': float('-inf'), 'max': 0},
+        'critico': {'min': float('-inf'), 'max': -0.1},
         'pessimo': {'min': 15, 'max': float('inf')},
         'ruim': {'min': 10, 'max': 15},
         'moderado': {'min': 6, 'max': 10},
@@ -491,7 +500,23 @@ MetricasStatus = {
         'descrmoderado': 'Crescimento moderado, aceitável em setores estáveis (ex.: ABEV3). Investidores devem verificar sustentabilidade do crescimento e barreiras de entrada.',
         'descrbom': 'Bom crescimento, desempenho sólido, comum em setores com expansão moderada (ex.: LREN3). Investidores devem confirmar consistência do crescimento.',
         'descrotimo': 'Crescimento excepcional, refletindo forte expansão. Comum em setores de alta margem ou inovação (ex.: TOTS3). Investidores devem verificar sustentabilidade frente a riscos setoriais.'
-    }
+    },
+    'Divida bruta': {
+        'critico': {'min': float('-inf'), 'max': 0},
+        'pessimo': {'min': 0, 'max': 0.05},
+        'ruim': {'min': 0.05, 'max': 0.1},
+        'moderado': {'min': 0.1, 'max': 0.15},
+        'bom': {'min': 0.15, 'max': 0.2},
+        'otimo': {'min': 0.2, 'max': float('inf')},
+        'descricao': 'Taxa composta de crescimento anual dos lucros nos últimos 5 anos. Mede crescimento de rentabilidade.',
+        'agrupador': 'Outros',
+        'descrcritico': 'Crescimento negativo dos lucros, indicando declínio ou prejuízo recorrente. Comum em empresas em crise (ex.: OIBR3). Investidores devem evitar, salvo plano robusto de recuperação.',
+        'descrpessimo': 'Crescimento muito baixo, indicando estagnação. Comum em setores maduros com baixa inovação (ex.: varejo tradicional). Investidores devem investigar potencial de melhoria.',
+        'descrruim': 'Crescimento limitado, comum em setores cíclicos (ex.: GGBR4). Investidores devem analisar tendências setoriais e estratégias de crescimento.',
+        'descrmoderado': 'Crescimento moderado, aceitável em setores estáveis (ex.: ABEV3). Investidores devem verificar sustentabilidade do crescimento e barreiras de entrada.',
+        'descrbom': 'Bom crescimento, desempenho sólido, comum em setores com expansão moderada (ex.: LREN3). Investidores devem confirmar consistência do crescimento.',
+        'descrotimo': 'Crescimento excepcional, refletindo forte expansão. Comum em setores de alta margem ou inovação (ex.: TOTS3). Investidores devem verificar sustentabilidade frente a riscos setoriais.'
+        }
 }
 
 wbsaida = openpyxl.Workbook()
@@ -663,7 +688,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
-           # print('celula - Indicador', metrica)
+            print('celula - Indicador', metrica)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
                            'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
@@ -676,6 +701,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
                              'Divida liquida','Valor de mercado','Valor de firma']:
+                  print('IF da celula - valor', valor_pl)
+                  print('IF da celula - Indicador', metrica)
                   wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
@@ -806,7 +833,7 @@ if __name__ == "__main__":
     start = time.time()
 
     # read file with stocks codes to get stock information
-    with open('stocks.txt', 'r') as f:
+    with open('../stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
 
         # get stock information and create excel sheet
@@ -817,6 +844,8 @@ if __name__ == "__main__":
                 soup = get_stock_soup(stock)
                 dict_stock = soup_to_dict(soup)
                 dict_stocks[stock] = dict_stock
+                print(soup)
+                print(dict_stock)
                 gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock)
             except:
                 # if we not get the information... just skip it

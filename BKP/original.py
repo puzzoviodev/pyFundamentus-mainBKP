@@ -78,7 +78,7 @@ if __name__ == "__main__":
     start = time.time()
 
     # read file with stocks codes to get stock information
-    with open('stocks.txt', 'r') as f:
+    with open('../stocks.txt', 'r') as f:
         stocks = f.read().splitlines()
 
         # get stock information and create excel sheet
