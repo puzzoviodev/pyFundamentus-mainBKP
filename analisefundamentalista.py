@@ -1384,36 +1384,66 @@ def evaluate_valor_atual(valor_atual, vpa=None):
 def evaluate_liquidez_media_diaria(liquidez):
     '''Avalia a Liquidez Média Diária (em R$ milhões):
     - Liquidez < 0: Crítico
-    - 0 ≤ Liquidez ≤ 0.1: Péssimo
-    - 0.1 < Liquidez ≤ 1: Ruim
-    - 1 < Liquidez ≤ 10: Moderado
-    - 10 < Liquidez ≤ 50: Ótimo
-    - Liquidez > 50: Fora da faixa'''
+    - 0 ≤ Liquidez ≤ 0.5: Péssimo
+    - 0.5 < Liquidez ≤ 5: Ruim
+    - 5 < Liquidez ≤ 20: Moderado
+    - 20 < Liquidez ≤ 100: Ótimo
+    - Liquidez > 100: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para milhões).'''
     try:
-        if liquidez < 0:
-            return {'classificacao': 'Critico',
-                    'faixa': 'Liquidez < 0',
-                    'descricao': 'Liquidez negativa, erro nos dados.'}
-        elif 0 <= liquidez <= 0.1:
-            return {'classificacao': 'Pessimo',
-                    'faixa': '0 <= Liquidez <= 0.1',
-                    'descricao': 'Liquidez muito baixa, difícil negociar a ação (ex.: small caps pouco negociadas).'}
-        elif 0.1 < liquidez <= 1:
-            return {'classificacao': 'Ruim',
-                    'faixa': '0.1 < Liquidez <= 1',
-                    'descricao': 'Liquidez limitada, comum em small caps (ex.: ENAT3).'}
-        elif 1 < liquidez <= 10:
-            return {'classificacao': 'Moderado',
-                    'faixa': '1 < Liquidez <= 10', 'descricao': 'Liquidez adequada, típica de mid caps (ex.: ENGI11).'}
-        elif 10 < liquidez <= 50:
-            return {'classificacao': 'Otimo', 'faixa': '10 < Liquidez <= 50',
-                    'descricao': 'Alta liquidez, fácil negociação (ex.: ITUB4).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(liquidez, str):
+            # Remove "R$" e espaços
+            liquidez = liquidez.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            liquidez = liquidez.replace('.', '').replace(',', '.')
+            liquidez = float(liquidez) / 1_000_000  # Converte para milhões
         else:
-            return {'classificacao': 'Fora da faixa',
-                    'faixa': 'Liquidez > 50',
-                    'descricao': 'Liquidez excepcional, típica de blue chips (ex.: VALE3).'}
+            # Garante que é float
+            liquidez = float(liquidez) / 1_000_000 if liquidez >= 1_000_000 else float(liquidez)
+
+        if liquidez < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'Liquidez < 0',
+                'descricao': 'Liquidez média diária negativa, erro nos dados.'
+            }
+        elif 0 <= liquidez <= 0.5:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '0 <= Liquidez <= 0.5',
+                'descricao': 'Liquidez muito baixa, ação ilíquida, risco elevado (ex.: small caps pouco negociadas).'
+            }
+        elif 0.5 < liquidez <= 5:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '0.5 < Liquidez <= 5',
+                'descricao': 'Liquidez limitada, comum em small caps (ex.: ENAT3).'
+            }
+        elif 5 < liquidez <= 20:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '5 < Liquidez <= 20',
+                'descricao': 'Liquidez adequada, típica de mid caps (ex.: ABEV3).'
+            }
+        elif 20 < liquidez <= 100:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '20 < Liquidez <= 100',
+                'descricao': 'Liquidez robusta, comum em large caps (ex.: ITUB4).'
+            }
+        else:
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'Liquidez > 100',
+                'descricao': 'Liquidez excepcional, típica de blue chips (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Liquidez Média Diária: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Liquidez Média Diária: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
 
 def evaluate_patrimonio_liquido(pl):
     '''Avalia o Patrimônio Líquido (em R$ bilhões):
@@ -1422,34 +1452,62 @@ def evaluate_patrimonio_liquido(pl):
     - 0.5 < PL ≤ 2: Ruim
     - 2 < PL ≤ 10: Moderado
     - 10 < PL ≤ 50: Ótimo
-    - PL > 50: Fora da faixa'''
+    - PL > 50: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para bilhões).'''
     try:
-        if pl < 0:
-            return {'classificacao': 'Critico',
-                    'faixa': 'PL < 0',
-                    'descricao': 'Patrimônio líquido negativo, alto risco financeiro (ex.: OI).'}
-        elif 0 <= pl <= 0.5:
-            return {'classificacao': 'Pessimo',
-                    'faixa': '0 <= PL <= 0.5',
-                    'descricao': 'Patrimônio muito baixo, típico de small caps (ex.: ENAT3).'}
-        elif 0.5 < pl <= 2:
-            return {'classificacao': 'Ruim',
-                    'faixa': '0.5 < PL <= 2',
-                    'descricao': 'Patrimônio limitado, comum em empresas menores (ex.: CYRE3).'}
-        elif 2 < pl <= 10:
-            return {'classificacao': 'Moderado',
-                    'faixa': '2 < PL <= 10',
-                    'descricao': 'Patrimônio sólido, típico de mid caps (ex.: ABEV3).'}
-        elif 10 < pl <= 50:
-            return {'classificacao': 'Otimo',
-                    'faixa': '10 < PL <= 50',
-                    'descricao': 'Patrimônio robusto, comum em large caps (ex.: ITUB4).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(pl, str):
+            # Remove "R$" e espaços
+            pl = pl.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            pl = pl.replace('.', '').replace(',', '.')
+            pl = float(pl) / 1_000_000_000  # Converte para bilhões
         else:
-            return {'classificacao': 'Fora da faixa',
-                    'faixa': 'PL > 50',
-                    'descricao': 'Patrimônio excepcional, típico de blue chips (ex.: VALE3).'}
+            # Garante que é float
+            pl = float(pl) / 1_000_000_000 if pl >= 1_000_000 else float(pl)
+
+        if pl < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'PL < 0',
+                'descricao': 'Patrimônio líquido negativo, alto risco financeiro (ex.: OI).'
+            }
+        elif 0 <= pl <= 0.5:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '0 <= PL <= 0.5',
+                'descricao': 'Patrimônio muito baixo, típico de small caps (ex.: ENAT3).'
+            }
+        elif 0.5 < pl <= 2:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '0.5 < PL <= 2',
+                'descricao': 'Patrimônio limitado, comum em empresas menores (ex.: CYRE3).'
+            }
+        elif 2 < pl <= 10:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '2 < PL <= 10',
+                'descricao': 'Patrimônio sólido, típico de mid caps (ex.: ABEV3).'
+            }
+        elif 10 < pl <= 50:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '10 < PL <= 50',
+                'descricao': 'Patrimônio robusto, comum em large caps (ex.: ITUB4).'
+            }
+        else:
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'PL > 50',
+                'descricao': 'Patrimônio excepcional, típico de blue chips (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Patrimônio Líquido: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Patrimônio Líquido: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
 
 def evaluate_ativos(ativos):
     '''Avalia os Ativos Totais (em R$ bilhões):
@@ -1458,34 +1516,62 @@ def evaluate_ativos(ativos):
     - 1 < Ativos ≤ 5: Ruim
     - 5 < Ativos ≤ 20: Moderado
     - 20 < Ativos ≤ 100: Ótimo
-    - Ativos > 100: Fora da faixa'''
+    - Ativos > 100: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para bilhões).'''
     try:
-        if ativos < 0:
-            return {'classificacao': 'Critico',
-                    'faixa': 'Ativos < 0',
-                    'descricao': 'Ativos negativos, erro nos dados.'}
-        elif 0 <= ativos <= 1:
-            return {'classificacao': 'Pessimo',
-                    'faixa': '0 <= Ativos <= 1',
-                    'descricao': 'Ativos muito baixos, típico de small caps (ex.: ENAT3).'}
-        elif 1 < ativos <= 5:
-            return {'classificacao': 'Ruim',
-                    'faixa': '1 < Ativos <= 5',
-                    'descricao': 'Ativos limitados, comum em empresas menores (ex.: CYRE3).'}
-        elif 5 < ativos <= 20:
-            return {'classificacao': 'Moderado',
-                    'faixa': '5 < Ativos <= 20',
-                    'descricao': 'Ativos sólidos, típico de mid caps (ex.: ABEV3).'}
-        elif 20 < ativos <= 100:
-            return {'classificacao': 'Otimo',
-                    'faixa': '20 < Ativos <= 100',
-                    'descricao': 'Ativos robustos, comum em large caps (ex.: ITUB4).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(ativos, str):
+            # Remove "R$" e espaços
+            ativos = ativos.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            ativos = ativos.replace('.', '').replace(',', '.')
+            ativos = float(ativos) / 1_000_000_000  # Converte para bilhões
         else:
-            return {'classificacao': 'Fora da faixa',
-                    'faixa': 'Ativos > 100',
-                    'descricao': 'Ativos excepcionais, típico de blue chips (ex.: VALE3).'}
+            # Garante que é float
+            ativos = float(ativos) / 1_000_000_000 if ativos >= 1_000_000 else float(ativos)
+
+        if ativos < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'Ativos < 0',
+                'descricao': 'Ativos negativos, erro nos dados.'
+            }
+        elif 0 <= ativos <= 1:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '0 <= Ativos <= 1',
+                'descricao': 'Ativos muito baixos, típico de small caps (ex.: ENAT3).'
+            }
+        elif 1 < ativos <= 5:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '1 < Ativos <= 5',
+                'descricao': 'Ativos limitados, comum em empresas menores (ex.: CYRE3).'
+            }
+        elif 5 < ativos <= 20:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '5 < Ativos <= 20',
+                'descricao': 'Ativos sólidos, típico de mid caps (ex.: ABEV3).'
+            }
+        elif 20 < ativos <= 100:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '20 < Ativos <= 100',
+                'descricao': 'Ativos robustos, comum em large caps (ex.: ITUB4).'
+            }
+        else:
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'Ativos > 100',
+                'descricao': 'Ativos excepcionais, típico de blue chips (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Ativos: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Ativos: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
 
 def evaluate_ativo_circulante(ativo_circulante):
     '''Avalia o Ativo Circulante (em R$ bilhões):
@@ -1494,34 +1580,62 @@ def evaluate_ativo_circulante(ativo_circulante):
     - 0.2 < Ativo Circulante ≤ 1: Ruim
     - 1 < Ativo Circulante ≤ 5: Moderado
     - 5 < Ativo Circulante ≤ 20: Ótimo
-    - Ativo Circulante > 20: Fora da faixa'''
+    - Ativo Circulante > 20: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para bilhões).'''
     try:
-        if ativo_circulante < 0:
-            return {'classificacao': 'Critico',
-                    'faixa': 'Ativo Circulante < 0',
-                    'descricao': 'Ativo circulante negativo, erro nos dados.'}
-        elif 0 <= ativo_circulante <= 0.2:
-            return {'classificacao': 'Pessimo',
-                    'faixa': '0 <= Ativo Circulante <= 0.2',
-                    'descricao': 'Ativo circulante muito baixo, risco de liquidez (ex.: OI).'}
-        elif 0.2 < ativo_circulante <= 1:
-            return {'classificacao': 'Ruim',
-                    'faixa': '0.2 < Ativo Circulante <= 1',
-                    'descricao': 'Ativo circulante limitado, comum em small caps (ex.: ENAT3).'}
-        elif 1 < ativo_circulante <= 5:
-            return {'classificacao': 'Moderado',
-                    'faixa': '1 < Ativo Circulante <= 5',
-                    'descricao': 'Ativo circulante adequado, típico de mid caps (ex.: ABEV3).'}
-        elif 5 < ativo_circulante <= 20:
-            return {'classificacao': 'Otimo',
-                    'faixa': '5 < Ativo Circulante <= 20',
-                    'descricao': 'Ativo circulante robusto, comum em large caps (ex.: ITUB4).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(ativo_circulante, str):
+            # Remove "R$" e espaços
+            ativo_circulante = ativo_circulante.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            ativo_circulante = ativo_circulante.replace('.', '').replace(',', '.')
+            ativo_circulante = float(ativo_circulante) / 1_000_000_000  # Converte para bilhões
         else:
-            return {'classificacao': 'Fora da faixa',
-                    'faixa': 'Ativo Circulante > 20',
-                    'descricao': 'Ativo circulante excepcional, típico de blue chips (ex.: VALE3).'}
+            # Garante que é float
+            ativo_circulante = float(ativo_circulante) / 1_000_000_000 if ativo_circulante >= 1_000_000 else float(ativo_circulante)
+
+        if ativo_circulante < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'Ativo Circulante < 0',
+                'descricao': 'Ativo circulante negativo, erro nos dados.'
+            }
+        elif 0 <= ativo_circulante <= 0.2:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '0 <= Ativo Circulante <= 0.2',
+                'descricao': 'Ativo circulante muito baixo, risco de liquidez (ex.: OI).'
+            }
+        elif 0.2 < ativo_circulante <= 1:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '0.2 < Ativo Circulante <= 1',
+                'descricao': 'Ativo circulante limitado, comum em small caps (ex.: ENAT3).'
+            }
+        elif 1 < ativo_circulante <= 5:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '1 < Ativo Circulante <= 5',
+                'descricao': 'Ativo circulante adequado, típico de mid caps (ex.: ABEV3).'
+            }
+        elif 5 < ativo_circulante <= 20:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '5 < Ativo Circulante <= 20',
+                'descricao': 'Ativo circulante robusto, comum em large caps (ex.: ITUB4).'
+            }
+        else:
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'Ativo Circulante > 20',
+                'descricao': 'Ativo circulante excepcional, típico de blue chips (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Ativo Circulante: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Ativo Circulante: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
 
 def evaluate_divida_bruta(divida_bruta):
     '''Avalia a Dívida Bruta (em R$ bilhões):
@@ -1530,46 +1644,127 @@ def evaluate_divida_bruta(divida_bruta):
     - 0.5 < Dívida Bruta ≤ 2: Moderado
     - 2 < Dívida Bruta ≤ 10: Ruim
     - 10 < Dívida Bruta ≤ 20: Péssimo
-    - Dívida Bruta > 20: Fora da faixa'''
+    - Dívida Bruta > 20: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para bilhões).'''
     try:
-        if divida_bruta < 0:
-            return {'classificacao': 'Critico', 'faixa': 'Dívida Bruta < 0', 'descricao': 'Dívida bruta negativa, erro nos dados.'}
-        elif 0 <= divida_bruta <= 0.5:
-            return {'classificacao': 'Otimo', 'faixa': '0 <= Dívida Bruta <= 0.5', 'descricao': 'Dívida bruta muito baixa, baixo risco financeiro (ex.: TOTS3).'}
-        elif 0.5 < divida_bruta <= 2:
-            return {'classificacao': 'Moderado', 'faixa': '0.5 < Dívida Bruta <= 2', 'descricao': 'Dívida bruta controlada, típica de mid caps (ex.: ABEV3).'}
-        elif 2 < divida_bruta <= 10:
-            return {'classificacao': 'Ruim', 'faixa': '2 < Dívida Bruta <= 10', 'descricao': 'Dívida bruta moderada, exige atenção (ex.: SUZB3).'}
-        elif 10 < divida_bruta <= 20:
-            return {'classificacao': 'Pessimo', 'faixa': '10 < Dívida Bruta <= 20', 'descricao': 'Dívida bruta alta, risco elevado (ex.: ENGI11).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(divida_bruta, str):
+            # Remove "R$" e espaços
+            divida_bruta = divida_bruta.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            divida_bruta = divida_bruta.replace('.', '').replace(',', '.')
+            divida_bruta = float(divida_bruta) / 1_000_000_000  # Converte para bilhões
         else:
-            return {'classificacao': 'Fora da faixa', 'faixa': 'Dívida Bruta > 20', 'descricao': 'Dívida bruta excessiva, típico de empresas alavancadas (ex.: VALE3).'}
+            # Garante que é float
+            divida_bruta = float(divida_bruta) / 1_000_000_000 if divida_bruta >= 1_000_000 else float(divida_bruta)
+
+        if divida_bruta < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'Dívida Bruta < 0',
+                'descricao': 'Dívida bruta negativa, erro nos dados.'
+            }
+        elif 0 <= divida_bruta <= 0.5:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '0 <= Dívida Bruta <= 0.5',
+                'descricao': 'Dívida bruta muito baixa, baixo risco financeiro (ex.: TOTS3).'
+            }
+        elif 0.5 < divida_bruta <= 2:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '0.5 < Dívida Bruta <= 2',
+                'descricao': 'Dívida bruta controlada, típica de mid caps (ex.: ABEV3).'
+            }
+        elif 2 < divida_bruta <= 10:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '2 < Dívida Bruta <= 10',
+                'descricao': 'Dívida bruta moderada, exige atenção (ex.: SUZB3).'
+            }
+        elif 10 < divida_bruta <= 20:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '10 < Dívida Bruta <= 20',
+                'descricao': 'Dívida bruta alta, risco elevado (ex.: ENGI11).'
+            }
+        else:
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'Dívida Bruta > 20',
+                'descricao': 'Dívida bruta excessiva, típico de empresas alavancadas (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Dívida Bruta: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Dívida Bruta: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
 
 def evaluate_disponibilidade(disponibilidade):
     '''Avalia a Disponibilidade (caixa e equivalentes, em R$ bilhões):
     - Disponibilidade < 0: Crítico
-    - 0 ≤ Disponibilidade ≤ 0.1: Péssimo
-    - 0.1 < Disponibilidade ≤ 0.5: Ruim
-    - 0.5 < Disponibilidade ≤ 2: Moderado
-    - 2 < Disponibilidade ≤ 10: Ótimo
-    - Disponibilidade > 10: Fora da faixa'''
+    - 0 ≤ Disponibilidade ≤ 0.05: Péssimo
+    - 0.05 < Disponibilidade ≤ 0.2: Ruim
+    - 0.2 < Disponibilidade ≤ 1: Moderado
+    - 1 < Disponibilidade ≤ 10: Ótimo
+    - Disponibilidade > 10: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para bilhões).'''
     try:
-        if disponibilidade < 0:
-            return {'classificacao': 'Critico', 'faixa': 'Disponibilidade < 0', 'descricao': 'Disponibilidade negativa, erro nos dados.'}
-        elif 0 <= disponibilidade <= 0.1:
-            return {'classificacao': 'Pessimo', 'faixa': '0 <= Disponibilidade <= 0.1', 'descricao': 'Caixa muito baixo, risco de liquidez (ex.: OI).'}
-        elif 0.1 < disponibilidade <= 0.5:
-            return {'classificacao': 'Ruim', 'faixa': '0.1 < Disponibilidade <= 0.5', 'descricao': 'Caixa limitado, comum em small caps (ex.: ENAT3).'}
-        elif 0.5 < disponibilidade <= 2:
-            return {'classificacao': 'Moderado', 'faixa': '0.5 < Disponibilidade <= 2', 'descricao': 'Caixa adequado, típico de mid caps (ex.: ABEV3).'}
-        elif 2 < disponibilidade <= 10:
-            return {'classificacao': 'Otimo', 'faixa': '2 < Disponibilidade <= 10', 'descricao': 'Caixa robusto, comum em large caps (ex.: ITUB4).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(disponibilidade, str):
+            # Remove "R$" e espaços
+            disponibilidade = disponibilidade.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            disponibilidade = disponibilidade.replace('.', '').replace(',', '.')
+            disponibilidade = float(disponibilidade) / 1_000_000_000  # Converte para bilhões
         else:
-            return {'classificacao': 'Fora da faixa', 'faixa': 'Disponibilidade > 10', 'descricao': 'Caixa excepcional, típico de blue chips (ex.: VALE3).'}
+            # Garante que é float
+            disponibilidade = float(disponibilidade) / 1_000_000_000 if disponibilidade >= 1_000_000 else float(disponibilidade)
+
+        if disponibilidade < 0:
+            return {
+                'classificacao': 'Critico',
+                'faixa': 'Disponibilidade < 0',
+                'descricao': 'Disponibilidade negativa, erro nos dados.'
+            }
+        elif 0 <= disponibilidade <= 0.05:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '0 <= Disponibilidade <= 0.05',
+                'descricao': 'Caixa muito baixo, alto risco de liquidez (ex.: empresas em crise como OI).'
+            }
+        elif 0.05 < disponibilidade <= 0.2:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '0.05 < Disponibilidade <= 0.2',
+                'descricao': 'Caixa limitado, comum em small caps (ex.: ENAT3).'
+            }
+        elif 0.2 < disponibilidade <= 1:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '0.2 < Disponibilidade <= 1',
+                'descricao': 'Caixa adequado, típico de mid caps (ex.: ABEV3).'
+            }
+        elif 1 < disponibilidade <= 10:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': '1 < Disponibilidade <= 10',
+                'descricao': 'Caixa robusto, comum em large caps (ex.: ITUB4).'
+            }
+        else:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': 'Disponibilidade > 10',
+                'descricao': 'Caixa excepcional, típico de blue chips (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Disponibilidade: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Disponibilidade: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
+
 
 def evaluate_divida_liquida(divida_liquida):
     '''Avalia a Dívida Líquida (em R$ bilhões):
@@ -1577,20 +1772,57 @@ def evaluate_divida_liquida(divida_liquida):
     - -0.5 < Dívida Líquida ≤ 0: Moderado
     - 0 < Dívida Líquida ≤ 2: Ruim
     - 2 < Dívida Líquida ≤ 10: Péssimo
-    - Dívida Líquida > 10: Fora da faixa'''
+    - Dívida Líquida > 10: Fora da faixa
+    Aceita valores no formato R$ 112.714.000 (converte para bilhões).'''
     try:
-        if divida_liquida <= -0.5:
-            return {'classificacao': 'Otimo', 'faixa': 'Dívida Líquida <= -0.5', 'descricao': 'Dívida líquida negativa (caixa líquido), excelente saúde financeira (ex.: TOTS3).'}
-        elif -0.5 < divida_liquida <= 0:
-            return {'classificacao': 'Moderado', 'faixa': '-0.5 < Dívida Líquida <= 0', 'descricao': 'Dívida líquida próxima de zero, situação equilibrada (ex.: ABEV3).'}
-        elif 0 < divida_liquida <= 2:
-            return {'classificacao': 'Ruim', 'faixa': '0 < Dívida Líquida <= 2', 'descricao': 'Dívida líquida moderada, exige atenção (ex.: CYRE3).'}
-        elif 2 < divida_liquida <= 10:
-            return {'classificacao': 'Pessimo', 'faixa': '2 < Dívida Líquida <= 10', 'descricao': 'Dívida líquida alta, risco elevado (ex.: SUZB3).'}
+        # Se for string, processar formato monetário brasileiro
+        if isinstance(divida_liquida, str):
+            # Remove "R$" e espaços
+            divida_liquida = divida_liquida.replace('R$', '').replace(' ', '')
+            # Substitui ponto (milhares) e vírgula (decimal)
+            divida_liquida = divida_liquida.replace('.', '').replace(',', '.')
+            divida_liquida = float(divida_liquida) / 1_000_000_000  # Converte para bilhões
         else:
-            return {'classificacao': 'Fora da faixa', 'faixa': 'Dívida Líquida > 10', 'descricao': 'Dívida líquida excessiva, alto risco financeiro (ex.: VALE3).'}
+            # Garante que é float
+            divida_liquida = float(divida_liquida) / 1_000_000_000 if abs(divida_liquida) >= 1_000_000 else float(divida_liquida)
+
+        if divida_liquida <= -0.5:
+            return {
+                'classificacao': 'Otimo',
+                'faixa': 'Dívida Líquida <= -0.5',
+                'descricao': 'Dívida líquida negativa (caixa líquido), excelente saúde financeira (ex.: TOTS3).'
+            }
+        elif -0.5 < divida_liquida <= 0:
+            return {
+                'classificacao': 'Moderado',
+                'faixa': '-0.5 < Dívida Líquida <= 0',
+                'descricao': 'Dívida líquida próxima de zero, situação equilibrada (ex.: ABEV3).'
+            }
+        elif 0 < divida_liquida <= 2:
+            return {
+                'classificacao': 'Ruim',
+                'faixa': '0 < Dívida Líquida <= 2',
+                'descricao': 'Dívida líquida moderada, exige atenção (ex.: CYRE3).'
+            }
+        elif 2 < divida_liquida <= 10:
+            return {
+                'classificacao': 'Pessimo',
+                'faixa': '2 < Dívida Líquida <= 10',
+                'descricao': 'Dívida líquida alta, risco elevado (ex.: SUZB3).'
+            }
+        else:
+            return {
+                'classificacao': 'Fora da faixa',
+                'faixa': 'Dívida Líquida > 10',
+                'descricao': 'Dívida líquida excessiva, alto risco financeiro (ex.: VALE3).'
+            }
     except Exception as e:
-        return {'classificacao': 'Erro', 'faixa': 'N/A', 'descricao': f'Erro ao processar Dívida Líquida: {str(e)}.'}
+        return {
+            'classificacao': 'Erro',
+            'faixa': 'N/A',
+            'descricao': f'Erro ao processar Dívida Líquida: {str(e)}. Verifique se o valor é um número válido ou no formato R$ XXX.XXX.XXX.'
+        }
+
 
 def evaluate_valor_mercado(valor_mercado):
     '''Avalia o Valor de Mercado (em R$ bilhões):

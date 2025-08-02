@@ -458,95 +458,194 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBIT','PL/Ativos',
                            'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
-                            'P/SR','P/Ativo Circ. Liq.']:
+                            'P/SR','P/Ativo Circ. Liq.', 'Disponibilidade','Patrimonio liquido','Divida bruta','Divida liquida','Ativos', 'Ativo circulante','LIQUIDEZ MEDIA DIARIA']:
              #   print('IF tratamneto2 ',metrica )
 
-                indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
-                valor_pl = indicadortratado
-                resultado = analisefundamentalista.evaluate_pl(valor_pl)
-                faixa1 = resultado['faixa']
-                descricao1 = resultado['descricao']
-                print("func1" + faixa1)
-                print("func2" + descricao1)
+                #indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                #valor_pl = indicadortratado
+               # resultado = analisefundamentalista.evaluate_pl(valor_pl)
+                #faixa1 = resultado['faixa']
+                #descricao1 = resultado['descricao']
+                #print("func1" + faixa1)
+                #print("func2" + descricao1)
 
-               # categoria_pl = categorizar_valor(metrica, (valor_pl))
                 if metrica == 'P/L':
-                   categoria_pl = evaluate_pl(valor_pl)
-                if metrica == 'P/VP':
-                   categoria_pl = evaluate_pvp(valor_pl)
-                if metrica == 'P/EBITDA':
-                   categoria_pl = evaluate_pebitda(valor_pl)
-                if metrica == 'P/EBIT':
-                    categoria_pl = evaluate_pebit(valor_pl)
+                   indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                   valor_pl = indicadortratado
+                   resultado =  analisefundamentalista.evaluate_pl(valor_pl)  # P/L
 
-                classificacao = categoria_pl['classificacao']
-                faixa = categoria_pl['faixa']
-                descricao = categoria_pl['descricao']
+                elif metrica == 'P/EBITDA':
+                   indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                   valor_pl = indicadortratado
+                   resultado = analisefundamentalista.evaluate_pebitda(valor_pl)  # P/EBITDA
 
-                print(f"Classificação:" + classificacao)
-                print(f"Faixa:" +  faixa)
-                #print(retorno)
-                #teste = classificar_divida_ebit(valor_pl)
-                 #print("descricao:", teste['descricao'])
-                 #print("Classificação:", teste['classificacao'])
-                #print(teste)
-                #print(teste['classificacao'])  # saída: 'pessimo'
-                #print(teste['descricao'])  # saída: 'teste'
-              #  print("categoria " + categoria_pl)
-               # print("categoria tratamento2 " + categoria_pl)
-            elif metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
-                             'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
-                             'Divida liquida','Valor de mercado','Valor de firma']:
-               # print('IF tratamneto3 ', metrica)
-               # print("categoria " + categoria_pl)
-               # print('Patrimonio liquido ' + dict_stocks[stock].get('Patrimonio liquido'))
-                indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
-                valor_pl = indicadortratado
-                categoria_pl = categorizar_valor(metrica, (valor_pl))
-               # print("categoria tratamento3" + categoria_pl)
-            else:
-               # print('IF tratamneto ', metrica)
-                indicadortratado = tratamento(dict_stocks[stock].get(metrica))
-                valor_pl = indicadortratado
-                categoria_pl = categorizar_valor(metrica,(valor_pl * 100))
-                #print("categoria tratamento" + categoria_pl)
-                # Certifique-se de que 'ROE' é o valor correto para a métrica
-   #         print(f'O índice P/L {valor_pl} é categorizado como: {categoria_pl}')
-   #         print(f"  Agrupador: {detalhes['agrupador']}")
+                elif metrica == 'P/VP':
+                   indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                   valor_pl = indicadortratado
+                   resultado = analisefundamentalista.evaluate_pvp(valor_pl)  # P/VP
+
+                elif metrica == 'P/EBIT':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_pebit(valor_pl)  # P/EBIT
+
+                elif metrica == 'EV/EBITDA':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_evebitda(valor_pl)  # EV/EBITDA
+
+                elif metrica == 'EV/EBIT':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_evebit(valor_pl)  # EV/EBIT
+
+                elif metrica == 'Giro ativos':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_giro_ativos(valor_pl)  # Giro ativos
+
+                elif metrica == 'Div. liquida/PL':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_divida_liquida_pl(valor_pl)  # Div. liquida/PL
+
+                elif metrica == 'Div. liquida/EBITDA':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_divida_liquida_ebitda(valor_pl)  # Div. liquida/EBITDA
+
+                elif metrica == 'Div. liquida/EBIT':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_divida_liquida_ebit(valor_pl)  # Div. liquida/EBIT
+
+                elif metrica == 'PL/Ativos':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_pl_ativos(valor_pl)  # PL/Ativos
+
+                elif metrica == 'Passivos/Ativos':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_passivos_ativos(valor_pl)  # Passivos/Ativos
+
+                elif metrica == 'Liq. corrente':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_liquidez_corrente(valor_pl)  # Liq. corrente
+
+                elif metrica == 'PEG Ratio':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_peg_ratio(valor_pl)  # PEG Ratio
+
+                elif metrica == 'P/Ativo':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_p_ativo(valor_pl)  # P/Ativo
+
+                elif metrica == 'VPA':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_vpa(valor_pl)  # VPA
+
+                elif metrica == 'LPA':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_lpa(valor_pl)  # LPA
+
+                elif metrica == 'P/SR':
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_psr(valor_pl)  # P/SR
+
+                elif metrica == 'P/Ativo Circ. Liq': #P/Ativo Circ. Liq
+                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado =  analisefundamentalista.evaluate_p_ativo_circ_liq(valor_pl)  # P/Ativo Circ. Liq
+
+                elif metrica == 'Disponibilidade': #'Disponibilidade' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_disponibilidade(valor_pl)
+
+                elif metrica == 'Patrimonio liquido': #'Patrimonio liquido' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_patrimonio_liquido(valor_pl)#Patrimonio liquido
+
+                elif metrica == 'Divida bruta': #'Divida bruta' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_divida_bruta(valor_pl)#Divida bruta
+
+                elif metrica == 'Divida liquida':  # 'Divida liquida' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_divida_liquida(valor_pl)  # Divida liquida
+
+                elif metrica == 'Ativos':  # 'Ativos' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_ativos(valor_pl)  # Ativos
+
+                elif metrica == 'Ativos':  # 'Ativosa' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_ativos(valor_pl)  # Ativos
+
+                elif metrica == 'Ativo circulante':  # 'Ativo circulante' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_ativo_circulante(valor_pl)  # Ativo circulante
+
+                elif metrica == 'LIQUIDEZ MEDIA DIARIA':  # 'ALIQUIDEZ MEDIA DIARIA' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+
+                    resultado = analisefundamentalista.evaluate_liquidez_media_diaria(valor_pl)  #LIQUIDEZ MEDIA DIARIA
+                elif metrica == 'Valor de firma1':  # 'ALIQUIDEZ MEDIA DIARIA' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_liquidez_media_diaria(valor_pl)  # LIQUIDEZ MEDIA DIARIA
+
+                elif metrica == 'Valor atual1':  # 'Valor atual' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_liquidez_media_diaria(valor_pl)  # Valor atual
+
+                elif metrica == 'Valor de mercado1':  # 'Valor de mercado' R$
+                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
+                    valor_pl = indicadortratado
+                    resultado = analisefundamentalista.evaluate_liquidez_media_diaria(valor_pl)  # Valor de mercado
+
+                faixa = resultado['faixa']
+                descricao = resultado['descricao']
+                classificacao = resultado['classificacao']
+                #print("faixa " + faixa)
+                #print("descricao " + descricao)
+                #print("classificacao " + classificacao)
 
 
-           # wsIndiRentabilidade.cell(row=linha2, column=1, value=detalhes['agrupador'])
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
-          #  print('celula - Indicador', metrica)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
                            'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
                            'P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
                             'P/SR','P/Ativo Circ. Liq.']:
-               # print('IF da celula - Indicador', metrica )
-               # print('IF da celula - valor', valor_pl)
-                wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
+               wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
             elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
                              'Divida liquida','Valor de mercado','Valor de firma']:
-                  #print('IF da celula - valor', valor_pl)
-                  #print('IF da celula - Indicador', metrica)
+
                   wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
                 wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
 
 
-            #print(detalhes)'''
-            desc1 =  ("Lucro Líquido ≤ 0: Prejuízo (crítico)- 0 < P/L ≤ 8: Subvalorizado (ótimo) - 8 < P/L ≤ 12:"
-                       " Atraente (bom) - 12 < P/L ≤ 18: Neutro (moderado)    - 18 < P/L ≤ 25: Caro (ruim)  - "
-                       "P/L > 25: Sobrevalorizado (péssimo) ")
 
-
-
-
-            #if metrica == 'Div. liquida/EBITDA':
             if classificacao == 'Critico':
                 wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill = fillvermelho
                 wsIndiRentabilidade.cell(row=linha2, column=7, value=faixa)
