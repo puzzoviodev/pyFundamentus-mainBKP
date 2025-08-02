@@ -14,6 +14,7 @@ import requests
 import warnings
 from openpyxl.styles import numbers
 import analisefundamentalista
+import fundamentus2
 
 #from teste01 import metrica
 
@@ -762,8 +763,9 @@ if __name__ == "__main__":
     dict_stocks = {}
     criaPlanilhaIndRentabilidade(wbsaida)
     wsIndiRentabilidade = wbsaida['IndiRentabilidade']
-
-    # start timer
+    teste = fundamentus2.evaluate_teste(1)
+    print("teste " + str(teste))
+    # start t   imer
     start = time.time()
 
     # read file with stocks codes to get stock information

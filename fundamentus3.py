@@ -476,48 +476,104 @@ def evaluate_teste(pfcl):
     - 15 < P/FCL ≤ 20: Péssimo (muito caro, alto risco)
     - P/FCL > 20: Fora da faixa (extremamente sobrevalorizado)'''
 
-    #criaPlanilhaIndRentabilidade(wbsaida)
-    #wsIndiRentabilidade = wbsaida['IndiRentabilidade']
+    criaPlanilhaIndRentabilidade(wbsaida)
+    wsIndiRentabilidade = wbsaida['IndiRentabilidade']
 
     # start timer
     start = time.time()
 
-    # get stock information and create excel sheet
-    stock = 'PETR4'
-    main_pipeline = fundamentus.Pipeline(stock)
-    response = main_pipeline.get_all_information()
+    # read file with stocks codes to get stock information
+    with open('stocks.txt', 'r') as f:
+        stocks = f.read().splitlines()
 
-    # Extract the information from the response.
-    stock_identification = response.transformed_information['stock_identification']
-    financial_summary = response.transformed_information['financial_summary']
-    price_information = response.transformed_information['price_information']
-    detailed_information = response.transformed_information['detailed_information']
-    oscillations = response.transformed_information['oscillations']
-    valuation_indicators = response.transformed_information['valuation_indicators']
-    profitability_indicators = response.transformed_information['profitability_indicators']
-    indebtedness_indicators = response.transformed_information['indebtedness_indicators']
-    balance_sheet = response.transformed_information['balance_sheet']
-    income_statement = response.transformed_information['income_statement']
+        # get stock information and create excel sheet
+        for stock in stocks:
+            main_pipeline = fundamentus.Pipeline(stock.upper())
+            response = main_pipeline.get_all_information()
 
-    montadicionario(
-        stock_identification, financial_summary, price_information,
-        detailed_information, oscillations, valuation_indicators,
-        profitability_indicators, indebtedness_indicators,
-        balance_sheet, income_statement
-    )
+            # Extract the information from the response.
+            stock_identification = response.transformed_information['stock_identification']
+            financial_summary = response.transformed_information['financial_summary']
+            price_information = response.transformed_information['price_information']
+            detailed_information = response.transformed_information['detailed_information']
+            oscillations = response.transformed_information['oscillations']
+            valuation_indicators = response.transformed_information['valuation_indicators']
+            profitability_indicators = response.transformed_information['profitability_indicators']
+            indebtedness_indicators = response.transformed_information['indebtedness_indicators']
+            balance_sheet = response.transformed_information['balance_sheet']
+            income_statement = response.transformed_information['income_statement']
 
-   # gravaIndiRentabilidadeFund(
-   #     wsIndiRentabilidade, Dicprofitability_indicators,
-   #     Dicindebtedness_indicators, Dicvaluation_indicators,
-   #     Dicprice_information, Dicdetailed_information,
-   #     Dicbalance_sheet, Dicfinancial_summary, stock
-   # )
-    teste1 = Dicdetailed_information.get('LPA')
-    print('teste' + str(teste1) )
+            montadicionario(
+                stock_identification, financial_summary, price_information,
+                detailed_information, oscillations, valuation_indicators,
+                profitability_indicators, indebtedness_indicators,
+                balance_sheet, income_statement
+            )
+
+            gravaIndiRentabilidadeFund(
+                wsIndiRentabilidade, Dicprofitability_indicators,
+                Dicindebtedness_indicators, Dicvaluation_indicators,
+                Dicprice_information, Dicdetailed_information,
+                Dicbalance_sheet, Dicfinancial_summary, stock
+            )
+
     end = time.time()
-    #wbsaida.save("Fundamentus_teste1.xlsx")  # silvio
-    # print(f'Brasilian stocks information got in {int(end - start)} s')
+    wbsaida.save("Fundamentus_teste1.xlsx")  # silvio
+    print(f'Brasilian stocks information got in {int(end - start)} s')
+    return "banana"
 
-    #indicadortratado = tratamento(f"{float(Dicdetailed_information.get('LPA')) * 100}%")
-    return  'banana'
+if __name__ == "__main__":
 
+    criaPlanilhaIndRentabilidade(wbsaida)
+    wsIndiRentabilidade = wbsaida['IndiRentabilidade']
+    # start timer
+    start = time.time()
+
+    # read file with stocks codes to get stock information
+    with open('stocks.txt', 'r') as f:
+        stocks = f.read().splitlines()
+
+        # get stock information and create excel sheet
+        for stock in stocks:
+            try:
+
+
+
+                main_pipeline = fundamentus.Pipeline(stock.upper())
+                response = main_pipeline.get_all_information()
+
+
+                # Extract the information from the response.
+                stock_identification = response.transformed_information['stock_identification']
+                financial_summary = response.transformed_information['financial_summary']
+                price_information = response.transformed_information['price_information']
+                detailed_information = response.transformed_information[
+                    'detailed_information']
+                oscillations = response.transformed_information['oscillations']
+                valuation_indicators = response.transformed_information[
+                    'valuation_indicators']
+                profitability_indicators = response.transformed_information[
+                    'profitability_indicators']
+                indebtedness_indicators = response.transformed_information[
+                    'indebtedness_indicators']
+                balance_sheet = response.transformed_information['balance_sheet']
+                income_statement = response.transformed_information['income_statement']
+
+                montadicionario(stock_identification, financial_summary, price_information, detailed_information,
+                                oscillations,valuation_indicators, profitability_indicators, indebtedness_indicators, balance_sheet,
+                                income_statement)
+
+                gravaIndiRentabilidadeFund(wsIndiRentabilidade, Dicprofitability_indicators, Dicindebtedness_indicators,
+                                      Dicvaluation_indicators,
+                                      Dicprice_information, Dicdetailed_information, Dicbalance_sheet,
+                                      Dicfinancial_summary, stock)
+
+
+            except:
+                # if we not get the information... just skip it
+                print(f'Could not get {stock} information')
+
+
+    end = time.time()
+    wbsaida.save("Fundamentus.xlsx")  # silvio
+    print(f'Brasilian stocks information got in {int(end-start)} s')
