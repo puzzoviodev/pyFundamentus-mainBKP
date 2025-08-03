@@ -71,7 +71,7 @@ def criaPlanilhaIndRentabilidade(wbsaida):
     wbsaida.create_sheet('IndiRentabilidade')
     IndiRentabilidade = wbsaida['IndiRentabilidade']
     IndiRentabilidade.append(
-        ['Agrupador', 'Fonte', 'ATIVO', 'Indicador', 'Valor', 'Referencia','Critico', 'Pessimo','Ruim', 'Moderado', 'Bom', 'Otimo', 'Descrição'])
+        ['Agrupador','Fonte','Ativo','Indicador','Formula','Definição','Referencia','Valor','Classificacao','Faixa','Descricao'])
 
     for cell in IndiRentabilidade[1]:  # Apenas o cabeçalho
         cell.fill = filltitulo
@@ -321,9 +321,12 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 faixa = resultado['faixa']
                 descricao = resultado['descricao']
                 classificacao = resultado['classificacao']
+                #definicao = resultado['definicao']
+                agrupador = resultado['agrupador']
+                #formula  = resultado['formula']
+                #print(faixa)
 
-
-
+            wsIndiRentabilidade.cell(row=linha2, column=1, value=agrupador)
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
