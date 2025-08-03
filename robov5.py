@@ -15,6 +15,9 @@ import warnings
 from openpyxl.styles import numbers
 import analisefundamentalista
 import fundamentus2
+from openpyxl.styles import Alignment
+from openpyxl.utils import get_column_letter
+
 
 #from teste01 import metrica
 
@@ -31,6 +34,72 @@ fillazul = PatternFill(start_color="0000FF", end_color="0000FF", fill_type="soli
 #filltitulo =   PatternFill(start_color="#002060", end_color="#002060", fill_type="solid")
 
 filltitulo = PatternFill(start_color="002060", end_color="002060", fill_type="solid")  # Azul escuro
+
+# Novas faixas
+filllaranja = PatternFill(start_color="FFA500", end_color="FFA500", fill_type="solid")   # Laranja
+fillroxo = PatternFill(start_color="800080", end_color="800080", fill_type="solid")      # Roxo
+fillcinza = PatternFill(start_color="808080", end_color="808080", fill_type="solid")     # Cinza
+fillrosa = PatternFill(start_color="FFC0CB", end_color="FFC0CB", fill_type="solid")      # Rosa
+fillciano = PatternFill(start_color="00FFFF", end_color="00FFFF", fill_type="solid")     # Ciano
+fillpreto = PatternFill(start_color="000000", end_color="000000", fill_type="solid")     # Preto
+fillbranco = PatternFill(start_color="FFFFFF", end_color="FFFFFF", fill_type="solid")    # Branco
+
+# Tons pastéis
+fillpastelverde = PatternFill(start_color="B0E57C", end_color="B0E57C", fill_type="solid")   # Verde pastel
+fillpastelazul = PatternFill(start_color="A7C7E7", end_color="A7C7E7", fill_type="solid")    # Azul pastel
+fillpastelrosa = PatternFill(start_color="FFD1DC", end_color="FFD1DC", fill_type="solid")    # Rosa pastel
+fillpastelroxo = PatternFill(start_color="D8BFD8", end_color="D8BFD8", fill_type="solid")    # Roxo pastel
+fillpastelamarelo = PatternFill(start_color="FFFACD", end_color="FFFACD", fill_type="solid") # Amarelo claro
+
+# Tons metálicos simulados
+fillouro = PatternFill(start_color="FFD700", end_color="FFD700", fill_type="solid")          # Ouro
+fillprata = PatternFill(start_color="C0C0C0", end_color="C0C0C0", fill_type="solid")          # Prata
+fillbronze = PatternFill(start_color="CD7F32", end_color="CD7F32", fill_type="solid")         # Bronze
+
+# Variações de cores básicas
+fillvermelhoescuro = PatternFill(start_color="8B0000", end_color="8B0000", fill_type="solid") # Vermelho escuro
+fillverdeescuro = PatternFill(start_color="006400", end_color="006400", fill_type="solid")    # Verde escuro
+fillazulescuro = PatternFill(start_color="00008B", end_color="00008B", fill_type="solid")      # Azul escuro
+fillamareloouro = PatternFill(start_color="FFD700", end_color="FFD700", fill_type="solid")     # Amarelo ouro
+filllaranjaescuro = PatternFill(start_color="FF8C00", end_color="FF8C00", fill_type="solid")   # Laranja escuro
+
+# Tons neutros
+fillcinzaclaro = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")      # Cinza claro
+fillmarrom = PatternFill(start_color="A52A2A", end_color="A52A2A", fill_type="solid")          # Marrom
+fillbege = PatternFill(start_color="F5F5DC", end_color="F5F5DC", fill_type="solid")            # Bege
+fillcreme = PatternFill(start_color="FFFDD0", end_color="FFFDD0", fill_type="solid")           # Creme
+
+# Cores vibrantes
+fillmagenta = PatternFill(start_color="FF00FF", end_color="FF00FF", fill_type="solid")         # Magenta
+filllimão = PatternFill(start_color="CCFF00", end_color="CCFF00", fill_type="solid")           # Verde limão
+fillturquesa = PatternFill(start_color="40E0D0", end_color="40E0D0", fill_type="solid")         # Turquesa
+fillsalmao = PatternFill(start_color="FA8072", end_color="FA8072", fill_type="solid")           # Salmão
+fillcoral = PatternFill(start_color="FF7F50", end_color="FF7F50", fill_type="solid")            # Coral
+
+# Fontes básicas
+font_branca = Font(color="FFFFFF")   # Branco
+font_preta = Font(color="000000")    # Preto
+font_vermelha = Font(color="FF0000") # Vermelho
+font_verde = Font(color="00FF00")    # Verde
+font_azul = Font(color="0000FF")     # Azul
+font_amarela = Font(color="FFFF00")  # Amarelo
+
+# Fontes suaves
+font_cinza = Font(color="808080")    # Cinza
+font_rosa = Font(color="FFC0CB")     # Rosa
+font_roxa = Font(color="800080")     # Roxo
+font_laranja = Font(color="FFA500")  # Laranja
+
+# Fontes metálicas simuladas
+font_ouro = Font(color="FFD700")     # Ouro
+font_prata = Font(color="C0C0C0")    # Prata
+font_bronze = Font(color="CD7F32")   # Bronze
+
+# Fontes para destaque
+font_titulo = Font(color="002060", bold=True, size=12)  # Azul escuro, negrito
+font_alerta = Font(color="FF0000", bold=True)           # Vermelho, negrito
+font_sucesso = Font(color="00AA00", italic=True)        # Verde escuro, itálic
+
 
 font_branca = Font(color="FFFFFF")  # Branco
 
@@ -248,10 +317,21 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                     valor_pl = indicadortratado
                     resultado = analisefundamentalista.evaluate_vpa(valor_pl)  # VPA
 
+
                 elif metrica == 'LPA':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
                     resultado = analisefundamentalista.evaluate_lpa(valor_pl)  # LPA
+                  #  teste = fundamentus2.evaluate_teste(stock)
+                   # print("teste retorno" + str(teste))
+                   # indicadortratado_fundamentus = tratamento2(teste)
+                   # print('indicadortratado_fundamentus ' + str(indicadortratado_fundamentus))
+                   # valor_pl_fundamentus = indicadortratado_fundamentus
+                   # print('valor_pl_fundamentus ' + str(valor_pl_fundamentus))
+                   # resultado_fundamentus = analisefundamentalista.evaluate_vpa(valor_pl_fundamentus)  # VPA
+                   # print('resultado_fundamentus' + str(resultado_fundamentus))
+                   # wsIndiRentabilidade.cell(row=linha2, column=12,
+                    #                         value=valor_pl_fundamentus).number_format = numbers.FORMAT_NUMBER_00
 
                 elif metrica == 'P/SR':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -321,59 +401,59 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 faixa = resultado['faixa']
                 descricao = resultado['descricao']
                 classificacao = resultado['classificacao']
-                #definicao = resultado['definicao']
+                definicao = resultado['definicao']
                 agrupador = resultado['agrupador']
-                #formula  = resultado['formula']
+                formula  = resultado['formula']
                 #print(faixa)
 
             wsIndiRentabilidade.cell(row=linha2, column=1, value=agrupador)
             wsIndiRentabilidade.cell(row=linha2, column=2, value='StausInvest')
             wsIndiRentabilidade.cell(row=linha2, column=3, value=stock)
             wsIndiRentabilidade.cell(row=linha2, column=4, value=metrica)
+            wsIndiRentabilidade.cell(row=linha2, column=5, value=formula)
+            wsIndiRentabilidade.cell(row=linha2, column=6, value=definicao)
+            #wsIndiRentabilidade.cell(row=linha2, column=7, value=faixa)
+            wsIndiRentabilidade.cell(row=linha2, column=11, value=descricao)
+
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBITDA',
                            'Div. liquida/EBIT','PL/Ativos','Passivos/Ativos','Liq. corrente',
                            'P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
                             'P/SR','P/Ativo Circ. Liq.']:
-               wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
+               wsIndiRentabilidade.cell(row=linha2, column=8, value=valor_pl).number_format = numbers.FORMAT_NUMBER_00
+
             elif  metrica in ['Valor atual','LIQUIDEZ MEDIA DIARIA','Patrimonio liquido',
                              'Ativos','Ativo circulante','Divida bruta','Disponibilidade',
                              'Divida liquida','Valor de mercado','Valor de firma']:
 
-                  wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = 'R$ #,##0.00'
+                  wsIndiRentabilidade.cell(row=linha2, column=8, value=valor_pl).number_format = 'R$ #,##0.00'
             else:
-                wsIndiRentabilidade.cell(row=linha2, column=5, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
+                wsIndiRentabilidade.cell(row=linha2, column=8, value=valor_pl).number_format = numbers.FORMAT_PERCENTAGE_00
 
 
 
             if classificacao == 'Critico':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill = fillvermelho
-                wsIndiRentabilidade.cell(row=linha2, column=7, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
-            if classificacao == 'Pessimo':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill = fillvermelho
-                wsIndiRentabilidade.cell(row=linha2, column=8, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
-            if classificacao == 'Ruim':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill = fillvermelho
-                wsIndiRentabilidade.cell(row=linha2, column=9, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
-            if  classificacao == 'Moderado':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill =fillamarelo
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillvermelho
                 wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
+            if classificacao == 'Pessimo':
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillvermelho
+                wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
+            if classificacao == 'Ruim':
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillvermelho
+                wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
+            if  classificacao == 'Moderado':
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill =fillamarelo
+                wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
             if  classificacao == 'Bom':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill = fillverde
-                wsIndiRentabilidade.cell(row=linha2, column=11, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillverde
+                wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
             if classificacao == 'Otimo':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill =fillazul
-                wsIndiRentabilidade.cell(row=linha2, column=12, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill =fillverde
+                wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
             if classificacao == 'Fora da faixa':
-                wsIndiRentabilidade.cell(row=linha2, column=6, value=classificacao).fill = fillazul
-                wsIndiRentabilidade.cell(row=linha2, column=12, value=faixa)
-                wsIndiRentabilidade.cell(row=linha2, column=13, value=descricao)
+                wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillazul
+                wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
+
 
 
     except Exception as e:
@@ -462,8 +542,8 @@ if __name__ == "__main__":
     dict_stocks = {}
     criaPlanilhaIndRentabilidade(wbsaida)
     wsIndiRentabilidade = wbsaida['IndiRentabilidade']
-    teste = fundamentus2.evaluate_teste(1)
-    print("teste " + str(teste))
+    #teste = fundamentus2.evaluate_teste(1)
+    #print("teste " + str(teste))
     # start t   imer
     start = time.time()
 
@@ -498,6 +578,14 @@ if __name__ == "__main__":
 
     # end timer
     end = time.time()
+    altura_padrao = 40
+    largura_padrao = 30
+    for row in wsIndiRentabilidade.iter_rows():
+        wsIndiRentabilidade.row_dimensions[row[0].row].height = altura_padrao  # Altura da linha
+        for cell in row:
+            cell.alignment = Alignment(wrap_text=True)
+            col_letter = get_column_letter(cell.column)
+            wsIndiRentabilidade.column_dimensions[col_letter].width = largura_padrao  # Largura da coluna
     wbsaida.save("StatusInvest.xlsx")
     print(f'Brasilian stocks information got in {int(end-start)} s')
 # silvio teste
