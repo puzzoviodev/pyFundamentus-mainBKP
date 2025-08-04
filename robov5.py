@@ -240,17 +240,17 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 if metrica == 'P/L':
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
-                   resultado =  analisefundamentalista.evaluate_pl(valor_pl)  # P/L
+                   resultado =  analisefundamentalista.evaluate_p_l(valor_pl)  # P/L
 
                 elif metrica == 'P/EBITDA':
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
-                   resultado = analisefundamentalista.evaluate_pebitda(valor_pl)  # P/EBITDA
+                   resultado = analisefundamentalista.evaluate_p_ebitda(valor_pl)  # P/EBITDA
 
                 elif metrica == 'P/VP':
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
-                   resultado = analisefundamentalista.evaluate_pvp(valor_pl)  # P/VP
+                   resultado = analisefundamentalista.evaluate_p_vp(valor_pl)  # P/VP
 
                 elif metrica == 'P/EBIT':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -265,7 +265,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 elif metrica == 'EV/EBIT':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
-                    resultado = analisefundamentalista.evaluate_evebit(valor_pl)  # EV/EBIT
+                    resultado = analisefundamentalista.evaluate_ev_ebit(valor_pl)  # EV/EBIT
 
                 elif metrica == 'Giro ativos':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -275,7 +275,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 elif metrica == 'Div. liquida/PL':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
-                    resultado = analisefundamentalista.evaluate_divida_liquida_pl(valor_pl)  # Div. liquida/PL
+                    resultado = analisefundamentalista.evaluate_divida_liquida_patrimonio(valor_pl)  # Div. liquida/PL
 
                 elif metrica == 'Div. liquida/EBITDA':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -285,7 +285,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 elif metrica == 'Div. liquida/EBIT':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
-                    resultado = analisefundamentalista.evaluate_divida_liquida_ebit(valor_pl)  # Div. liquida/EBIT
+                    resultado = analisefundamentalista.evaluate_divida_liquida_ebitda(valor_pl)  # Div. liquida/EBIT
 
                 elif metrica == 'PL/Ativos':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -295,7 +295,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 elif metrica == 'Passivos/Ativos':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
-                    resultado = analisefundamentalista.evaluate_passivos_ativos(valor_pl)  # Passivos/Ativos
+                    resultado = analisefundamentalista.evaluate_passivos_ativos(valor_pl) # Passivos/Ativos
+
 
                 elif metrica == 'Liq. corrente':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -305,7 +306,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 elif metrica == 'PEG Ratio':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
-                    resultado = analisefundamentalista.evaluate_peg_ratio(valor_pl)  # PEG Ratio
+                    resultado = analisefundamentalista.evaluate_p_ativo(valor_pl)  # PEG Ratio
 
                 elif metrica == 'P/Ativo':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
@@ -368,20 +369,15 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                     valor_pl = indicadortratado
                     resultado = analisefundamentalista.evaluate_ativos(valor_pl)  # Ativos
 
-                elif metrica == 'Ativos':  # 'Ativosa' R$
-                    indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
-                    valor_pl = indicadortratado
-                    resultado = analisefundamentalista.evaluate_ativos(valor_pl)  # Ativos
-
+                  # montar
                 elif metrica == 'Ativo circulante':  # 'Ativo circulante' R$
                     indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
                     resultado = analisefundamentalista.evaluate_ativo_circulante(valor_pl)  # Ativo circulante
-
+                # montar
                 elif metrica == 'LIQUIDEZ MEDIA DIARIA':  # 'ALIQUIDEZ MEDIA DIARIA' R$
                     indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
                     valor_pl = indicadortratado
-
                     resultado = analisefundamentalista.evaluate_liquidez_media_diaria(valor_pl)  #LIQUIDEZ MEDIA DIARIA
                 elif metrica == 'Valor de firma1':  # 'ALIQUIDEZ MEDIA DIARIA' R$
                     indicadortratado = tratamento3(dict_stocks[stock].get(metrica))
@@ -432,10 +428,10 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
 
 
 
-            if classificacao == 'Critico':
+            if classificacao == 'Crítico':
                 wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillvermelho
                 wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
-            if classificacao == 'Pessimo':
+            if classificacao == 'Péssimo':
                 wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillvermelho
                 wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
             if classificacao == 'Ruim':
@@ -447,7 +443,7 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             if  classificacao == 'Bom':
                 wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill = fillverde
                 wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
-            if classificacao == 'Otimo':
+            if classificacao == 'Ótimo':
                 wsIndiRentabilidade.cell(row=linha2, column=9, value=classificacao).fill =fillverde
                 wsIndiRentabilidade.cell(row=linha2, column=10, value=faixa)
             if classificacao == 'Fora da faixa':
