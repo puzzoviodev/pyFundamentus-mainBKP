@@ -1493,52 +1493,66 @@ def evaluate_p_l(p_l):
                 'classificacao': 'Crítico',
                 'faixa': 'P/L < 0',
                 'descricao': '''
-                Um P/L negativo indica que a empresa está gerando prejuízo, sugerindo risco elevado. Isso é comum
-                em empresas em crise, como a Oi (OIBR3). Para investidores, essa faixa exige análise detalhada da
-                saúde financeira e estratégias de recuperação.
+                Um P/L negativo indica que a empresa está operando com prejuízo ou teve eventos extraordinários (como baixas contábeis).
+                 Não é diretamente comparável a P/L positivo, mas pode sinalizar oportunidades em empresas com recuperação potencial ou
+                 distorções temporárias.Recomendações: Avaliar a causa do prejuízo (cíclica, estrutural ou contábil).
+                 Empresas em setores voláteis (como commodities) podem ter P/L negativo temporário. Foco em fundamentos: fluxo de caixa, perspectivas de recuperação e balanço patrimonial. Ideal para investidores com alta tolerância a risco..
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Prejuízos persistentes podem indicar problemas estruturais, '
+                          'má gestão ou exposição a riscos macroeconômicos. Alta volatilidade e incerteza no curto prazo.',
+                'referencia_cruzada': 'Analise evaluate_cash_flow para verificar geração de caixa e evaluate_debt_to_equity para saúde financeira. '
+                                      'Considere também evaluate_p_vp para valuation patrimonial em cenários de recuperação.'
             }
         elif 0 <= p_l <= 10:
             return {
                 'classificacao': 'Ótimo',
                 'faixa': '0 <= P/L <= 10',
                 'descricao': '''
-                Um P/L entre 0 e 10 sugere que a ação está subvalorizada, indicando uma potencial oportunidade de
-                compra. Isso é comum em setores cíclicos, como a Vale (VALE3) em períodos de baixa. Para investidores,
-                essa faixa é atrativa, mas é importante verificar a sustentabilidade dos lucros.
+                Subvalorização significativa. Exemplo: Vale (VALE3) teve P/L ~8 em 2023, com lucros robustos.
+                Implicações: Oportunidade para investidores de valor, com potencial de valorização. 
+                Recomendações: Confirmar sustentabilidade de lucros e exposição a ciclos; ideal para longo prazo. 
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos' : 'Lucros elevados podem ser temporários; analisar histórico',
+                'referencia_cruzada' : 'Analise evaluate_peg_ratio para crescimento e evaluate_p_vp para valuation patrimonial'
+
             }
         elif 10 < p_l <= 15:
             return {
                 'classificacao': 'Moderado',
                 'faixa': '10 < P/L <= 15',
                 'descricao': '''
-                Um P/L entre 10 e 15 reflete um valuation justo, típico de empresas com lucros estáveis. Empresas
-                como a Ambev (ABEV3) frequentemente operam nessa faixa. Para investidores, essa faixa sugere equilíbrio
-                entre preço e fundamentos.
+                Valuation justo, comum em empresas estáveis. Exemplo: Ambev (ABEV3) pode ter P/L ~13,
+                 com lucros consistentes. Implicações: Equilíbrio para moderados, 
+                 com risco e retorno balanceados. Recomendações: Avaliar crescimento de lucros e
+                  estabilidade setorial; ideal para portfólios diversificados. 
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Estagnação em setores maduros pode limitar valorização',
+                'referencia_cruzada': 'Compare com evaluate_evebitda para valuation operacional e evaluate_roe para rentabilidade.'
             }
         elif 15 < p_l <= 20:
             return {
                 'classificacao': 'Ruim',
                 'faixa': '15 < P/L <= 20',
                 'descricao': '''
-                Um P/L entre 15 e 20 sugere que a ação está sobrevalorizada, indicando que o mercado espera
-                crescimento significativo. Empresas como a Raia Drogasil (RADL3) podem atingir essa faixa. Para
-                investidores, essa faixa exige cautela, pois o preço elevado pode não se sustentar sem crescimento.
+                Sobrevalorização moderada, comum em empresas com crescimento esperado.
+                Exemplo: Raia Drogasil (RADL3) pode ter P/L ~18 devido à expansão no varejo. 
+                Implicações: Cautela para conservadores; atrativo para crescimento se 
+                projeções forem sólidas. Recomendações: Validar crescimento com análise de mercado; moderados avaliar concorrência
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Expectativas não realizadas podem levar a correçõeso',
+                'referencia_cruzada': 'Verifique evaluate_psr para relação com receita e evaluate_crescimento_lucro para tendências..'
             }
         elif 20 < p_l <= 25:
             return {
@@ -1551,20 +1565,24 @@ def evaluate_p_l(p_l):
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Sensibilidade a mudanças macroeconômicas (ex.: juros altos). ',
+                'referencia_cruzada': 'Combine com evaluate_p_ebitda para fluxo de caixa e evaluate_margem_liquida para eficiência.'
             }
         elif p_l > 25:
             return {
                 'classificacao': 'Fora da faixa',
                 'faixa': 'P/L > 25',
                 'descricao': '''
-                Um P/L acima de 25 é extremamente elevado, geralmente associado a empresas com altíssimas
-                expectativas de crescimento, como o Nubank (NUBR33). Para investidores, essa faixa é de altíssimo
-                risco, refletindo mais especulação do que fundamentos.
+                ): Especulação, com preço muito acima dos lucros. Exemplo: Nubank (NUBR33) pode ter P/L > 25 
+                devido a expectativas de crescimento digital. Implicações: Alto risco, adequado para especulativos.
+                 Recomendações: Analisar projeções de mercado; conservadores evitar
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'SBolhas especulativas ou falha em entregar crescimento',
+                'referencia_cruzada': 'Avalie evaluate_peg_ratio para crescimento e evaluate_p_ativo para relação com ativos.'
             }
     except Exception as e:
         print(f"Erro inesperado tratamento : {e}")
@@ -2250,81 +2268,103 @@ def evaluate_p_vp(p_vp):
     try:
         if p_vp < 0:
             return {
-                'classificacao': 'Fora da faixa',
+                'classificacao': 'Crítico',
                 'faixa': 'P/VP < 0',
                 'descricao': '''
                 Um P/VP negativo indica que o patrimônio líquido da empresa é negativo, sugerindo sérias
                 dificuldades financeiras. Isso é comum em empresas em crise, como a Oi (OIBR3). Para
-                investidores, essa faixa é um alerta grave, exigindo análise detalhada da saúde financeira.
+                investidores, essa faixa é um alerta grave, exigindo análise detalhada da saúde financeira.Implicações:
+                Um P/VP negativo reflete uma situação em que os passivos superam os ativos, sinalizando risco elevado de
+                 insolvência ou falência. Pode representar uma oportunidade especulativa em casos de 
+                 recuperação judicial bem-sucedida, mas é altamente arriscado.Recomendações: Analisar detalhadamente
+                 a estrutura de dívida, planos de reestruturação e perspectivas de geração de caixa. 
+                 Indicado apenas para investidores especulativos com alta tolerância a risco. 
+                 Investidores conservadores devem evitar completamente.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Alta probabilidade de falência ou diluição acionária em reestruturações.'
+                          ' Prejuízos persistentes ou má gestão podem agravar a situação. Setores em declínio ou alta competição aumentam a incerteza.',
+                'referencia_cruzada': 'Avalie evaluate_debt_to_equity para saúde financeira, '
+                                      'evaluate_cash_flow para geração de caixa e evaluate_peg_ratio para perspectivas de crescimento em cenários de recuperação.. '
+
             }
         elif 0 <= p_vp <= 1:
             return {
                 'classificacao': 'Ótimo',
                 'faixa': '0 <= P/VP <= 1',
                 'descricao': '''
-                Um P/VP entre 0 e 1 sugere que a ação está subvalorizada, sendo negociada abaixo do seu
-                valor patrimonial. Isso é comum em setores cíclicos, como a Vale (VALE3) em períodos de baixa.
-                Para investidores, essa faixa é atrativa, mas é importante verificar a qualidade dos ativos.
+                Subvalorização significativa. Exemplo: Vale (VALE3) teve P/VP ~0.8 em 2023, 
+                com patrimônio robusto. Implicações: Oportunidade para investidores de valor.
+                 Recomendações: Confirmar qualidade do patrimônio; ideal para longo prazo.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Patrimônio pode incluir ativos obsoletos',
+                'referencia_cruzada': 'AAnalise evaluate_vpa para valor patrimonial e evaluate_roe para rentabilidade.'
+
             }
         elif 1 < p_vp <= 1.5:
             return {
                 'classificacao': 'Moderado',
                 'faixa': '1 < P/VP <= 1.5',
                 'descricao': '''
-                Um P/VP entre 1 e 1.5 reflete um valuation justo, típico de empresas com estabilidade financeira.
-                Empresas como a Ambev (ABEV3) frequentemente operam nessa faixa. Para investidores, essa faixa
-                sugere equilíbrio entre preço e fundamentos.
+                Valuation justo, comum em empresas estáveis. Exemplo: Ambev (ABEV3) pode ter P/VP ~1.3, 
+                com patrimônio consistente. Implicações: Equilíbrio para moderados.
+                 Recomendações: Avaliar estabilidade de lucros e alocação de capital; ideal para portfólios diversificados.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Estagnação em setores maduros',
+                'referencia_cruzada': 'Compare com evaluate_p_l para lucros e evaluate_pl_ativos para estrutura'
             }
         elif 1.5 < p_vp <= 2:
             return {
                 'classificacao': 'Ruim',
                 'faixa': '1.5 < P/VP <= 2',
                 'descricao': '''
-                Um P/VP entre 1.5 e 2 sugere que a ação está sobrevalorizada, indicando que o mercado espera
-                crescimento. Empresas como a Raia Drogasil (RADL3) podem atingir essa faixa. Para investidores,
-                essa faixa exige cautela, pois o preço elevado pode não se sustentar sem crescimento robusto.
+                Sobrevalorização moderada. Exemplo: Raia Drogasil (RADL3) pode ter P/VP ~1.8
+                 devido a crescimento. Implicações: Cautela para conservadores; atrativo para crescimento.
+                  Recomendações: Validar expansão e retorno sobre patrimônio.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': ': Expectativas não realizadas podem levar a correções',
+                'referencia_cruzada': 'Verifique evaluate_peg_ratio para crescimento e evaluate_evebitda para valuation'
             }
         elif 2 < p_vp <= 3:
             return {
                 'classificacao': 'Péssimo',
                 'faixa': '2 < P/VP <= 3',
                 'descricao': '''
-                Um P/VP entre 2 e 3 indica que a ação é muito cara, sugerindo que o mercado está pagando um
-                prêmio elevado. Empresas como a Localiza (RENT3) podem apresentar P/VP nessa faixa em momentos
-                de otimismo. Para investidores, essa faixa é de alto risco.
+               Valuation elevado, com prêmio significativo. Exemplo: Localiza (RENT3) pode ter P/VP ~2.5 em
+                períodos de alta demanda. Implicações: Risco de correção; menos atrativo para conservadores. 
+                Recomendações: Agressivos confirmar fundamentos; conservadores evitar.  .
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Sensibilidade a mudanças econômicas (ex.: aumento de juros). ',
+                'referencia_cruzada': ' Combine com evaluate_psr para receita e evaluate_margem_liquida para eficiência.'
             }
         elif p_vp > 3:
             return {
-                'classificacao': 'Crítico',
+                'classificacao': 'Fora da faixa',
                 'faixa': 'P/VP > 3',
                 'descricao': '''
-                Um P/VP acima de 3 é extremamente elevado, geralmente associado a empresas com altíssimas
-                expectativas de crescimento, como o Nubank (NUBR33). Para investidores, essa faixa reflete
-                especulação e alto risco, exigindo análise detalhada dos fundamentos.
+                Especulação, com preço muito acima do patrimônio. Exemplo: Nubank (NUBR33) pode ter P/VP > 3 
+                devido a expectativas digitais. Implicações: Alto risco, adequado para especulativos.
+                 Recomendações: Analisar projeções de mercado; conservadores evitar
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': ' Bolhas especulativas. ',
+                'referencia_cruzada': 'Avalie evaluate_p_ativo para ativos e evaluate_crescimento_receita para tendências'
             }
     except Exception as e:
         print(f"Erro inesperado tratamento : {e}")
@@ -2806,79 +2846,104 @@ def evaluate_p_ebitda(p_ebitda):
                 'classificacao': 'Crítico',
                 'faixa': 'P/EBITDA < 0',
                 'descricao': '''
-                Um P/EBITDA negativo indica que a empresa tem EBITDA negativo, sugerindo prejuízo
-                operacional. Isso é comum em empresas em crise, como a Oi (OIBR3). Para investidores,
-                essa faixa é um alerta grave, exigindo análise detalhada da saúde financeira.
+                Implicações: Um P/EBITDA negativo indica que a empresa está gerando prejuízo operacional ou 
+                enfrentando eventos atípicos (como reestruturações ou impairments). Pode sinalizar dificuldades financeiras ou
+                 oportunidades em empresas com potencial de recuperação, mas exige cautela extrema.
+                 Recomendações: Investigar a causa do prejuízo (estrutural, cíclica ou temporária).
+                 Avaliar fundamentos como fluxo de caixa livre, endividamento e perspectivas de mercado. Indicado apenas para investidores com alta tolerância a risco, focando em cenários de turnaround. Conservadores devem evitar.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Prejuízos persistentes podem indicar insustentabilidade operacional ou falhas estratégicas. Alta volatilidade e risco de diluição em aumentos de capital',
+                'referencia_cruzada': 'nalise evaluate_cash_flow para geração de caixa, evaluate_debt_to_equity '
+                                      'para saúde financeira e evaluate_p_vp para valuation patrimonial em cenários de recuperação.'
+
             }
         elif 0 <= p_ebitda <= 4:
             return {
                 'classificacao': 'Ótimo',
                 'faixa': '0 <= P/EBITDA <= 4',
                 'descricao': '''
-                Um P/EBITDA entre 0 e 4 sugere que a empresa está subvalorizada, sendo uma potencial
-                oportunidade de compra. Isso é comum em setores cíclicos, como a Vale (VALE3) em
-                períodos de baixa. Para investidores, essa faixa é atrativa, mas exige verificação
-                da sustentabilidade do EBITDA.
+                Subvalorização significativa, sugerindo que a empresa está barata em relação ao fluxo de caixa. 
+                Exemplo: Vale (VALE3) teve P/EBITDA R$30 bilhões) devido a preços de minério elevados.
+                 Implicações: Oportunidade para investidores de valor, com potencial de valorização.
+                  Recomendações: Confirmar sustentabilidade do EBITDA e exposição a ciclos; ideal para portfólios de 
+                  longo prazo focados em valor. 
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'EBITDA elevado pode ser temporário em setores cíclicos; analisar histórico e projeções setoriais',
+                'referencia_cruzada': 'Analise evaluate_evebitda para valuation completo e evaluate_margem_ebitda para eficiência operacional. '
+
             }
         elif 4 < p_ebitda <= 8:
             return {
                 'classificacao': 'Moderado',
                 'faixa': '4 < P/EBITDA <= 8',
                 'descricao': '''
-                Um P/EBITDA entre 4 e 8 reflete um valuation justo, típico de empresas com lucratividade
-                estável. Empresas como a Ambev (ABEV3) frequentemente operam nessa faixa. Para
-                investidores, essa faixa sugere equilíbrio entre preço e fundamentos.
+                Valuation justo, comum em empresas estáveis. Exemplo: Ambev (ABEV3) pode ter P/EBITDA R$20 bilhões) e 
+                liderança no setor de bebidas. Implicações: Equilíbrio entre preço e fluxo de caixa, adequado para 
+                investidores moderados. Recomendações: Avaliar crescimento de receita e estabilidade de margens;
+                ideal para portfólios diversificados.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Estagnação em setores maduros pode limitar upside; monitorar concorrência',
+                'referencia_cruzada': 'Compare com evaluate_p_l para relação com lucros e evaluate_roe para rentabilidade. '
+
             }
         elif 8 < p_ebitda <= 12:
             return {
                 'classificacao': 'Ruim',
                 'faixa': '8 < P/EBITDA <= 12',
                 'descricao': '''
-                Um P/EBITDA entre 8 e 12 sugere que a empresa está sobrevalorizada, indicando que o
-                mercado espera crescimento significativo. Empresas como a Raia Drogasil (RADL3) podem
-                atingir essa faixa. Para investidores, essa faixa exige cautela.
+                Sobrevalorização moderada, comum em empresas com expectativas de crescimento.
+                Exemplo: Raia Drogasil (RADL3) pode ter P/EBITDA ~9 devido à expansão no varejo farmacêutico.
+                Implicações: Cautela para conservadores; atrativo para crescimento se projeções forem sólidas. 
+                Recomendações: Validar crescimento de EBITDA com análise de mercado e concorrentes;
+                moderados monitorar expansão de lojas.
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Expectativas não realizadas podem levar a correções de preço; verificar relatórios trimestrais',
+                'referencia_cruzada': 'Verifique evaluate_psr para relação com receita e evaluate_crescimento_ebitda para tendências '
             }
         elif 12 < p_ebitda <= 16:
             return {
                 'classificacao': 'Péssimo',
                 'faixa': '12 < P/EBITDA <= 16',
                 'descricao': '''
-                Um P/EBITDA entre 12 e 16 indica que a empresa é muito cara, sugerindo que o mercado
-                está pagando um prêmio elevado. Empresas como a Localiza (RENT3) podem apresentar
-                P/EBITDA nessa faixa em momentos de otimismo. Para investidores, essa faixa é de alto risco.
+                   Valuation elevado, com prêmio significativo. Exemplo: Localiza (RENT3) pode ter P/EBITDA ~12 em 
+                   períodos de alta demanda por aluguel de veículos. Implicações: 
+                   Risco de correção de preço; menos atrativo para conservadores. Recomendações: 
+                   Agressivos devem confirmar fundamentos de crescimento (ex.: frota e receita); conservadores evitar
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Sensibilidade a mudanças macroeconômicas, como aumento de juros ou queda na demanda',
+                'referencia_cruzada': 'Combine com evaluate_divida_liquida_ebitda para alavancagem e evaluate_margem_operacional para eficiência'
             }
+
         elif p_ebitda > 16:
             return {
                 'classificacao': 'Fora da faixa',
                 'faixa': 'P/EBITDA > 16',
                 'descricao': '''
-                Um P/EBITDA acima de 16 é extremamente elevado, geralmente associado a empresas com
-                altíssimas expectativas de crescimento, como o Nubank (NUBR33). Para investidores,
-                essa faixa reflete especulação e alto risco.
+                Especulação elevada, com preço muito acima do fluxo de caixa. Exemplo:
+                 Nubank (NUBR33) pode ter P/EBITDA > 15 devido a expectativas de crescimento no setor 
+                 financeiro digital. Implicações: Alto risco, adequado apenas para investidores especulativos.
+                  Recomendações: Analisar projeções de mercado e concorrência; conservadores evitar completamente. .
                 ''',
                 'definicao': definicao,
                 'agrupador': agrupador,
-                'formula': formula
+                'formula': formula,
+                'riscos': 'Bolhas especulativas ou falha em entregar crescimento podem levar a quedas significativas.',
+                'referencia_cruzada': 'Avalie evaluate_peg_ratio para crescimento esperado e evaluate_p_ativo para relação com ativos.'
             }
     except Exception as e:
         print(f"Erro inesperado tratamento : {e}")

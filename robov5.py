@@ -240,17 +240,17 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                 if metrica == 'P/L':
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
-                   resultado =  analisefundamentalista.evaluate_p_l(valor_pl)  # P/L
+                   resultado =  analisefundamentalista.evaluate_p_l(valor_pl)  # P/L OK 0508
 
                 elif metrica == 'P/EBITDA':
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
-                   resultado = analisefundamentalista.evaluate_p_ebitda(valor_pl)  # P/EBITDA
+                   resultado = analisefundamentalista.evaluate_p_ebitda(valor_pl)  # P/EBITDA OK 0508
 
                 elif metrica == 'P/VP':
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
-                   resultado = analisefundamentalista.evaluate_p_vp(valor_pl)  # P/VP
+                   resultado = analisefundamentalista.evaluate_p_vp(valor_pl)  # P/VP OK 0508
 
                 elif metrica == 'P/EBIT':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
