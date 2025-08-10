@@ -3679,7 +3679,7 @@ def evaluate_capex_receita(capex_receita):
     O CAPEX/Receita mede a proporção dos gastos de capital (CAPEX) em relação à receita bruta,
     calculada como (CAPEX / Receita Bruta). É um indicador de investimento que reflete quanto a
     empresa está investindo em ativos fixos para crescimento futuro. Um valor equilibrado sugere
-    planejamento estratégico, enquanto valores muito altos ou baixos podem indicar problemas.
+    planejamento estratégico, enquanto valores muito altos ou baixos podem indicar problemas.t
     '''
     agrupador = 'Investimento'
     formula = 'CAPEX/Receita = CAPEX / Receita Bruta'
