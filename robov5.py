@@ -17,6 +17,8 @@ import analisefundamentalista
 import fundamentus2
 from openpyxl.styles import Alignment
 from openpyxl.utils import get_column_letter
+from classefinal import PVPEvaluator  # Importa a classe avaliadora
+
 
 
 #from teste01 import metrica
@@ -234,7 +236,8 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
             if metrica in ['Giro ativos', 'Div. liquida/PL','Div. liquida/EBITDA','Div. liquida/EBIT','PL/Ativos',
                            'Passivos/Ativos','Liq. corrente','P/L','PEG Ratio','P/VP','EV/EBITDA','EV/EBIT',
                             'P/EBITDA','P/EBIT','VPA','P/Ativo','LPA',
-                            'P/SR','P/Ativo Circ. Liq.', 'Disponibilidade','Patrimonio liquido','Divida bruta','Divida liquida','Ativos', 'Ativo circulante','LIQUIDEZ MEDIA DIARIA']:
+                            'P/SR','P/Ativo Circ. Liq.', 'Disponibilidade','Patrimonio liquido','Divida bruta',
+                           'Divida liquida','Ativos', 'Ativo circulante','LIQUIDEZ MEDIA DIARIA']:
 
 
                 if metrica == 'P/L':
@@ -251,6 +254,9 @@ def gravaIndiEficiênciaoStaus(wsIndiRentabilidade, dict_stocks, stock):
                    indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
                    valor_pl = indicadortratado
                    resultado = analisefundamentalista.evaluate_p_vp(valor_pl)  # P/VP OK 0508
+                   avaliador = PVPEvaluator()
+                   resultado2 = avaliador.avaliar(valor_pl)
+                   print(f"Classificação silvio: {resultado2.classificacao}")
 
                 elif metrica == 'P/EBIT':
                     indicadortratado = tratamento2(dict_stocks[stock].get(metrica))
